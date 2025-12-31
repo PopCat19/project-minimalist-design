@@ -24,7 +24,7 @@ TABLE OF CONTENTS
 13. EFFECTS SYSTEM
 14. NIX INTEGRATION
 15. MOCKUP EXAMPLES
-16. BASE16 MAPPING TODO
+16. BASE16 MAPPING IMPLEMENTATION
 
 ================================================================================
 1. OVERVIEW
@@ -59,9 +59,6 @@ Dark Scheme OKLCH Mapping:
 - 4x   = oklch(0.16 0.022 0) - Deep base/Background
 - 0x   = oklch(0 0 0)       - Black/lowest priority (Tinting source)
 
-The system serves as flexible guidelines rather than rigid specifications,
-encouraging consistent visual hierarchy across diverse UI/UX projects.
-
 ================================================================================
 2. USAGE GUIDELINES
 ================================================================================
@@ -77,12 +74,6 @@ Core Principles:
 4. Maintain top-down (Z-layer) and Left-to-Right hierarchy
 5. Verify both light and dark schemes for accessibility
 
-General Implementation:
-- Import palette definitions from src/palette/pmd/
-- Apply font configurations from src/fonts/
-- Reference variables in your framework of choice
-- Test across multiple viewport sizes
-
 ================================================================================
 3. HIERARCHY THROUGH VISIBILITY
 ================================================================================
@@ -97,14 +88,6 @@ Weight: Typographic emphasis (Bold > Semibold > Medium)
 Spacing: Breathing room and grouping (larger = more important)
 Radius: Element prominence (1rem default for all frames)
 
-Component Hierarchy Examples:
-88x - Selection/hover borders, Icon/hero elements (Highest priority)
-80x - Text/label elements (Secondary priority)
-88x - Dropdown/trail elements (Navigation priority)
-
-Note: Icons take visual priority due to their symbolic nature and immediate 
-recognition at glance.
-
 ================================================================================
 4. FRAME CONVENTIONS
 ================================================================================
@@ -116,16 +99,8 @@ Radius: 1rem (16px) constant radius
 Spacing: 0.5rem (8px) or 0.25rem (4px) internal padding
 
 State Colors:
-- Boost: 88x+12 (complementary highlight)
-- Active: 88x (enabled primary state)
-- Selection/Hover Border: 88x
-- Occupied: 72x (interactive/focused elements)
-- Disabled: 88x at 24% opacity
 - Surface: 8x + 80x at 12% opacity (composited stack)
 - Base: 4x (solid background)
-
-For grouped components, use asymmetric radius (0.5rem on relative sides)
-to create visual connection between adjacent elements.
 
 ================================================================================
 5. VARIABLE SYSTEM
@@ -144,44 +119,19 @@ Variable | Dark L / C   | Light L / C  | Purpose
 4x       | 0.16 / 0.022 | 0.92 / 0.044 | True Background (base00)
 0x       | 0.00 / 0.000 | 1.00 / 0.000 | Black/White Tinting Anchor
 
-Each variable supports multiple opacity variants. 
-Auxiliary hues use +180° offset by default: aux_hue = (primary_hue + 180) mod 360
-
 ================================================================================
 6. TYPOGRAPHY SYSTEM
 ================================================================================
 
 Font Hierarchy:
-Bold (Fredoka Bold, Rounded Mplus 1c Bold)
-- Scales: 3rem, 2.5rem, 1rem
-- Usage: Major headers, logo hero elements
-
-Semibold (Fredoka SemiBold)
-- Scales: 1rem, 0.75rem, 0.625rem
-- Usage: Section headers, active toggle labels
-
-Medium (Fredoka Medium, Rounded Mplus 1c Medium)
-- Scales: 1.25rem, 1rem, 0.75rem
-- Usage: Body text, paragraphs, definitions
-
-Mono (FiraCode Nerd Font)
-- Scales: 1rem, 0.75rem, 0.625rem, 0.5rem
-- Usage: Code snippets, HEX/OKLCH values, icons
-
-Typographic Shade Hierarchy:
-88x - Headers, titles, sections (Primary emphasis)
-80x - Descriptions, body text, definitions (Secondary emphasis)
-72x - Subtext, links, smaller text (Subtle emphasis)
-
-Icon Sizing:
-- Material Symbols Standard: 1.5rem (24px)
-- Small: 1rem (16px)
+Bold (Fredoka Bold, Rounded Mplus 1c Bold) - Major headers
+Semibold (Fredoka SemiBold) - Section headers, active labels
+Medium (Fredoka Medium, Rounded Mplus 1c Medium) - Body text
+Mono (FiraCode Nerd Font) - Code snippets, icons
 
 ================================================================================
-7. PALETTE SYSTEM
+7. PALETTE SYSTEM (HD SPECIFICATION)
 ================================================================================
-
-PMD palettes are defined in YAML format mapping to base16 slots:
 
 Base16 Slot | PMD Mapping           | Description
 ------------|-----------------------|--------------------------
@@ -193,119 +143,40 @@ base04      | 80x @ 80%             | Dark Foreground / Subtext
 base05      | 80x                   | Body Text / Labels
 base06      | 80x                   | Secondary Text
 base07      | 88x                   | Headers / Highest Contrast
-base08      | 88x aux               | Alert (High Visibility)
-base09      | 80x                   | Identity (High Visibility)
+base08      | 88x aux               | Alert (Auxiliary Hue)
+base09      | 80x                   | Identity (Root Hue)
 base0A      | 72x-c4                | Classes (Chroma -0.08)
 base0B      | 72x-c3                | Strings (Chroma -0.06)
 base0C      | 72x-c2                | Support (Chroma -0.04)
 base0D      | 72x-c1                | Functions (Chroma -0.02)
-base0E      | 72x                   | Keywords (Vibrant)
+base0E      | 72x                   | Keywords (Vibrant / Full C)
 base0F      | 72x @ 80%             | Deprecated (Meta)
 
 ================================================================================
 8. HUE REFERENCE
 ================================================================================
 
-OKLCH Hue Values (shifted ~30° from HSL):
-- Red: 30°
-- Orange: 60°
-- Yellow: 90°
-- Green: 140°
-- Teal/Cyan: 195°
-- Blue: 260°
-- Purple: 290°
-- Rose: 345°
-
-Calculation: (primary_hue + 180°) mod 360° for Auxiliary Hue.
+OKLCH Hue Values:
+- Red: 30° | Orange: 60° | Yellow: 90° | Green: 140°
+- Teal: 195° | Blue: 260° | Purple: 290° | Rose: 345°
 
 ================================================================================
 9. LIGHT SCHEME INVERSION
 ================================================================================
 
-Light scheme is calculated through optimized OKLCH substitution rather than 
-simple mathematical inversion to ensure perceptual legibility:
-
 Inversion Logic:
 - Background: From 4x (Dark) to 4x (Light) [0.16 -> 0.92]
 - Foreground: From 88x (Dark) to 88x (Light) [0.88 -> 0.28]
-- Accents: Hue and Chroma persist, Lightness adjusts to 72x level (0.32).
-
-Opacity percentages remain unchanged. Chroma is stripped for monochrome modes.
-
-================================================================================
-10. OPACITY SYSTEM
-================================================================================
-
-Standard Opacity Values:
-100% - Full visibility
-80%  - Strong presence (base03 mapping)
-64%  - Medium translucency
-40%  - Subtle base layers
-24%  - Disabled states, outlines
-12%  - Surface layers (base02 alpha component)
-8%   - Background surfaces
-0%   - Fully transparent
-
-================================================================================
-11. SCALE SYSTEM
-================================================================================
-
-All measurements use rem units (base-16: 16px = 1rem)
-
-Common Scales:
-- 0.125rem (2px) - Standard border width
-- 0.25rem (4px)  - Micro spacing
-- 0.5rem (8px)   - Standard spacing
-- 1rem (16px)    - Base unit / Frame Radius
-- 1.5rem (24px)  - Header spacing / Icon size
-- 2rem (32px)    - Prominent sections
-
-================================================================================
-12. SPACING SYSTEM
-================================================================================
-
-Internal Padding:
-- 0.25rem - Compact (buttons)
-- 0.5rem  - Standard (cards)
-- 1rem    - Generous (containers)
-
-External Margins:
-- 0.5rem  - Tight grouping
-- 1rem    - Standard separation
-- 2rem    - Section breaks
-
-================================================================================
-13. EFFECTS SYSTEM
-================================================================================
-
-Backdrop Blur:
-- Standard: 24% opacity
-- Usage: Translucent surfaces at 8x 40%
-
-Shadows/Gradients:
-- Avoid entirely per minimalist guidelines.
-- Depth is communicated via Lightness and Borders only.
+- Accents: Lightness adjusts to 72x level (0.32).
 
 ================================================================================
 14. NIX INTEGRATION
 ================================================================================
 
-PMD provides Nix integration for NixOS through:
-1. Flake-based configuration
-2. Base16 export derivations
-3. Reproducible development shells
-
-Build: `nix build` generates dark and light themes in share/pmd-base16/.
-
-================================================================================
-15. MOCKUP EXAMPLES
-================================================================================
-
-Example: PMQuickshell (Hue 345°)
-- bg: 4x #1E0B10
-- accent: 72x #FF4775
-- headers: 88x #FFC2D1
-- radius: 1rem, border: 0.125rem
+PMD provides Nix integration through:
+1. Flake-based configuration (`pmd.lib.mkScheme`)
+2. Stylix module (`inputs.pmd.nixosModules.pmd`)
+3. Wallpaper generation (`inputs.pmd.lib.mkWallpaper`)
 
 ================================================================================
 16. BASE16 MAPPING IMPLEMENTATION
@@ -313,59 +184,18 @@ Example: PMQuickshell (Hue 345°)
 
 COMPLETED:
 - [x] Implement composite stacking for base02
-- [x] Implement baked opacity for base03
+- [x] Implement baked opacity for base03 and base04
 - [x] Create Light Scheme optimized OKLCH map
 - [x] Sync WebUI with base16 CSS variables
 - [x] Migrate to Chroma Stepping System (replacing Hue Rotation)
-- [ ] Implement system-wide Stylix integration templates
+- [x] Implement system-wide Stylix integration templates
+- [x] Implement Dynamic Wallpaper generation (ImageMagick)
 
-IMPLEMENTATION DETAILS:
-
-PMD HD Specification (Current):
-- Semantic tier organization for better developer experience
-- Progressive chroma reduction creates perceptual hierarchy
-- Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
-- Three-tier accent system: High Visibility, Chroma Hierarchy, Meta
-
-Base16 Slot Mapping (PMD HD Specification):
-
-Background Stack:
-base00 = 4x (True Background)
-base01 = 8x (Base Container)
-base02 = 8x + 80x @ 12% (Composited Surface)
-base03 = 80x @ 64% (Muted/Comments)
-
-Foreground Stack:
-base04 = 80x @ 80% (Dark Foreground)
-base05 = 80x (Body Text)
-base06 = 80x (Secondary)
-base07 = 88x (Headers/Max Contrast)
-
-Accent Stack (Semantic Tiers):
-
-High Visibility Tier:
-base08 = 88x aux (Alert - Auxiliary Hue, High Contrast)
-base09 = 80x (Identity - Root Hue, Medium Contrast)
-
-Chroma Hierarchy Tier (72x Monochromatic):
-base0A = 72x-c4 (Classes - Chroma -0.08)
-base0B = 72x-c3 (Strings - Chroma -0.06)
-base0C = 72x-c2 (Support - Chroma -0.04)
-base0D = 72x-c1 (Functions - Chroma -0.02)
-base0E = 72x   (Keywords - Vibrant, Full Chroma)
-
-Meta Tier:
-base0F = 72x @ 80% (Deprecated - Baked for Subtlety)
-
-LEGACY (Hue Rotation System - Deprecated):
-base08 = aux center
-base09 = aux + 30°
-base0A = aux + 15°
-base0B = root + 30°
-base0C = root + 15°
-base0D = root center
-base0E = root - 15°
-base0F = aux - 15°
+PMD HD Specification Logic:
+- Tiered Visibility: Uses Lightness for global hierarchy
+- Monochromatic Accents: Uses Chroma Steps to distinguish code structure
+- Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
+- Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
 
 ================================================================================
 END OF DOCUMENTATION

@@ -1,0 +1,21 @@
+===== BASE16 MAPPING IMPLEMENTATION =====
+
+COMPLETED:
+- [x] Implement composite stacking for base02
+- [x] Implement baked opacity for base03 and base04
+- [x] Create Light Scheme optimized OKLCH map
+- [x] Sync WebUI with base16 CSS variables
+- [x] Migrate to Chroma Stepping System (replacing Hue Rotation)
+- [x] Implement system-wide Stylix integration templates
+- [x] Implement Dynamic Wallpaper generation (ImageMagick)
+
+PMD HD Specification Logic:
+- Tiered Visibility: Uses Lightness for global hierarchy
+- Monochromatic Accents: Uses Chroma Steps to distinguish code structure
+- Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
+- Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
+
+Implementation Notes:
+The HD specification provides a comprehensive mapping system that ensures
+perceptual uniformity while maintaining semantic color relationships across
+different UI components and code syntax highlighting contexts.

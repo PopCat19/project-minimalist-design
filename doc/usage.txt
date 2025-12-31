@@ -19,10 +19,10 @@ General Implementation:
 
 Nix Integration:
 
-PMD provides Nix integration for NixOS through:
-1. Flake-based configuration
-2. Base16 export derivations
-3. Reproducible development shells
+PMD provides Nix integration through:
+1. Flake-based configuration (`pmd.lib.mkScheme`)
+2. Stylix module (`inputs.pmd.nixosModules.pmd`)
+3. Wallpaper generation (`inputs.pmd.lib.mkWallpaper`)
 
 Build: `nix build` generates dark and light themes in share/pmd-base16/.
 
