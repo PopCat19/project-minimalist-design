@@ -762,6 +762,9 @@
         // Bake on 0x background
         const bake = (pmd, fg, alpha) => composite(pmd['0x'], fg, alpha);
 
+        // Spectral rotation utility
+        const rot = (base, deg) => (base + deg + 360) % 360;
+
         // Get computed values for current scheme
         const getComputed = (pmd) => ({
             surface: composite(pmd['8x'], pmd['80x'], 0.12),  // 8x + 80x@12%
@@ -788,35 +791,35 @@
         // Base16 ↔ PMD Variable Mapping (PMD HD Specification)
         const getBase16Defs = (pmd, computed) => {
             const rootC = pmd['72x'].c;
-            const cStep = (n) => Math.max(0.01, rootC - (n * 0.02));
+            const rot = (base, deg) => (base + deg + 360) % 360;
 
             return {
                 bg: [
-                    { id: 'base00', pmd: '4x', ...pmd['4x'], desc: 'True Background' },
-                    { id: 'base01', pmd: '8x', ...pmd['8x'], desc: 'Base Container' },
-                    { id: 'base02', pmd: '8x+80x@12%', ...computed.surface, desc: 'Composited Surface/Selection' },
-                    { id: 'base03', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64), desc: 'Muted / Comments' },
+                    { id: 'base00', pmd: '4x', ...pmd['4x'] },
+                    { id: 'base01', pmd: '8x', ...pmd['8x'] },
+                    { id: 'base02', pmd: '8x+80x@12%', ...computed.surface },
+                    { id: 'base03', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64) },
                 ],
                 fg: [
-                    { id: 'base04', pmd: '80x@80%', ...bake(pmd, pmd['80x'], 0.80), desc: 'Dark Foreground / Subtext' },
-                    { id: 'base05', pmd: '80x', ...pmd['80x'], desc: 'Body Text / Labels' },
-                    { id: 'base06', pmd: '80x', ...pmd['80x'], desc: 'Headers / Selection Active' },
-                    { id: 'base07', pmd: '88x', ...pmd['88x'], desc: 'Highest Contrast Text' },
+                    { id: 'base04', pmd: '80x@80%', ...bake(pmd, pmd['80x'], 0.80) },
+                    { id: 'base05', pmd: '80x', ...pmd['80x'] },
+                    { id: 'base06', pmd: '80x', ...pmd['80x'] },
+                    { id: 'base07', pmd: '88x', ...pmd['88x'] },
                 ],
                 accent: [
-                    // High Visibility Tier (Alert/Identity)
-                    { id: 'base08', pmd: '88x aux', l: pmd['88x'].l, c: pmd['88x'].c, isAux: true, desc: 'Alert (High Visibility)' },
-                    { id: 'base09', pmd: '80x', l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Identity (High Visibility)' },
+                    // Tier 1: Alert
+                    { id: 'base08', pmd: '88x aux', l: pmd['88x'].l, c: pmd['88x'].c, isAux: true, desc: 'Alert' },
                     
-                    // Chroma Hierarchy Tier (72x Monochromatic)
-                    { id: 'base0A', pmd: '72x-c4', l: pmd['72x'].l, c: cStep(4), desc: 'Classes (Chroma -0.08)' },
-                    { id: 'base0B', pmd: '72x-c3', l: pmd['72x'].l, c: cStep(3), desc: 'Strings (Chroma -0.06)' },
-                    { id: 'base0C', pmd: '72x-c2', l: pmd['72x'].l, c: cStep(2), desc: 'Support (Chroma -0.04)' },
-                    { id: 'base0D', pmd: '72x-c1', l: pmd['72x'].l, c: cStep(1), desc: 'Functions (Chroma -0.02)' },
-                    { id: 'base0E', pmd: '72x', l: pmd['72x'].l, c: rootC, desc: 'Keywords (Vibrant)' },
+                    // Tier 2: Action & Data Fan (80x)
+                    { id: 'base09', pmd: '80x+120', l: pmd['80x'].l, c: pmd['80x'].c, offset: 120, desc: 'Constants' },
+                    { id: 'base0A', pmd: '80x+90',  l: pmd['80x'].l, c: pmd['80x'].c, offset: 90,  desc: 'Classes' },
+                    { id: 'base0B', pmd: '80x+60',  l: pmd['80x'].l, c: pmd['80x'].c, offset: 60,  desc: 'Strings' },
+                    { id: 'base0C', pmd: '80x+30',  l: pmd['80x'].l, c: pmd['80x'].c, offset: 30,  desc: 'Support' },
+                    { id: 'base0D', pmd: '80x',     l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Functions' },
                     
-                    // Meta Tier
-                    { id: 'base0F', pmd: '72x@80%', ...bake(pmd, pmd['72x'], 0.80), desc: 'Deprecated (Meta)' },
+                    // Tier 3: Core Logic (72x)
+                    { id: 'base0E', pmd: '72x',     l: pmd['72x'].l, c: rootC, desc: 'Keywords' },
+                    { id: 'base0F', pmd: '72x@80%', ...bake(pmd, pmd['72x'], 0.80), desc: 'Meta' },
                 ]
             };
         };
@@ -857,9 +860,16 @@
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
             
-            // Accent colors (monochromatic chroma hierarchy)
+            // Accent colors (unified visibility)
             base16Defs.accent.forEach(def => {
-                let h = def.isAux ? auxHue : currentHue;
+                let h;
+                if (def.isAux) {
+                    h = auxHue; // Alert uses auxiliary hue
+                } else if (def.offset) {
+                    h = rot(currentHue, def.offset); // Action/Data fan uses spectral rotation
+                } else {
+                    h = currentHue; // Core logic uses root hue
+                }
                 const rgb = oklchToRgb(def.l, def.c, h);
                 const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };

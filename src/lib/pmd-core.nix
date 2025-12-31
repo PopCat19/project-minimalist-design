@@ -41,35 +41,34 @@ let
 
   mkBase16Slots = pmd: derived: root: let
     aux = lib.mod (root + 180) 360;
+    rot = base: deg: lib.mod (base + deg + 360) 360;
     rootC = pmd."72x".c;
-    cStep = n: let val = rootC - (n * 0.02); in if val < 0.01 then 0.01 else val;
   in {
-    # --- Background Stack ---
-    base00 = { inherit (pmd."4x") l c; h = root; };                # 4x (True BG)
-    base01 = { inherit (pmd."8x") l c; h = root; };                # 8x (Base)
-    base02 = { inherit (derived.surface) l c; h = root; };         # 8x + 80x @ 12%
-    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x @ 64%
+    # --- Background & Foreground Stack ---
+    base00 = { inherit (pmd."4x") l c; h = root; };
+    base01 = { inherit (pmd."8x") l c; h = root; };
+    base02 = { inherit (derived.surface) l c; h = root; };
+    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };
+    base04 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };
+    base05 = { inherit (pmd."80x") l c; h = root; };
+    base06 = { inherit (pmd."80x") l c; h = root; };
+    base07 = { inherit (pmd."88x") l c; h = root; };
 
-    # --- Foreground Stack ---
-    base04 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x @ 80%
-    base05 = { inherit (pmd."80x") l c; h = root; };                # 80x (Body)
-    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Secondary)
-    base07 = { inherit (pmd."88x") l c; h = root; };                # 88x (Headers)
+    # --- Accent Stack ---
+    
+    # Tier 1: Alert (Max Visibility)
+    base08 = { inherit (pmd."88x") l c; h = aux; };
 
-    # --- Accent Stack (Semantic Tiers) ---
-    # High Visibility Tier (Alert/Identity)
-    base08 = { inherit (pmd."88x") l c; h = aux; };                # 88x Alert (Aux)
-    base09 = { inherit (pmd."80x") l c; h = root; };               # 80x Identity (Root)
+    # Tier 2: The Action/Data Fan (80x Lightness)
+    base09 = { inherit (pmd."80x") l c; h = rot root 120; }; # Constants
+    base0A = { inherit (pmd."80x") l c; h = rot root 90; };  # Classes
+    base0B = { inherit (pmd."80x") l c; h = rot root 60; };  # Strings
+    base0C = { inherit (pmd."80x") l c; h = rot root 30; };  # Support
+    base0D = { inherit (pmd."80x") l c; h = root; };         # Functions (Root Hue)
 
-    # Chroma Hierarchy Tier (72x Monochromatic)
-    base0E = { l = pmd."72x".l; c = rootC;   h = root; };          # Keywords (Vibrant)
-    base0D = { l = pmd."72x".l; c = cStep 1; h = root; };          # Functions (-0.02c)
-    base0C = { l = pmd."72x".l; c = cStep 2; h = root; };          # Support (-0.04c)
-    base0B = { l = pmd."72x".l; c = cStep 3; h = root; };          # Strings (-0.06c)
-    base0A = { l = pmd."72x".l; c = cStep 4; h = root; };          # Classes (-0.08c)
-
-    # Meta Tier
-    base0F = { inherit (bake pmd pmd."72x" 0.80) l c; h = root; };    # 72x @ 80% (Deprecated)
+    # Tier 3: Core Logic (72x Lightness)
+    base0E = { l = pmd."72x".l; c = rootC; h = root; };     # Keywords
+    base0F = { inherit (bake pmd pmd."72x" 0.80) l c; h = root; }; # Meta
   };
 
   # Generate a wallpaper derivation
