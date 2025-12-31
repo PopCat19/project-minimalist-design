@@ -234,12 +234,11 @@
             transition: all 0.15s;
         }
 
-        /* Specialized class for Lock button to avoid collision with Scheme toggle */
-        .action-btn {
+        .scheme-btn, .action-btn {
             flex: 1;
             padding: 0.4rem;
-            border: 0.125rem solid var(--base03);
-            background: var(--base02);
+            border: 0.125rem solid transparent;
+            background: transparent;
             color: var(--base05);
             font-size: 0.875rem;
             font-weight: 600;
@@ -248,13 +247,7 @@
             transition: all 0.15s;
         }
 
-        .action-btn.active {
-            background: var(--base01);
-            border-color: var(--base06);
-            color: var(--base06);
-        }
-        
-        .scheme-btn.active {
+        .scheme-btn.active, .action-btn.active {
             background: var(--base01);
             border-color: var(--base06);
             color: var(--base06);
@@ -469,7 +462,7 @@
 
             <div class="control-group">
                 <label class="control-label">Accents</label>
-                <div class="control-row">
+                <div class="scheme-toggle">
                     <button class="action-btn" id="hueLockBtn">Lock Accent Hue</button>
                 </div>
             </div>
