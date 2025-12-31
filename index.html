@@ -130,6 +130,25 @@
             font-family: 'JetBrains Mono', monospace;
         }
         
+        .hue-lock-btn {
+            padding: 0.625rem;
+            background: var(--base02);
+            border: 1px solid var(--base03);
+            border-radius: 0.5rem;
+            color: var(--base05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        
+        .hue-lock-btn.active {
+            background: var(--base0D);
+            color: var(--base00);
+            border-color: var(--base0D);
+        }
+        
         .hue-input:focus {
             outline: none;
             border-color: var(--base0D);
@@ -412,7 +431,12 @@
                 </div>
                 <div class="hue-value">
                     <input type="number" class="hue-input" id="hueInput" min="0" max="360" value="260">
-                    <span style="color: var(--base03)">°</span>
+                    <button class="hue-lock-btn" id="hueLockBtn" title="Lock Accents to Current Hue">
+                        <svg style="width:1.25rem;height:1.25rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
             
@@ -437,12 +461,7 @@
                 </div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label">Saturation</label>
-                <div class="scheme-toggle">
-                    <button class="scheme-btn" data-monochrome>Monochrome Mode</button>
-                </div>
-            </div>
+
         </aside>
         
         <main class="main">
@@ -566,7 +585,8 @@
         // State
         let currentHue = 0;
         let currentScheme = 'dark';
-        let isMonochrome = false;
+        let isHueLocked = false;
+        let lockedHueValue = 0;
         
         // =======================================================================
         // PMD VARIABLE SYSTEM (OKLCH)
@@ -679,9 +699,14 @@
         function generatePalette() {
             const hue = currentHue;
             const auxHue = (hue + 180) % 360;
+            
+            // Decide which hue to use for accents
+            const accentHue = isHueLocked ? lockedHueValue : hue;
+            const accentAuxHue = (accentHue + 180) % 360;
+
             const isDark = currentScheme === 'dark';
             
-            document.getElementById('auxHueValue').textContent = auxHue + '°';
+            document.getElementById('auxHueValue').textContent = (isHueLocked ? accentAuxHue : auxHue) + '°';
             
             // Get scheme-specific PMD values
             const { pmd, computed } = getPMD(isDark);
@@ -691,26 +716,24 @@
             
             // Background colors (with hue tint via chroma)
             base16Defs.bg.forEach(def => {
-                const c = isMonochrome ? 0 : def.c;
-                const rgb = oklchToRgb(def.l, c, hue);
+                // Backgrounds use currentHue to maintain scheme "temperature"
+                const rgb = oklchToRgb(def.l, def.c, hue);
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
             });
             
             // Foreground colors (with subtle chroma)
             base16Defs.fg.forEach(def => {
-                const c = isMonochrome ? 0 : def.c;
-                const rgb = oklchToRgb(def.l, c, hue);
+                const rgb = oklchToRgb(def.l, def.c, hue);
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
             });
             
             // Accent colors (chromatic)
             base16Defs.accent.forEach(def => {
-                const c = isMonochrome ? 0 : def.c;
                 let h = def.isAux 
-                    ? (auxHue + (def.offset || 0)) % 360 
-                    : (hue + (def.offset || 0)) % 360;
+                    ? (accentAuxHue + (def.offset || 0)) % 360 
+                    : (accentHue + (def.offset || 0)) % 360;
                 if (h < 0) h += 360;
-                const rgb = oklchToRgb(def.l, c, h);
+                const rgb = oklchToRgb(def.l, def.c, h);
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h };
             });
             
@@ -834,27 +857,27 @@
         function renderPresets() {
             const container = document.getElementById('presets');
             const isDark = currentScheme === 'dark';
-            const p = isDark ? PMD_DARK['72x'] : PMD_LIGHT['72x'];
-            const c = isMonochrome ? 0 : p.c;
+            const theme = isDark ? PMD_DARK['72x'] : PMD_LIGHT['72x'];
             
-            container.innerHTML = presets.map(p => {
-                const rgb = oklchToRgb(p.l, c, p.hue);
+            container.innerHTML = presets.map(preset => {
+                const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
                 const hex = rgbToHex(rgb);
                 return `
                     <button class="preset" 
                             style="background: ${hex};" 
-                            data-name="${p.name}"
-                            onclick="setHue(${p.hue})">
+                            data-name="${preset.name}"
+                            onclick="setHue(${preset.hue})">
                     </button>`;
             }).join('');
         }
         
         function setHue(hue) {
-            currentHue = hue;
+            currentHue = parseInt(hue);
             const s = document.getElementById('hueSlider');
             const i = document.getElementById('hueInput');
             if (s) s.value = hue;
             if (i) i.value = hue;
+            
             renderColors();
             renderPresets();
         }
@@ -943,13 +966,14 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             });
         });
         
-        // Add monochrome toggle logic
-        document.addEventListener('click', (e) => {
-            if (e.target.dataset.monochrome !== undefined) {
-                isMonochrome = !isMonochrome;
-                e.target.classList.toggle('active');
-                renderColors();
+        // Add hue lock functionality
+        document.getElementById('hueLockBtn').addEventListener('click', function() {
+            isHueLocked = !isHueLocked;
+            if (isHueLocked) {
+                lockedHueValue = currentHue;
             }
+            this.classList.toggle('active');
+            renderColors();
         });
 
         // Initialize on load to bypass browser cache of input values
