@@ -47,6 +47,7 @@ Light Scheme OKLCH Mapping:
 - 80x = oklch(0.2 0.032 0) - Secondary lightness
 - 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
 - 8x = oklch(0.88 0.056 0) - Base lightness
+- 4x = oklch(0.16 0.022 0) - Deep base
 - 0x = oklch(1 0 0) - White/highest priority
 
 Dark Scheme OKLCH Mapping:
@@ -55,6 +56,7 @@ Dark Scheme OKLCH Mapping:
 - 80x = oklch(0.8 0.1 0) - Secondary lightness
 - 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
 - 8x = oklch(0.2 0.032 0) - Base lightness
+- 4x = oklch(0.16 0.022 0) - Deep base
 - 0x = oklch(0 0 0) - Black/lowest priority
 
 DEPRECATED:
@@ -149,7 +151,7 @@ Testing:
 PMD establishes hierarchy through visibility properties rather than 
 decorative elements:
 
-Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 0x)
+Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 4x > 0x)
 Opacity: Subtle layering and emphasis (100% > 80% > 64% > 40% > 24% > 12% > 8%)
 Weight: Typographic emphasis (Bold > Semibold > Medium)
 Spacing: Breathing room and grouping (larger = more important)
@@ -194,6 +196,7 @@ Light Scheme Variables:
 80x+12 - SecondaryAux (complementary)
 64x -> 72x - Accent (56% in OKLCH) - oklch(0.56 0.094 0) for interactions
 8x - Base (88% lightness) - oklch(0.88 0.056 0) for frames and containers
+4x - Deep base (16% lightness) - oklch(0.16 0.022 0) for subtle backgrounds
 0x - White/highest priority (100% lightness) - oklch(1 0 0)
 
 Dark Scheme Variables:
@@ -204,6 +207,7 @@ Dark Scheme Variables:
 80x+12 - SecondaryAux (complementary)
 64x -> 72x - Accent (72% in OKLCH) - oklch(0.72 0.122 0) for interactions
 8x - Base (8% lightness) - oklch(0.2 0.032 0) for frames and containers
+4x - Deep base (16% lightness) - oklch(0.16 0.022 0) for subtle backgrounds
 0x - Black/lowest priority (0% lightness) - oklch(0 0 0)
 
 DEPRECATED:
@@ -308,6 +312,7 @@ Light Scheme OKLCH Values:
 80x = oklch(0.2 0.032 0) - Secondary lightness
 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
 8x = oklch(0.88 0.056 0) - Base lightness
+4x = oklch(0.16 0.022 0) - Deep base
 0x = oklch(1 0 0) - White/highest priority
 
 Dark Scheme OKLCH Values:
@@ -316,6 +321,7 @@ Dark Scheme OKLCH Values:
 80x = oklch(0.8 0.1 0) - Secondary lightness
 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
 8x = oklch(0.2 0.032 0) - Base lightness
+4x = oklch(0.16 0.022 0) - Deep base
 0x = oklch(0 0 0) - Black/lowest priority
 
 Opacity percentages remain unchanged during inversion.

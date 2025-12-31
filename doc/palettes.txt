@@ -18,7 +18,7 @@ base00-base07: Grayscale and neutral tones
 base08-base0F: Accent and semantic colors
 
 Each palette maps to PMD's lightness-based system:
-100x, 88x, 88x+12, 80x, 64x, 8x, 0x
+100x, 88x, 88x+12, 80x, 64x, 8x, 4x, 0x
 
 Multiple opacity variants are specified for each base color.
 Auxiliary hues provide complementary contrast (+180° typically).

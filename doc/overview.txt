@@ -17,6 +17,7 @@ Light Scheme OKLCH Mapping:
 - 80x = oklch(0.2 0.032 0) - Secondary lightness
 - 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
 - 8x = oklch(0.88 0.056 0) - Base lightness
+- 4x = oklch(0.16 0.022 0) - Deep base
 - 0x = oklch(1 0 0) - White/highest priority
 
 Dark Scheme OKLCH Mapping:
@@ -25,6 +26,7 @@ Dark Scheme OKLCH Mapping:
 - 80x = oklch(0.8 0.1 0) - Secondary lightness
 - 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
 - 8x = oklch(0.2 0.032 0) - Base lightness
+- 4x = oklch(0.16 0.022 0) - Deep base
 - 0x = oklch(0 0 0) - Black/lowest priority
 
 DEPRECATED:

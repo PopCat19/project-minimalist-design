@@ -15,14 +15,16 @@ let
   #   80x  = oklch(0.80 0.100 h)
   #   72x  = oklch(0.72 0.122 h)
   #   8x   = oklch(0.20 0.032 h)
+  #   4x   = oklch(0.16 0.022 h)
   #   0x   = oklch(0.00 0.000 h)
   #
   # LIGHT SCHEME (inverted):
   #   100x = oklch(0.00 0.000 h)
   #   88x  = oklch(0.28 0.032 h)
   #   80x  = oklch(0.20 0.032 h)
-  #   72x  = oklch(0.72 0.122 h)
+  #   72x  = oklch(0.56 0.094 h)
   #   8x   = oklch(0.88 0.056 h)
+  #   4x   = oklch(0.92 0.044 h)
   #   0x   = oklch(1.00 0.000 h)
   #
   # Compositing formula (alpha blend):
@@ -55,6 +57,7 @@ let
         x80  = { l = 0.80; c = 0.100; };
         x72  = { l = 0.72; c = 0.122; };
         x8   = { l = 0.20; c = 0.032; };
+        x4   = { l = 0.16; c = 0.022; };
         x0   = { l = 0.00; c = 0.000; };
       };
 
@@ -65,6 +68,7 @@ let
         x80  = { l = 0.20; c = 0.032; };
         x72  = { l = 0.56; c = 0.094; };
         x8   = { l = 0.88; c = 0.056; };
+        x4   = { l = 0.92; c = 0.044; };
         x0   = { l = 1.00; c = 0.000; };
       };
 
@@ -88,7 +92,7 @@ let
       # ======================================================================
       # BACKGROUND TONES (base00-base03)
       # ======================================================================
-      base00 = rgbToHex (pmdColor pmd.x0.l pmd.x0.c hue);         # PMD: 0x (black/white)
+      base00 = rgbToHex (pmdColor pmd.x4.l pmd.x4.c hue);         # PMD: 4x (true background)
       base01 = rgbToHex (pmdColor pmd.x8.l pmd.x8.c hue);         # PMD: 8x (base)
       base02 = rgbToHex (pmdColor surface.l surface.c hue);       # PMD: 8x + 80x@12% (surface)
       base03 = rgbToHex (pmdColor muted.l muted.c hue);           # PMD: 80x@48% (muted)
@@ -130,7 +134,7 @@ let
       #   100x, 88x, 80x, 72x, 8x, 0x
       #
       # Base16 Mapping:
-      #   base00-01: 0x, 8x (backgrounds)
+      #   base00-01: 4x, 8x (backgrounds)
       #   base02: 8x + 80x@12% (composited surface)
       #   base03: 80x@48% (baked muted)
       #   base04-07: 72x, 80x, 88x, 100x (foregrounds)

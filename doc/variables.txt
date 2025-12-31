@@ -10,6 +10,7 @@ Light Scheme OKLCH Mapping:
 80x+12 - SecondaryAux (complementary)
 64x -> 72x - Accent (56% in OKLCH) - oklch(0.56 0.094 0)
 8x - Base (88% lightness) - oklch(0.88 0.056 0)
+4x - Deep base (16% lightness) - oklch(0.16 0.022 0)
 0x - White/highest priority (100% lightness) - oklch(1 0 0)
 
 Dark Scheme OKLCH Mapping:
@@ -20,6 +21,7 @@ Dark Scheme OKLCH Mapping:
 80x+12 - SecondaryAux (complementary)
 64x -> 72x - Accent (72% in OKLCH) - oklch(0.72 0.122 0)
 8x - Base (8% lightness) - oklch(0.2 0.032 0)
+4x - Deep base (16% lightness) - oklch(0.16 0.022 0)
 0x - Black/lowest priority (0% lightness) - oklch(0 0 0)
 
 Note: OkLCH definitions use L (lightness) and C (chroma) values with hue = 0 for neutral tones.

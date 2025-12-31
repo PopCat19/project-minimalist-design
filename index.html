@@ -561,14 +561,16 @@
         //   80x  = oklch(0.80 0.100 h)
         //   72x  = oklch(0.72 0.122 h)
         //   8x   = oklch(0.20 0.032 h)
+        //   4x   = oklch(0.16 0.022 h)
         //   0x   = oklch(0.00 0.000 h)
         //
         // LIGHT SCHEME (inverted):
         //   100x = oklch(0.00 0.000 h)
         //   88x  = oklch(0.28 0.032 h)
         //   80x  = oklch(0.20 0.032 h)
-        //   72x  = oklch(0.72 0.122 h)
+        //   72x  = oklch(0.56 0.094 h)
         //   8x   = oklch(0.88 0.056 h)
+        //   4x   = oklch(0.92 0.044 h)
         //   0x   = oklch(1.00 0.000 h)
         //
         // Compositing: result = bg * (1 - alpha) + fg * alpha
@@ -583,6 +585,7 @@
             '80x':  { l: 0.80, c: 0.100 },
             '72x':  { l: 0.72, c: 0.122 },
             '8x':   { l: 0.20, c: 0.032 },
+            '4x':   { l: 0.16, c: 0.022 },
             '0x':   { l: 0.00, c: 0.000 },
         };
 
@@ -592,6 +595,7 @@
             '80x':  { l: 0.20, c: 0.032 },
             '72x':  { l: 0.56, c: 0.094 },
             '8x':   { l: 0.88, c: 0.056 },
+            '4x':   { l: 0.92, c: 0.044 },
             '0x':   { l: 1.00, c: 0.000 },
         };
 
@@ -630,7 +634,7 @@
         // Base16 ↔ PMD Variable Mapping (dynamic per scheme)
         const getBase16Defs = (pmd, computed) => ({
             bg: [
-                { id: 'base00', pmd: '0x',           desc: 'Background',         ...pmd['0x'] },
+                { id: 'base00', pmd: '4x',           desc: 'Background',         ...pmd['4x'] },
                 { id: 'base01', pmd: '8x',           desc: 'Base / Containers',  ...pmd['8x'] },
                 { id: 'base02', pmd: '8x+80x@12%',   desc: 'Surface / Selection', ...computed.surface },
                 { id: 'base03', pmd: '80x@48%',      desc: 'Muted / Comments',   ...computed.muted },
