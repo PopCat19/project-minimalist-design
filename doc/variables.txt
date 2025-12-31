@@ -8,7 +8,7 @@ Light Scheme OKLCH Mapping:
 88x+12 - PrimaryAux (complementary, +180° hue)
 80x - Secondary (20% lightness) - oklch(0.2 0.032 0)
 80x+12 - SecondaryAux (complementary)
-64x -> 72x - Accent (56% in OKLCH) - oklch(0.56 0.094 0)
+64x -> 72x - Accent (32% in OKLCH) - oklch(0.32 0.052 0)
 8x - Base (88% lightness) - oklch(0.88 0.056 0)
 4x - Deep base (16% lightness) - oklch(0.16 0.022 0)
 0x - White/highest priority (100% lightness) - oklch(1 0 0)

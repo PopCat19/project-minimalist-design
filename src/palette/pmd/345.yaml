@@ -6,7 +6,7 @@
 # 100x = oklch(0 0 0) - Black/lowest priority
 # 88x = oklch(0.28 0.032 0) - Primary lightness
 # 80x = oklch(0.2 0.032 0) - Secondary lightness
-# 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
+# 64x -> 72x = oklch(0.32 0.052 0) - Accent lightness
 # 8x = oklch(0.88 0.056 0) - Base lightness
 # 4x = oklch(0.16 0.022 0) - Deep base
 # 0x = oklch(1 0 0) - White/highest priority
@@ -45,7 +45,7 @@ colors:
   base05: "FF99B2"  # 100%
   base04: "FF99B2"  # 12% opacity variant
   
-  # 64x -> 72x - Accent (56% in OKLCH, oklch(0.56 0.094 0))
+  # 64x -> 72x - Accent (32% in OKLCH, oklch(0.32 0.052 0))
   base0B: "FF4775"  # 100%
   
   # 8x - Base (8% lightness, oklch(0.2 0.032 0))
