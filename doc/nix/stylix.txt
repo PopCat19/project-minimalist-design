@@ -1,0 +1,13 @@
+===== STYLIX INTEGRATION =====
+
+PMD can integrate with stylix for system-wide theming:
+
+1. Install stylix in your NixOS configuration
+2. Point stylix to PMD-generated base16 themes
+3. Stylix will apply themes to:
+   - Terminal emulators
+   - Text editors (vim, emacs, etc.)
+   - Desktop environment components
+   - GTK/Qt applications
+
+Example configuration coming soon.

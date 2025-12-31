@@ -1,0 +1,23 @@
+===== TYPOGRAPHY SYSTEM =====
+
+Font Hierarchy:
+Bold (Fredoka Bold, Rounded Mplus 1c Bold)
+- Scales: 3rem, 2.5rem, 1rem, 0.5rem
+- Usage: Major headers, subtext elements
+
+Semibold (Fredoka SemiBold)
+- Scales: 1rem, 0.75rem, 0.625rem
+- Usage: Section headers, titles
+
+Medium (Fredoka Medium, Rounded Mplus 1c Medium)
+- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
+- Usage: Body text, paragraphs, hyperlinks
+
+Mono (FiraCode Nerd Font)
+- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
+- Usage: Code snippets, monospace content, nerd font icons
+
+Icon Sizing:
+- Standard: 1.5rem (24px)
+- Small: 1rem (16px)
+- Offset: 0.25-0.5rem larger than nearby text

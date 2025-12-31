@@ -1,0 +1,14 @@
+===== BASE16 MAPPING TODO =====
+
+Current Status: Initial palette files created for hue 345° and 260°
+
+Remaining Tasks:
+- [ ] Complete base16 color mapping validation
+- [ ] Implement opacity variants in base16 export
+- [ ] Create additional hue palettes (0°, 30°, 90°, 140°, 195°, 330°)
+- [ ] Develop automated palette generation from single hue input
+- [ ] Test base16 exports in terminal emulators
+- [ ] Validate color contrast ratios for accessibility
+- [ ] Document base16 variant usage in editors/terminals
+- [ ] Create light scheme base16 exports
+- [ ] Implement stylix integration

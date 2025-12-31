@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMD Base16 Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Base16 CSS Variables - Updated dynamically by JS */
+        :root {
+            --base00: #000000;
+            --base01: #2B2532;
+            --base02: #3D3545;
+            --base03: #5C5066;
+            --base04: #9B7EB5;
+            --base05: #C49EDD;
+            --base06: #DBBFEC;
+            --base07: #FFFFFF;
+            --base08: #9B7EB5;
+            --base09: #B58CA3;
+            --base0A: #DDB8C4;
+            --base0B: #7EB59B;
+            --base0C: #B8DDCE;
+            --base0D: #9B7EB5;
+            --base0E: #7E9BB5;
+            --base0F: #8A7298;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--base00);
+            color: var(--base05);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 100vh;
+        }
+        
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--base01);
+            border-right: 1px solid var(--base02);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--base07);
+        }
+        
+        .logo span {
+            font-weight: 400;
+            color: var(--base04);
+        }
+        
+        /* Controls */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--base03);
+        }
+        
+        .hue-slider-container {
+            position: relative;
+        }
+        
+        .hue-slider {
+            width: 100%;
+            height: 2.5rem;
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 1px solid var(--base02);
+        }
+        
+        .hue-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 2.5rem;
+            background: var(--base07);
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            cursor: grab;
+        }
+        
+        .hue-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+        }
+        
+        .hue-value {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .hue-input {
+            flex: 1;
+            padding: 0.625rem 0.75rem;
+            background: var(--base02);
+            border: 1px solid var(--base03);
+            border-radius: 0.5rem;
+            color: var(--base06);
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .hue-input:focus {
+            outline: none;
+            border-color: var(--base0D);
+        }
+        
+        .aux-display {
+            padding: 0.75rem;
+            background: var(--base02);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--base05);
+        }
+        
+        .aux-display strong {
+            color: var(--base0B);
+        }
+        
+        .aux-display .formula {
+            font-size: 0.75rem;
+            color: var(--base03);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.25rem;
+        }
+        
+        /* Presets */
+        .presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .preset {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            position: relative;
+        }
+        
+        .preset:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+        
+        .preset::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -1.25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.625rem;
+            color: var(--base03);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        
+        .preset:hover::after {
+            opacity: 1;
+        }
+        
+        /* Scheme Toggle */
+        .scheme-toggle {
+            display: flex;
+            background: var(--base02);
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+        }
+        
+        .scheme-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            color: var(--base03);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: all 0.15s;
+        }
+        
+        .scheme-btn.active {
+            background: var(--base0D);
+            color: var(--base00);
+        }
+        
+        /* Main Content */
+        .main {
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--base03);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--base02);
+        }
+        
+        /* Color Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .color-card {
+            background: var(--base01);
+            border: 1px solid var(--base02);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .color-card:hover {
+            border-color: var(--base0D);
+            transform: translateY(-2px);
+        }
+        
+        .color-swatch {
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .color-info {
+            padding: 0.75rem;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.125rem;
+            color: var(--base06);
+        }
+        
+        .color-desc {
+            font-size: 0.75rem;
+            color: var(--base03);
+            margin-bottom: 0.375rem;
+        }
+        
+        .color-values {
+            display: flex;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6875rem;
+        }
+        
+        .color-hex {
+            color: var(--base04);
+        }
+        
+        /* Export Section */
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--base01);
+            border: 1px solid var(--base02);
+            border-radius: 0.75rem;
+            color: var(--base05);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .export-btn:hover {
+            background: var(--base02);
+            border-color: var(--base0D);
+            color: var(--base06);
+        }
+        
+        .export-btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            opacity: 0.7;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            background: var(--base0D);
+            color: var(--base00);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Preview Panel */
+        .preview-panel {
+            background: var(--base01);
+            border: 1px solid var(--base02);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--base02);
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .preview-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+        }
+        
+        .preview-content {
+            padding: 1rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="logo">PMD <span>Base16</span></div>
+            
+            <div class="control-group">
+                <label class="control-label">Primary Hue</label>
+                <div class="hue-slider-container">
+                    <input type="range" class="hue-slider" id="hueSlider" min="0" max="360" value="260">
+                </div>
+                <div class="hue-value">
+                    <input type="number" class="hue-input" id="hueInput" min="0" max="360" value="260">
+                    <span style="color: var(--base03)">°</span>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Auxiliary Hue</label>
+                <div class="aux-display">
+                    <strong id="auxHueValue">80°</strong>
+                    <div class="formula">(hue + 180) mod 360</div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Presets</label>
+                <div class="presets" id="presets"></div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Scheme</label>
+                <div class="scheme-toggle">
+                    <button class="scheme-btn active" data-scheme="dark">Dark</button>
+                    <button class="scheme-btn" data-scheme="light">Light</button>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="main">
+            <section class="section">
+                <h2 class="section-title">Background Colors</h2>
+                <div class="color-grid" id="bgColors"></div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Foreground Colors</h2>
+                <div class="color-grid" id="fgColors"></div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Accent Colors</h2>
+                <div class="color-grid" id="accentColors"></div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Code Preview</h2>
+                <div class="preview-panel" id="codePreview"></div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">Export</h2>
+                <div class="export-grid">
+                    <button class="export-btn" onclick="exportYAML()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="12" y1="18" x2="12" y2="12"/>
+                            <line x1="9" y1="15" x2="12" y2="12"/>
+                            <line x1="15" y1="15" x2="12" y2="12"/>
+                        </svg>
+                        Download YAML
+                    </button>
+                    <button class="export-btn" onclick="exportJSON()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        Download JSON
+                    </button>
+                    <button class="export-btn" onclick="copyCSS()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy CSS Variables
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // OKLCH to sRGB conversion (proper implementation)
+        function oklchToRgb(l, c, h) {
+            // OKLCH to OKLab
+            const hRad = h * Math.PI / 180;
+            const a = c * Math.cos(hRad);
+            const b = c * Math.sin(hRad);
+            
+            // OKLab to LMS (approximate cube roots)
+            const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
+            const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
+            const s_ = l - 0.0894841775 * a - 1.2914855480 * b;
+            
+            // Cube
+            const lCubed = l_ * l_ * l_;
+            const mCubed = m_ * m_ * m_;
+            const sCubed = s_ * s_ * s_;
+            
+            // LMS to Linear sRGB
+            let rLin = +4.0767416621 * lCubed - 3.3077115913 * mCubed + 0.2309699292 * sCubed;
+            let gLin = -1.2684380046 * lCubed + 2.6097574011 * mCubed - 0.3413193965 * sCubed;
+            let bLin = -0.0041960863 * lCubed - 0.7034186147 * mCubed + 1.7076147010 * sCubed;
+            
+            // Linear to sRGB gamma
+            const gamma = (c) => c <= 0.0031308 
+                ? 12.92 * c 
+                : 1.055 * Math.pow(c, 1/2.4) - 0.055;
+            
+            const clamp = (v) => Math.max(0, Math.min(1, v));
+            
+            return {
+                r: Math.round(clamp(gamma(rLin)) * 255),
+                g: Math.round(clamp(gamma(gLin)) * 255),
+                b: Math.round(clamp(gamma(bLin)) * 255)
+            };
+        }
+        
+        // HSL to RGB (for presets display)
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => {
+                const k = (n + h * 12) % 12;
+                return l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+            };
+            return {
+                r: Math.round(f(0) * 255),
+                g: Math.round(f(8) * 255),
+                b: Math.round(f(4) * 255)
+            };
+        }
+        
+        function rgbToHex({ r, g, b }) {
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+        
+        function getContrastColor(r, g, b) {
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            return luminance > 0.5 ? '#000000' : '#FFFFFF';
+        }
+        
+        // State
+        let currentHue = 0;
+        let currentScheme = 'dark';
+        
+        // =======================================================================
+        // PMD VARIABLE SYSTEM (OKLCH)
+        // =======================================================================
+        // DARK SCHEME:
+        //   100x = oklch(1.00 0.000 h)
+        //   88x  = oklch(0.88 0.056 h)
+        //   80x  = oklch(0.80 0.100 h)
+        //   72x  = oklch(0.72 0.122 h)
+        //   8x   = oklch(0.20 0.032 h)
+        //   0x   = oklch(0.00 0.000 h)
+        //
+        // LIGHT SCHEME (inverted):
+        //   100x = oklch(0.00 0.000 h)
+        //   88x  = oklch(0.28 0.032 h)
+        //   80x  = oklch(0.20 0.032 h)
+        //   72x  = oklch(0.72 0.122 h)
+        //   8x   = oklch(0.88 0.056 h)
+        //   0x   = oklch(1.00 0.000 h)
+        //
+        // Compositing: result = bg * (1 - alpha) + fg * alpha
+        //   base02: 8x + 80x@12% (surface stack)
+        //   base03: 80x@48% (baked muted)
+        // =======================================================================
+
+        // PMD Variable definitions { lightness, chroma } per scheme
+        const PMD_DARK = {
+            '100x': { l: 1.00, c: 0.000 },
+            '88x':  { l: 0.88, c: 0.056 },
+            '80x':  { l: 0.80, c: 0.100 },
+            '72x':  { l: 0.72, c: 0.122 },
+            '8x':   { l: 0.20, c: 0.032 },
+            '0x':   { l: 0.00, c: 0.000 },
+        };
+
+        const PMD_LIGHT = {
+            '100x': { l: 0.00, c: 0.000 },
+            '88x':  { l: 0.28, c: 0.032 },
+            '80x':  { l: 0.20, c: 0.032 },
+            '72x':  { l: 0.56, c: 0.094 },
+            '8x':   { l: 0.88, c: 0.056 },
+            '0x':   { l: 1.00, c: 0.000 },
+        };
+
+        // Alpha composite: bg * (1 - alpha) + fg * alpha
+        const composite = (bg, fg, alpha) => ({
+            l: bg.l * (1 - alpha) + fg.l * alpha,
+            c: bg.c * (1 - alpha) + fg.c * alpha
+        });
+
+        // Bake on 0x background
+        const bake = (pmd, fg, alpha) => composite(pmd['0x'], fg, alpha);
+
+        // Get computed values for current scheme
+        const getComputed = (pmd) => ({
+            surface: composite(pmd['8x'], pmd['80x'], 0.12),  // 8x + 80x@12%
+            muted:   bake(pmd, pmd['80x'], 0.48),             // 80x@48% on 0x
+        });
+
+        // Get PMD and computed values for scheme
+        const getPMD = (isDark) => {
+            const pmd = isDark ? PMD_DARK : PMD_LIGHT;
+            return { pmd, computed: getComputed(pmd) };
+        };
+        
+        const presets = [
+            { name: 'Red', hue: 30 },
+            { name: 'Orange', hue: 60 },
+            { name: 'Yellow', hue: 90 },
+            { name: 'Green', hue: 140 },
+            { name: 'Cyan', hue: 195 },
+            { name: 'Blue', hue: 260 },
+            { name: 'Purple', hue: 290 },
+            { name: 'Rose', hue: 345 },
+        ];
+        
+        // Base16 ↔ PMD Variable Mapping (dynamic per scheme)
+        const getBase16Defs = (pmd, computed) => ({
+            bg: [
+                { id: 'base00', pmd: '0x',           desc: 'Background',         ...pmd['0x'] },
+                { id: 'base01', pmd: '8x',           desc: 'Base / Containers',  ...pmd['8x'] },
+                { id: 'base02', pmd: '8x+80x@12%',   desc: 'Surface / Selection', ...computed.surface },
+                { id: 'base03', pmd: '80x@48%',      desc: 'Muted / Comments',   ...computed.muted },
+            ],
+            fg: [
+                { id: 'base04', pmd: '72x',   desc: 'Dark Foreground',     ...pmd['72x'] },
+                { id: 'base05', pmd: '80x',   desc: 'Secondary / Body',    ...pmd['80x'] },
+                { id: 'base06', pmd: '88x',   desc: 'Primary / Headers',   ...pmd['88x'] },
+                { id: 'base07', pmd: '100x',  desc: 'Highest Contrast',    ...pmd['100x'] },
+            ],
+            accent: [
+                { id: 'base08', pmd: '72x',         desc: 'Variables / Error',   ...pmd['72x'], offset: 0 },
+                { id: 'base09', pmd: '72x+30°',     desc: 'Constants / Warning', ...pmd['72x'], offset: 30 },
+                { id: 'base0A', pmd: '80x+60°',     desc: 'Classes / Info',      ...pmd['80x'], offset: 60 },
+                { id: 'base0B', pmd: '72x aux',     desc: 'Strings / Success',   ...pmd['72x'], isAux: true },
+                { id: 'base0C', pmd: '80x aux+30°', desc: 'Support / Cyan',      ...pmd['80x'], isAux: true, offset: 30 },
+                { id: 'base0D', pmd: '72x',         desc: 'Functions / Links',   ...pmd['72x'], offset: 0 },
+                { id: 'base0E', pmd: '72x-60°',     desc: 'Keywords / Purple',   ...pmd['72x'], offset: -60 },
+                { id: 'base0F', pmd: '72x+15°',     desc: 'Deprecated / Brown',  l: pmd['72x'].l, c: pmd['72x'].c * 0.8, offset: 15 },
+            ]
+        });
+
+        // Legacy compatibility - will be updated in generatePalette
+        let base16Defs = getBase16Defs(PMD_DARK, getComputed(PMD_DARK));
+        
+        function generatePalette() {
+            const hue = currentHue;
+            const auxHue = (hue + 180) % 360;
+            const isDark = currentScheme === 'dark';
+            
+            document.getElementById('auxHueValue').textContent = auxHue + '°';
+            
+            // Get scheme-specific PMD values
+            const { pmd, computed } = getPMD(isDark);
+            base16Defs = getBase16Defs(pmd, computed);
+
+            const colors = {};
+            
+            // Background colors (with hue tint via chroma)
+            base16Defs.bg.forEach(def => {
+                const rgb = oklchToRgb(def.l, def.c, hue);
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
+            });
+            
+            // Foreground colors (with subtle chroma)
+            base16Defs.fg.forEach(def => {
+                const rgb = oklchToRgb(def.l, def.c, hue);
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
+            });
+            
+            // Accent colors (chromatic)
+            base16Defs.accent.forEach(def => {
+                let h = def.isAux 
+                    ? (auxHue + (def.offset || 0)) % 360 
+                    : (hue + (def.offset || 0)) % 360;
+                if (h < 0) h += 360;
+                const rgb = oklchToRgb(def.l, def.c, h);
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h };
+            });
+            
+            return colors;
+        }
+        
+        // Apply base16 colors to CSS custom properties
+        function applyThemeToUI(colors) {
+            const root = document.documentElement;
+            Object.entries(colors).forEach(([id, color]) => {
+                root.style.setProperty(`--${id}`, color.hex);
+            });
+        }
+
+        function renderColors() {
+            const colors = generatePalette();
+            
+            // Apply colors to UI
+            applyThemeToUI(colors);
+
+            // Background colors
+            const bgGrid = document.getElementById('bgColors');
+            bgGrid.innerHTML = base16Defs.bg.map(def => {
+                const color = colors[def.id];
+                const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
+                return `
+                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                        <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
+                            ${color.hex}
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">${def.id}</div>
+                            <div class="color-desc">${def.desc}</div>
+                            <div class="color-values">
+                                <span class="color-hex">${def.pmd}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Foreground colors
+            const fgGrid = document.getElementById('fgColors');
+            fgGrid.innerHTML = base16Defs.fg.map(def => {
+                const color = colors[def.id];
+                const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
+                return `
+                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                        <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
+                            ${color.hex}
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">${def.id}</div>
+                            <div class="color-desc">${def.desc}</div>
+                            <div class="color-values">
+                                <span class="color-hex">${def.pmd}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Accent colors
+            const accentGrid = document.getElementById('accentColors');
+            accentGrid.innerHTML = base16Defs.accent.map(def => {
+                const color = colors[def.id];
+                const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
+                return `
+                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                        <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
+                            ${color.hex}
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">${def.id}</div>
+                            <div class="color-desc">${def.desc}</div>
+                            <div class="color-values">
+                                <span class="color-hex">${def.pmd}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Code preview
+            renderCodePreview(colors);
+        }
+        
+        // Generate a perceptually accurate OKLCH gradient for the slider
+        function updateSliderGradient() {
+            const slider = document.getElementById('hueSlider');
+            const stops = [];
+            // Use 72x L/C values for the slider preview
+            for (let i = 0; i <= 360; i += 30) {
+                const rgb = oklchToRgb(0.72, 0.122, i);
+                stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            }
+            slider.style.background = `linear-gradient(to right, ${stops.join(', ')})`;
+        }
+        
+        function renderCodePreview(colors) {
+            const preview = document.getElementById('codePreview');
+            preview.innerHTML = `
+                <div class="preview-header" style="background: ${colors.base01.hex};">
+                    <div class="preview-dot" style="background: ${colors.base08.hex};"></div>
+                    <div class="preview-dot" style="background: ${colors.base0A.hex};"></div>
+                    <div class="preview-dot" style="background: ${colors.base0B.hex};"></div>
+                </div>
+                <div class="preview-content" style="background: ${colors.base00.hex}; color: ${colors.base05.hex};">
+                    <span style="color: ${colors.base03.hex};">// PMD Base16 Theme Preview</span><br>
+                    <span style="color: ${colors.base0E.hex};">function</span> <span style="color: ${colors.base0D.hex};">generatePalette</span>(<span style="color: ${colors.base08.hex};">hue</span>) {<br>
+                    &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">const</span> <span style="color: ${colors.base08.hex};">auxHue</span> = (<span style="color: ${colors.base08.hex};">hue</span> + <span style="color: ${colors.base09.hex};">180</span>) % <span style="color: ${colors.base09.hex};">360</span>;<br>
+                    &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">return</span> {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base08.hex};">primary</span>: <span style="color: ${colors.base0B.hex};">"oklch(0.72 0.122 ${currentHue})"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base08.hex};">auxiliary</span>: <span style="color: ${colors.base0B.hex};">\`oklch(0.72 0.122 \${auxHue})\`</span><br>
+                    &nbsp;&nbsp;};<br>
+                    }
+                </div>
+            `;
+        }
+        
+        function renderPresets() {
+            const container = document.getElementById('presets');
+            const isDark = currentScheme === 'dark';
+            const pmd = isDark ? PMD_DARK['72x'] : PMD_LIGHT['72x'];
+            
+            container.innerHTML = presets.map(p => {
+                const rgb = oklchToRgb(pmd.l, pmd.c, p.hue);
+                const hex = rgbToHex(rgb);
+                return `
+                    <button class="preset" 
+                            style="background: ${hex};" 
+                            data-name="${p.name}"
+                            onclick="setHue(${p.hue})">
+                    </button>`;
+            }).join('');
+        }
+        
+        function setHue(hue) {
+            currentHue = hue;
+            const s = document.getElementById('hueSlider');
+            const i = document.getElementById('hueInput');
+            if (s) s.value = hue;
+            if (i) i.value = hue;
+            renderColors();
+            renderPresets();
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        function copyColor(hex) {
+            navigator.clipboard.writeText(hex);
+            showToast(`Copied ${hex}`);
+        }
+        
+        function exportYAML() {
+            const colors = generatePalette();
+            const auxHue = (currentHue + 180) % 360;
+            
+            const yaml = `# PMD Base16 Theme
+# base03: 80x@48% (muted)
+# base02: 8x + 80x@12% (surface)
+scheme: "PMD Custom${currentScheme === 'light' ? ' Light' : ''}"
+author: "Project Minimalist Design"
+variant: "${currentScheme}"
+hue: ${currentHue}
+aux_hue: ${auxHue}
+${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n')}`;
+            
+            downloadFile(yaml, `pmd-theme-${currentScheme}.yaml`, 'text/yaml');
+            showToast('Downloaded YAML');
+        }
+        
+        function exportJSON() {
+            const colors = generatePalette();
+            const auxHue = (currentHue + 180) % 360;
+            
+            const json = JSON.stringify({
+                scheme: `PMD Custom${currentScheme === 'light' ? ' Light' : ''}`,
+                author: "Project Minimalist Design",
+                variant: currentScheme,
+                hue: currentHue,
+                aux_hue: auxHue,
+                ...Object.fromEntries(Object.entries(colors).map(([id, c]) => [id, c.hex.slice(1)]))
+            }, null, 2);
+            
+            downloadFile(json, `pmd-theme-${currentScheme}.json`, 'application/json');
+            showToast('Downloaded JSON');
+        }
+        
+        function copyCSS() {
+            const colors = generatePalette();
+            const css = `:root {\n${Object.entries(colors).map(([id, c]) => `  --${id}: ${c.hex};`).join('\n')}\n}`;
+            navigator.clipboard.writeText(css);
+            showToast('Copied CSS variables');
+        }
+        
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Event listeners
+        document.getElementById('hueSlider').addEventListener('input', (e) => {
+            setHue(parseInt(e.target.value));
+        });
+        
+        document.getElementById('hueInput').addEventListener('change', (e) => {
+            let val = parseInt(e.target.value) || 0;
+            val = Math.max(0, Math.min(360, val));
+            setHue(val);
+        });
+        
+        document.querySelectorAll('.scheme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.scheme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentScheme = btn.dataset.scheme;
+                renderColors();
+            });
+        });
+        
+        // Initialize on load to bypass browser cache of input values
+        window.addEventListener('load', () => {
+            updateSliderGradient();
+            setHue(0);
+        });
+    </script>
+</body>
+</html>

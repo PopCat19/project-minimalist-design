@@ -1,0 +1,22 @@
+===== SPACING SYSTEM =====
+
+Internal Padding:
+0.25rem (4px) - Compact elements
+0.5rem (8px) - Standard internal spacing
+1rem (16px) - Generous padding
+1.5rem (24px) - Large component padding
+
+External Margins:
+0.5rem (8px) - Tight grouping
+1rem (16px) - Standard separation
+2rem (32px) - Section breaks
+4rem (64px) - Major divisions
+
+Component Spacing:
+Adjacent elements: 0.5rem (8px)
+Related groups: 1rem (16px)
+Distinct sections: 2rem (32px)
+Page divisions: 4rem (64px)
+
+Spacing creates visual breathing room and communicates relationships
+between elements. Larger spacing indicates greater separation or importance.

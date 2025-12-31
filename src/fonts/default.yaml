@@ -1,0 +1,29 @@
+# PMD Default Font Configuration
+
+fonts:
+  bold:
+    family: "Fredoka"
+    weight: 700
+    sizes: [3.0, 2.5, 1.0, 0.5]  # rem
+    fallback: "Rounded Mplus 1c"
+    
+  semibold:
+    family: "Fredoka"
+    weight: 600
+    sizes: [1.0, 0.75, 0.625]  # rem
+    
+  medium:
+    family: "Fredoka"
+    weight: 500
+    sizes: [1.25, 1.0, 0.75, 0.625]  # rem
+    fallback: "Rounded Mplus 1c"
+    
+  mono:
+    family: "FiraCode Nerd Font"
+    weight: 400
+    sizes: [1.25, 1.0, 0.75, 0.625]  # rem
+
+icons:
+  standard: 1.5  # rem
+  small: 1.0     # rem
+  offset: 0.25   # rem larger than accompanying text

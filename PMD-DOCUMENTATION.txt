@@ -1,0 +1,524 @@
+================================================================================
+PROJECT MINIMALIST DESIGN - COMPLETE DOCUMENTATION
+================================================================================
+
+A design system emphasizing simplicity and practicality through YAGNI and DRY 
+principles.
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+
+1. OVERVIEW
+2. USAGE GUIDELINES  
+3. HIERARCHY THROUGH VISIBILITY
+4. FRAME CONVENTIONS
+5. VARIABLE SYSTEM
+6. TYPOGRAPHY SYSTEM
+7. PALETTE SYSTEM
+8. HUE REFERENCE
+9. LIGHT SCHEME INVERSION
+10. OPACITY SYSTEM
+11. SCALE SYSTEM
+12. SPACING SYSTEM
+13. EFFECTS SYSTEM
+14. NIX INTEGRATION
+15. MOCKUP EXAMPLES
+16. BASE16 MAPPING TODO
+
+================================================================================
+1. OVERVIEW
+================================================================================
+
+Project Minimalist Design (PMD) is a design system built on principles of 
+simplicity and practicality. The system emphasizes YAGNI (You Aren't Gonna 
+Need It) and DRY (Don't Repeat Yourself) principles.
+
+Key Characteristics:
+- Variable-based architecture for rapid theme iteration
+- Lightness-based hierarchy over decorative elements
+- OKLCH colorspace for perceptual uniformity
+- rem-based scaling (base-16)
+- Framework-agnostic implementation
+
+Light Scheme OKLCH Mapping:
+- 100x = oklch(0 0 0) - Black/lowest priority
+- 88x = oklch(0.28 0.032 0) - Primary lightness
+- 80x = oklch(0.2 0.032 0) - Secondary lightness
+- 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
+- 8x = oklch(0.88 0.056 0) - Base lightness
+- 0x = oklch(1 0 0) - White/highest priority
+
+Dark Scheme OKLCH Mapping:
+- 100x = oklch(1 0 0) - White/highest priority
+- 88x = oklch(0.88 0.056 0) - Primary lightness
+- 80x = oklch(0.8 0.1 0) - Secondary lightness
+- 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
+- 8x = oklch(0.2 0.032 0) - Base lightness
+- 0x = oklch(0 0 0) - Black/lowest priority
+
+DEPRECATED:
+- 96x = oklch(0.96 0.016 0) - Near-white [REDUNDANT - use 100x instead]
+
+The system serves as flexible guidelines rather than rigid specifications,
+encouraging consistent visual hierarchy across diverse UI/UX projects.
+
+================================================================================
+2. USAGE GUIDELINES
+================================================================================
+
+PMD functions as a flexible guideline rather than rigid specification 
+framework. Designers should adapt values contextually while maintaining 
+hierarchical relationships.
+
+Core Principles:
+1. Use lightness, opacity, weight, spacing, and radius for hierarchy
+2. Avoid gradients and shadows unless hierarchical clarity demands them
+3. Leverage mutable variables for global adjustments
+4. Scale selection depends on viewport and object importance
+5. Maintain relative hierarchy when adapting values
+
+General Implementation:
+- Import palette definitions from src/palette/pmd/
+- Apply font configurations from src/fonts/
+- Reference variables in your framework of choice
+- Test across multiple viewport sizes
+- Verify both light and dark schemes
+
+Nix Integration:
+
+Prerequisites:
+- Install Nix with flake support
+- Enable nix-command and flakes experimental features
+
+Development Environment:
+  nix develop
+  
+This provides a reproducible environment with:
+  - yaml2json for palette processing
+  - jq for JSON manipulation  
+  - nodejs for web tools
+  - python3 for scripting
+
+Building Base16 Themes:
+  nix build
+  
+This creates a derivation that converts PMD palettes to base16 format.
+
+NixOS Configuration:
+1. Add PMD as a flake input:
+   inputs.pmd.url = "github:yourusername/pmd";
+
+2. Reference in your system configuration:
+   environment.systemPackages = [
+     pmd.packages.${system}.default
+   ];
+
+3. Access generated themes:
+   The base16 themes will be available in the Nix store under:
+   /nix/store/*-pmd-base16/share/pmd-base16/
+
+Palette Customization:
+- Edit YAML files in src/palette/pmd/
+- Each palette requires:
+  - scheme: Color scheme name
+  - author: PMD
+  - hue: Primary hue (0-360°)
+  - aux_hue: Auxiliary hue (default: (hue + 180) mod 360)
+  - colors: base00-base0F color definitions
+
+Color Calculation:
+- Primary hue + 180° = Auxiliary hue (modulo 360°)
+- Example: 345° → (345 + 180) mod 360 = 165°
+- See section 8 (Hue Reference) for detailed hue reference
+
+Variable Usage:
+- Import src/variables/singleton.qml for QML applications
+- Reference src/fonts/*.yaml for typography settings
+- Use src/hsl2rgb.nix and src/oklch2rgb.nix for color conversion
+
+Testing:
+- Open index.html in a browser for interactive palette testing
+- Run nix build to validate theme generation
+- Test both light and dark scheme implementations
+
+================================================================================
+3. HIERARCHY THROUGH VISIBILITY
+================================================================================
+
+PMD establishes hierarchy through visibility properties rather than 
+decorative elements:
+
+Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 0x)
+Opacity: Subtle layering and emphasis (100% > 80% > 64% > 40% > 24% > 12% > 8%)
+Weight: Typographic emphasis (Bold > Semibold > Medium)
+Spacing: Breathing room and grouping (larger = more important)
+Radius: Element prominence (larger = more important/friendly)
+
+Combining these properties creates clear visual hierarchy without relying
+on shadows, gradients, or other decorative effects.
+
+================================================================================
+4. FRAME CONVENTIONS
+================================================================================
+
+Standard frame specifications for dark scheme:
+
+Border: 0.125rem (2px) default width
+Radius: 1rem (16px) or 0.5rem (8px) by prominence
+Spacing: 0.5rem (8px) or 0.25rem (4px) internal padding
+
+State Colors:
+- Boost: 88x+12 (complementary highlight)
+- Active: 88x (enabled primary state)
+- Occupied: 64x (interactive/focused elements)
+- Disabled: 88x at 24% opacity
+- Surface: 80x at 8% opacity (content layers)
+- Base-surface: 8x at 100% (solid container)
+- Base: 8x at 40% with 24% backdrop blur (translucent)
+
+For grouped components, use asymmetric radius (0.5rem on relative sides)
+to create visual connection between adjacent elements.
+
+================================================================================
+5. VARIABLE SYSTEM
+================================================================================
+
+PMD uses mutable variables formatted as <lightness%>x<opacity%><+hue-offset>
+
+Light Scheme Variables:
+100x - Black/lowest priority (0% lightness) - oklch(0 0 0)
+88x - Primary (28% lightness) - oklch(0.28 0.032 0) for headers, CTAs, icons
+88x+12 - PrimaryAux (complementary, +180° hue)
+80x - Secondary (20% lightness) - oklch(0.2 0.032 0) for body elements
+80x+12 - SecondaryAux (complementary)
+64x -> 72x - Accent (56% in OKLCH) - oklch(0.56 0.094 0) for interactions
+8x - Base (88% lightness) - oklch(0.88 0.056 0) for frames and containers
+0x - White/highest priority (100% lightness) - oklch(1 0 0)
+
+Dark Scheme Variables:
+100x - White/highest priority (100% lightness) - oklch(1 0 0)
+88x - Primary (88% lightness) - oklch(0.88 0.056 0) for headers, CTAs, icons
+88x+12 - PrimaryAux (complementary, +180° hue)
+80x - Secondary (80% lightness) - oklch(0.8 0.1 0) for body elements
+80x+12 - SecondaryAux (complementary)
+64x -> 72x - Accent (72% in OKLCH) - oklch(0.72 0.122 0) for interactions
+8x - Base (8% lightness) - oklch(0.2 0.032 0) for frames and containers
+0x - Black/lowest priority (0% lightness) - oklch(0 0 0)
+
+DEPRECATED:
+96x - Near-white (96% lightness) - oklch(0.96 0.016 0) [REDUNDANT - use 100x instead]
+
+Each variable supports multiple opacity variants for different use cases.
+Hue and chroma are globally mutable for theme customization.
+
+Auxiliary hues use +180° offset by default: aux_hue = (primary_hue + 180) mod 360
+
+Light scheme inverts lightness values while preserving hue and opacity.
+
+================================================================================
+6. TYPOGRAPHY SYSTEM
+================================================================================
+
+Font Hierarchy:
+Bold (Fredoka Bold, Rounded Mplus 1c Bold)
+- Scales: 3rem, 2.5rem, 1rem, 0.5rem
+- Usage: Major headers, subtext elements
+
+Semibold (Fredoka SemiBold)
+- Scales: 1rem, 0.75rem, 0.625rem
+- Usage: Section headers, titles
+
+Medium (Fredoka Medium, Rounded Mplus 1c Medium)
+- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
+- Usage: Body text, paragraphs, hyperlinks
+
+Mono (FiraCode Nerd Font)
+- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
+- Usage: Code snippets, monospace content, nerd font icons
+
+Icon Sizing:
+- Standard: 1.5rem (24px)
+- Small: 1rem (16px)
+- Offset: 0.25-0.5rem larger than nearby text
+
+================================================================================
+7. PALETTE SYSTEM
+================================================================================
+
+PMD palettes are defined in YAML format with primary and auxiliary hues.
+
+Example Structure:
+scheme: "PMD [Color Name]"
+author: "Project Minimalist Design"
+hue: [0-360]
+aux_hue: [0-360]  # Default: (hue + 180) mod 360
+
+Auxiliary Hue Calculation:
+Default: aux_hue = (primary_hue + 180) mod 360
+Example: hue 345° → aux_hue = (345 + 180) mod 360 = 165°
+Example: hue 260° → aux_hue = (260 + 180) mod 360 = 80°
+
+Color Definitions:
+base00-base07: Grayscale and neutral tones
+base08-base0F: Accent and semantic colors
+
+Each palette maps to PMD's lightness-based system:
+100x, 88x, 88x+12, 80x, 64x, 8x, 0x
+
+Multiple opacity variants are specified for each base color.
+Auxiliary hues provide complementary contrast (+180° typically).
+
+================================================================================
+8. HUE REFERENCE
+================================================================================
+
+OKLCH Hue Values (approximate, shifted ~30° from HSL):
+Red: 30°
+Orange: 60°
+Yellow: 90°
+Lime: 120°
+Green: 140°
+Teal/Cyan: 195°
+Blue: 260°
+Purple: 290°
+Magenta: 330°
+
+Complementary Hues (+180° default):
+Red (30°) ↔ Cyan (210°) = 30° + 180°
+Yellow (90°) ↔ Blue (270°) = 90° + 180°
+Green (140°) ↔ Magenta (320°) = 140° + 180°
+Blue (260°) ↔ Yellow (80°) = 260° + 180° - 360°
+Rose (345°) ↔ Teal (165°) = 345° + 180° - 360°
+
+Calculation: (primary_hue + 180°) mod 360°
+
+Auxiliary hues in PMD use +180° offset by default for maximum contrast.
+Values outside 0-360° are automatically normalized using modulo 360°.
+
+================================================================================
+9. LIGHT SCHEME INVERSION
+================================================================================
+
+Light scheme uses optimized OKLCH values for perceptual uniformity:
+
+Light Scheme OKLCH Values:
+100x = oklch(0 0 0) - Black/lowest priority
+88x = oklch(0.28 0.032 0) - Primary lightness
+80x = oklch(0.2 0.032 0) - Secondary lightness
+64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
+8x = oklch(0.88 0.056 0) - Base lightness
+0x = oklch(1 0 0) - White/highest priority
+
+Dark Scheme OKLCH Values:
+100x = oklch(1 0 0) - White/highest priority
+88x = oklch(0.88 0.056 0) - Primary lightness
+80x = oklch(0.8 0.1 0) - Secondary lightness
+64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
+8x = oklch(0.2 0.032 0) - Base lightness
+0x = oklch(0 0 0) - Black/lowest priority
+
+Opacity percentages remain unchanged during inversion.
+Hue and chroma values persist across schemes.
+
+This maintains relative hierarchy while inverting the visual foundation.
+Always test both schemes for sufficient contrast and legibility.
+
+================================================================================
+10. OPACITY SYSTEM
+================================================================================
+
+Standard Opacity Values:
+100% - Full visibility, solid colors
+80% - Strong presence, modal overlays
+64% - Medium translucency
+40% - Subtle base layers with backdrop blur
+32% - Hover/selection states
+24% - Disabled states, outlines
+16% - Subtle emphasis
+12% - Surface layers
+8% - Background surfaces
+0% - Fully transparent
+
+DEPRECATED:
+96% - Nearly opaque [REDUNDANT - use 100% for solid colors]
+
+Simplified Values (when granular control unnecessary):
+100%, 80%, 60%, 40%, 20%, 10%
+
+Lower opacity creates subtle layering; higher opacity demands attention.
+Combine with lightness for comprehensive visibility control.
+
+================================================================================
+11. SCALE SYSTEM
+================================================================================
+
+All measurements use rem units (base-16: 16px = 1rem)
+
+Common Scales:
+0.25rem (4px) - Micro spacing, fine details
+0.5rem (8px) - Standard spacing, small elements
+0.75rem (12px) - Compact text, minor padding
+1rem (16px) - Base unit, body text, standard padding
+1.5rem (24px) - Headings, icons, moderate spacing
+2rem (32px) - Large headings, prominent spacing
+3rem (48px) - Hero text, major sections
+4rem (64px) - Oversized elements
+
+Large-Scale Values:
+32rem (512px), 48rem (768px), 64rem (1024px), 128rem (2048px)
+
+Edge Cases (unlikely in typical use):
+256rem (4096px), 512rem (8192px)
+
+Actual values depend on viewport resolution and perceived object scale.
+
+================================================================================
+12. SPACING SYSTEM
+================================================================================
+
+Internal Padding:
+0.25rem (4px) - Compact elements
+0.5rem (8px) - Standard internal spacing
+1rem (16px) - Generous padding
+1.5rem (24px) - Large component padding
+
+External Margins:
+0.5rem (8px) - Tight grouping
+1rem (16px) - Standard separation
+2rem (32px) - Section breaks
+4rem (64px) - Major divisions
+
+Component Spacing:
+Adjacent elements: 0.5rem (8px)
+Related groups: 1rem (16px)
+Distinct sections: 2rem (32px)
+Page divisions: 4rem (64px)
+
+Spacing creates visual breathing room and communicates relationships
+between elements. Larger spacing indicates greater separation or importance.
+
+================================================================================
+13. EFFECTS SYSTEM
+================================================================================
+
+Backdrop Blur:
+Standard: 24% opacity
+Usage: Translucent surfaces at 8x 40%
+Purpose: Creates floating panel aesthetic
+
+Guidelines:
+- Apply primarily to base layers
+- Avoid excessive blur that compromises legibility
+- Consider performance on lower-end devices
+- Effects should enhance hierarchy, not decorate arbitrarily
+
+PMD intentionally limits effects to backdrop blur, avoiding:
+- Box shadows (use lightness/opacity for depth)
+- Drop shadows (use frame hierarchy instead)
+- Gradients (use solid colors unless hierarchically necessary)
+
+This maintains the minimalist philosophy while allowing subtle depth.
+
+================================================================================
+14. NIX INTEGRATION
+================================================================================
+
+--- NIX INTEGRATION OVERVIEW ---
+
+PMD provides Nix integration through:
+1. Flake-based configuration (flake.nix)
+2. Color conversion functions (hsl2rgb.nix, oklch2rgb.nix)
+3. Base16 export derivation (base16-export.nix)
+4. Development shell (dev-shell.nix)
+
+This enables reproducible theme generation and system-wide integration
+through NixOS configuration.
+
+--- NIX CONFIGURATION ---
+
+Using PMD in NixOS Configuration:
+
+1. Add flake input to your configuration:
+   inputs.pmd.url = "github:yourusername/pmd";
+
+2. Import palette and apply:
+   pmd.packages.${system}.default
+
+3. Reference colors in your configuration:
+   Use generated base16 themes
+
+4. Customize hue and chroma:
+   Modify palette YAML files and rebuild
+
+See stylix integration section below for system-wide theming.
+
+--- STYLIX INTEGRATION ---
+
+PMD can integrate with stylix for system-wide theming:
+
+1. Install stylix in your NixOS configuration
+2. Point stylix to PMD-generated base16 themes
+3. Stylix will apply themes to:
+   - Terminal emulators
+   - Text editors (vim, emacs, etc.)
+   - Desktop environment components
+   - GTK/Qt applications
+
+Example configuration coming soon.
+
+================================================================================
+15. MOCKUP EXAMPLES
+================================================================================
+
+# PMD Mockup Examples
+
+## PMQuickshellMockup (1440x1024)
+
+Primary Hue: 345° (Pink/Rose)
+Auxiliary Hue: 165° (Teal) [Auto-calculated: (345 + 180) mod 360]
+
+### Color Palette
+- 100x: #FFFFFF [100%, 32%]
+- 88x: #FFC2D1 [100%, 24%]
+- 88x+12: #C2FFF0 [100%, 24%]
+- 80x: #FF99B2 [100%, 48%, 12%, 8%]
+- 80x+12: #99FFE5 [100%, 48%, 12%, 8%]
+- 64x: #FF4775 [100%, 80%]
+- 8x: #1E0B10 [100%, 80%, 64%, 40%]
+- 0x: #000000 [100%, 80%, 64%, 40%]
+
+### Implementation Notes
+Demonstrates complete dark scheme implementation with complementary accents.
+Uses Fredoka for typography, FiraCode Nerd Font for icons and monospace.
+Applies 24% backdrop blur to base translucent surfaces.
+
+================================================================================
+16. BASE16 MAPPING TODO
+================================================================================
+
+===== BASE16 MAPPING TODO =====
+
+Current Status: Initial palette files created for hue 345° and 260°
+
+Remaining Tasks:
+- [ ] Complete base16 color mapping validation
+- [ ] Implement opacity variants in base16 export
+- [ ] Create additional hue palettes (0°, 30°, 90°, 140°, 195°, 330°)
+- [ ] Develop automated palette generation from single hue input
+- [ ] Test base16 exports in terminal emulators
+- [ ] Validate color contrast ratios for accessibility
+- [ ] Document base16 variant usage in editors/terminals
+- [ ] Create light scheme base16 exports
+- [ ] Implement stylix integration
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
+
+For the most up-to-date information, refer to the individual files in the 
+doc/ directory. This consolidated file is provided for portability and 
+offline reference.
+
+Project Minimalist Design - A flexible design system emphasizing simplicity 
+and practicality through YAGNI and DRY principles.

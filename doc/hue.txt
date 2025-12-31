@@ -1,0 +1,24 @@
+===== HUE REFERENCE =====
+
+OKLCH Hue Values (approximate, shifted ~30° from HSL):
+Red: 30°
+Orange: 60°
+Yellow: 90°
+Lime: 120°
+Green: 140°
+Teal/Cyan: 195°
+Blue: 260°
+Purple: 290°
+Magenta: 330°
+
+Complementary Hues (+180° default):
+Red (30°) ↔ Cyan (210°) = 30° + 180°
+Yellow (90°) ↔ Blue (270°) = 90° + 180°
+Green (140°) ↔ Magenta (320°) = 140° + 180°
+Blue (260°) ↔ Yellow (80°) = 260° + 180° - 360°
+Rose (345°) ↔ Teal (165°) = 345° + 180° - 360°
+
+Calculation: (primary_hue + 180°) mod 360°
+
+Auxiliary hues in PMD use +180° offset by default for maximum contrast.
+Values outside 0-360° are automatically normalized using modulo 360°.

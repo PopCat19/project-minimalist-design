@@ -1,0 +1,13 @@
+===== HIERARCHY THROUGH VISIBILITY =====
+
+PMD establishes hierarchy through visibility properties rather than 
+decorative elements:
+
+Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 0x)
+Opacity: Subtle layering and emphasis (100% > 80% > 64% > 40% > 24% > 12% > 8%)
+Weight: Typographic emphasis (Bold > Semibold > Medium)
+Spacing: Breathing room and grouping (larger = more important)
+Radius: Element prominence (larger = more important/friendly)
+
+Combining these properties creates clear visual hierarchy without relying
+on shadows, gradients, or other decorative effects.

@@ -1,0 +1,55 @@
+# PMD Palette - Hue 260° (Blue)
+# Auxiliary hue: 80° (complement)
+#
+# OkLCH Reference Definitions:
+# Light Scheme:
+# 100x = oklch(0 0 0) - Black/lowest priority
+# 88x = oklch(0.28 0.032 0) - Primary lightness
+# 80x = oklch(0.2 0.032 0) - Secondary lightness
+# 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
+# 8x = oklch(0.88 0.056 0) - Base lightness
+# 0x = oklch(1 0 0) - White/highest priority
+# Dark Scheme:
+# 100x = oklch(1 0 0) - White/highest priority
+# 88x = oklch(0.88 0.056 0) - Primary lightness
+# 80x = oklch(0.8 0.1 0) - Secondary lightness
+# 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
+# 8x = oklch(0.2 0.032 0) - Base lightness
+# 0x = oklch(0 0 0) - Black/lowest priority
+# DEPRECATED:
+# 96x = oklch(0.96 0.016 0) - Near-white [REDUNDANT - use 100x instead]
+
+scheme: "PMD Blue"
+author: "Project Minimalist Design"
+hue: 260
+aux_hue: 80
+
+colors:
+  # 100x - White/highest priority (oklch(1 0 0))
+  base07: "FFFFFF"
+  base06: "FFFFFF"  # 32% opacity variant
+  
+  # DEPRECATED: 96x - Near-white (oklch(0.96 0.016 0)) [REDUNDANT - use 100x instead]
+  
+  # 88x - Primary lightness (oklch(0.88 0.056 0))
+  base0F: "C2C8FF"  # 100%
+  base0E: "C2C8FF"  # 48% opacity variant
+  base0D: "C2C8FF"  # 24% opacity variant
+  
+  # 88x+12 - PrimaryAux (complementary)
+  base0C: "FFFFC2"  # 100%
+  
+  # 80x - Secondary lightness (oklch(0.8 0.1 0))
+  base05: "9BA3FF"  # 100%
+  base04: "9BA3FF"  # 12% opacity variant
+  
+  # 64x -> 72x - Accent lightness (oklch(0.56 0.094 0))
+  base0B: "4755FF"  # 100%
+  
+  # 8x - Base lightness (oklch(0.2 0.032 0))
+  base01: "0B0E1E"  # 100%
+  base02: "0B0E1E"  # 40% opacity variant
+  
+  # 0x - Black/lowest priority (oklch(0 0 0))
+  base00: "000000"  # 100%
+  base03: "000000"  # 80% opacity variant

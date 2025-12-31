@@ -1,0 +1,21 @@
+===== SCALE SYSTEM =====
+
+All measurements use rem units (base-16: 16px = 1rem)
+
+Common Scales:
+0.25rem (4px) - Micro spacing, fine details
+0.5rem (8px) - Standard spacing, small elements
+0.75rem (12px) - Compact text, minor padding
+1rem (16px) - Base unit, body text, standard padding
+1.5rem (24px) - Headings, icons, moderate spacing
+2rem (32px) - Large headings, prominent spacing
+3rem (48px) - Hero text, major sections
+4rem (64px) - Oversized elements
+
+Large-Scale Values:
+32rem (512px), 48rem (768px), 64rem (1024px), 128rem (2048px)
+
+Edge Cases (unlikely in typical use):
+256rem (4096px), 512rem (8192px)
+
+Actual values depend on viewport resolution and perceived object scale.

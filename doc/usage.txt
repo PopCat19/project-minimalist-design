@@ -1,0 +1,76 @@
+===== USAGE GUIDELINES =====
+
+PMD functions as a flexible guideline rather than rigid specification 
+framework. Designers should adapt values contextually while maintaining 
+hierarchical relationships.
+
+Core Principles:
+1. Use lightness, opacity, weight, spacing, and radius for hierarchy
+2. Avoid gradients and shadows unless hierarchical clarity demands them
+3. Leverage mutable variables for global adjustments
+4. Scale selection depends on viewport and object importance
+5. Maintain relative hierarchy when adapting values
+
+General Implementation:
+- Import palette definitions from src/palette/pmd/
+- Apply font configurations from src/fonts/
+- Reference variables in your framework of choice
+- Test across multiple viewport sizes
+- Verify both light and dark schemes
+
+Nix Integration:
+
+Prerequisites:
+- Install Nix with flake support
+- Enable nix-command and flakes experimental features
+
+Development Environment:
+  nix develop
+  
+This provides a reproducible environment with:
+  - yaml2json for palette processing
+  - jq for JSON manipulation  
+  - nodejs for web tools
+  - python3 for scripting
+
+Building Base16 Themes:
+  nix build
+  
+This creates a derivation that converts PMD palettes to base16 format.
+
+NixOS Configuration:
+1. Add PMD as a flake input:
+   inputs.pmd.url = "github:yourusername/pmd";
+
+2. Reference in your system configuration:
+   environment.systemPackages = [
+     pmd.packages.${system}.default
+   ];
+
+3. Access generated themes:
+   The base16 themes will be available in the Nix store under:
+   /nix/store/*-pmd-base16/share/pmd-base16/
+
+Palette Customization:
+- Edit YAML files in src/palette/pmd/
+- Each palette requires:
+  - scheme: Color scheme name
+  - author: PMD
+  - hue: Primary hue (0-360°)
+  - aux_hue: Auxiliary hue (default: (hue + 180) mod 360)
+  - colors: base00-base0F color definitions
+
+Color Calculation:
+- Primary hue + 180° = Auxiliary hue (modulo 360°)
+- Example: 345° → (345 + 180) mod 360 = 165°
+- See doc/hue.txt for detailed hue reference
+
+Variable Usage:
+- Import src/variables/singleton.qml for QML applications
+- Reference src/fonts/*.yaml for typography settings
+- Use src/hsl2rgb.nix and src/oklch2rgb.nix for color conversion
+
+Testing:
+- Open index.html in a browser for interactive palette testing
+- Run nix build to validate theme generation
+- Test both light and dark scheme implementations

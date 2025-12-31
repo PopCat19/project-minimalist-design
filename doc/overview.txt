@@ -1,0 +1,34 @@
+===== PROJECT MINIMALIST DESIGN - OVERVIEW =====
+
+Project Minimalist Design (PMD) is a design system built on principles of 
+simplicity and practicality. The system emphasizes YAGNI (You Aren't Gonna 
+Need It) and DRY (Don't Repeat Yourself) principles.
+
+Key Characteristics:
+- Variable-based architecture for rapid theme iteration
+- Lightness-based hierarchy over decorative elements
+- OKLCH colorspace for perceptual uniformity
+- rem-based scaling (base-16)
+- Framework-agnostic implementation
+
+Light Scheme OKLCH Mapping:
+- 100x = oklch(0 0 0) - Black/lowest priority
+- 88x = oklch(0.28 0.032 0) - Primary lightness
+- 80x = oklch(0.2 0.032 0) - Secondary lightness
+- 64x -> 72x = oklch(0.56 0.094 0) - Accent lightness
+- 8x = oklch(0.88 0.056 0) - Base lightness
+- 0x = oklch(1 0 0) - White/highest priority
+
+Dark Scheme OKLCH Mapping:
+- 100x = oklch(1 0 0) - White/highest priority
+- 88x = oklch(0.88 0.056 0) - Primary lightness
+- 80x = oklch(0.8 0.1 0) - Secondary lightness
+- 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
+- 8x = oklch(0.2 0.032 0) - Base lightness
+- 0x = oklch(0 0 0) - Black/lowest priority
+
+DEPRECATED:
+- 96x = oklch(0.96 0.016 0) - Near-white [REDUNDANT - use 100x instead]
+
+The system serves as flexible guidelines rather than rigid specifications,
+encouraging consistent visual hierarchy across diverse UI/UX projects.

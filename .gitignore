@@ -1,0 +1,19 @@
+# Nix
+result
+result-*
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml

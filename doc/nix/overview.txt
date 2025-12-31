@@ -1,0 +1,10 @@
+===== NIX INTEGRATION OVERVIEW =====
+
+PMD provides Nix integration through:
+1. Flake-based configuration (flake.nix)
+2. Color conversion functions (hsl2rgb.nix, oklch2rgb.nix)
+3. Base16 export derivation (base16-export.nix)
+4. Development shell (dev-shell.nix)
+
+This enables reproducible theme generation and system-wide integration
+through NixOS configuration.

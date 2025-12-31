@@ -1,0 +1,19 @@
+===== FRAME CONVENTIONS =====
+
+Standard frame specifications for dark scheme:
+
+Border: 0.125rem (2px) default width
+Radius: 1rem (16px) or 0.5rem (8px) by prominence
+Spacing: 0.5rem (8px) or 0.25rem (4px) internal padding
+
+State Colors:
+- Boost: 88x+12 (complementary highlight)
+- Active: 88x (enabled primary state)
+- Occupied: 64x (interactive/focused elements)
+- Disabled: 88x at 24% opacity
+- Surface: 80x at 8% opacity (content layers)
+- Base-surface: 8x at 100% (solid container)
+- Base: 8x at 40% with 24% backdrop blur (translucent)
+
+For grouped components, use asymmetric radius (0.5rem on relative sides)
+to create visual connection between adjacent elements.

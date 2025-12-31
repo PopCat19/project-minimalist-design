@@ -1,0 +1,18 @@
+# PMD Fallback Font Configuration
+
+fonts:
+  sans:
+    - "system-ui"
+    - "-apple-system"
+    - "BlinkMacSystemFont"
+    - "Segoe UI"
+    - "Roboto"
+    - "sans-serif"
+    
+  mono:
+    - "ui-monospace"
+    - "SFMono-Regular"
+    - "Consolas"
+    - "Liberation Mono"
+    - "Menlo"
+    - "monospace"
