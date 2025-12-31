@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fredoka:wght@400;500;600;700&family=Rounded+Mplus+1c:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -94,22 +95,30 @@
         
         .hue-slider {
             width: 100%;
-            height: 2.5rem;
+            height: 1rem;
             -webkit-appearance: none;
             appearance: none;
             border-radius: 1rem;
             cursor: pointer;
             border: 0.125rem solid var(--base02);
+            margin: 1rem 0;
         }
         
         .hue-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 1.25rem;
+            appearance: none;
+            width: 2rem;
             height: 2.5rem;
-            background: var(--base07);
+            background: var(--base00);
+            border: 0.125rem solid var(--base07);
             border-radius: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            cursor: grab;
+            box-shadow: 0 0 0 0.125rem var(--base00);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .hue-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
         }
         
         .hue-slider::-webkit-slider-thumb:active {
@@ -135,7 +144,8 @@
         }
         
         .hue-lock-btn {
-            padding: 0.625rem;
+            width: 3.5rem;
+            height: 3.5rem;
             background: var(--base02);
             border: 0.125rem solid var(--base03);
             border-radius: 1rem;
@@ -145,6 +155,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.15s;
+            flex-shrink: 0;
         }
         
         .hue-lock-btn.active {
@@ -493,29 +504,15 @@
                 <h2 class="section-title">Export</h2>
                 <div class="export-grid">
                     <button class="export-btn" onclick="exportYAML()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <line x1="12" y1="18" x2="12" y2="12"/>
-                            <line x1="9" y1="15" x2="12" y2="12"/>
-                            <line x1="15" y1="15" x2="12" y2="12"/>
-                        </svg>
+                        <span class="material-symbols-rounded">description</span>
                         Download YAML
                     </button>
                     <button class="export-btn" onclick="exportJSON()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <line x1="16" y1="13" x2="8" y2="13"/>
-                            <line x1="16" y1="17" x2="8" y2="17"/>
-                        </svg>
+                        <span class="material-symbols-rounded">data_object</span>
                         Download JSON
                     </button>
                     <button class="export-btn" onclick="copyCSS()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
+                        <span class="material-symbols-rounded">css</span>
                         Copy CSS Variables
                     </button>
                 </div>
@@ -978,12 +975,19 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             }
             this.classList.toggle('active');
             renderColors();
+            updateLockIcon();
         });
+
+        function updateLockIcon() {
+            const btn = document.getElementById('hueLockBtn');
+            btn.innerHTML = `<span class="material-symbols-rounded">${isHueLocked ? 'lock' : 'lock_open'}</span>`;
+        }
 
         // Initialize on load to bypass browser cache of input values
         window.addEventListener('load', () => {
             updateSliderGradient();
             setHue(0);
+            updateLockIcon();
         });
     </script>
 </body>
