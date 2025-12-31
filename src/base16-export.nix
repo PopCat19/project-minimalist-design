@@ -1,7 +1,7 @@
 { pkgs, lib ? pkgs.lib }:
 
 let
-  pmdCore = import ./lib/pmd-core.nix { inherit lib; };
+  pmdCore = import ./lib/pmd-core.nix { inherit lib pkgs; inherit oklch2rgb; };
   oklch2rgb = import ./oklch2rgb.nix { inherit lib; };
 
   # Convert a PMD scheme to Base16 YAML

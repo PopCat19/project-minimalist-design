@@ -10,43 +10,38 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        pmdCore = import ./src/lib/pmd-core.nix { lib = pkgs.lib; };
-        oklch2rgb = import ./src/oklch2rgb.nix { lib = pkgs.lib; };
       in
       {
-        packages.default = import ./src/base16-export.nix { inherit pkgs; lib = pkgs.lib; };
-
+        packages.default = import ./src/base16-export.nix { inherit pkgs; };
         devShells.default = import ./src/dev-shell.nix { inherit pkgs; };
-
-        # Expose PMD library functions
-        lib = {
-          inherit (pmdCore) mkScheme getVariables dark light;
-
-          # Generate Base16 YAML string for a hue/variant
-          mkBase16Yaml = { hue, variant ? "dark" }:
-            let
-              scheme = pmdCore.mkScheme { inherit hue variant; };
-              formatHex = slot:
-                pkgs.lib.removePrefix "#" (oklch2rgb { inherit (slot) l c h; });
-              b16 = scheme.base16;
-            in
-              builtins.concatStringsSep "\n" (
-                [ "scheme: \"PMD ${toString hue}${pkgs.lib.optionalString (variant == "light") " Light"}\""
-                  "author: \"Project Minimalist Design\""
-                  "variant: \"${variant}\""
-                ] ++ map (slot: "${slot}: \"${formatHex b16.${slot}}\"")
-                  [ "base00" "base01" "base02" "base03" "base04" "base05" "base06" "base07"
-                    "base08" "base09" "base0A" "base0B" "base0C" "base0D" "base0E" "base0F" ]
-              );
-        };
       }
     ) // {
-      # System-independent library exports
-      lib = let
-        lib = nixpkgs.lib;
-        pmdCore = import ./src/lib/pmd-core.nix { inherit lib; };
-      in {
-        inherit (pmdCore) mkScheme getVariables dark light composite bake;
+      # This is the global library accessed via inputs.pmd.lib
+      lib = {
+        # Export mkWallpaper
+        mkWallpaper = { pkgs, hue, variant }: 
+          let
+            pmdCore = import ./src/lib/pmd-core.nix { 
+              inherit (pkgs) lib; 
+              inherit pkgs;
+              # Ensure oklch2rgb is imported correctly
+              oklch2rgb = import ./src/oklch2rgb.nix { inherit (pkgs) lib; };
+            };
+          in pmdCore.mkWallpaper { inherit hue variant; };
+
+        # Export mkScheme (optional, but good for consistency)
+        mkScheme = { lib, hue, variant ? "dark" }:
+          (import ./src/lib/pmd-core.nix { 
+            inherit lib; 
+            pkgs = null; # Not needed for pure math
+            oklch2rgb = null; 
+          }).mkScheme { inherit hue variant; };
       };
+      
+      # Keep your existing modules
+      homeManagerModules.default = import ./src/stylix/default.nix;
+      homeManagerModules.pmd = self.homeManagerModules.default;
+      nixosModules.default = import ./src/stylix/default.nix;
+      nixosModules.pmd = self.nixosModules.default;
     };
 }

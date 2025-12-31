@@ -1,6 +1,6 @@
 # src/lib/pmd-core.nix
 # PMD Core Library - Single Source of Truth for OKLCH Constants
-{ lib ? import <nixpkgs/lib> }:
+{ lib ? import <nixpkgs/lib>, pkgs, oklch2rgb }:
 
 let
   # PMD Variable Definitions: { l = lightness, c = chroma }
@@ -39,35 +39,62 @@ let
     muted   = bake pmd pmd."80x" 0.80;            # base03: 80x@80% on 0x
   };
 
-  # Base16 slot definitions with PMD variable mappings
-  mkBase16Slots = pmd: derived: hue: let
-    auxHue = lib.mod (hue + 180) 360;
+  mkBase16Slots = pmd: derived: root: let
+    aux = lib.mod (root + 180) 360;
+    rootC = pmd."72x".c;
+    cStep = n: let val = rootC - (n * 0.02); in if val < 0.01 then 0.01 else val;
   in {
-    # Background colors
-    base00 = { inherit (pmd."4x") l c; h = hue; desc = "Background"; };
-    base01 = { inherit (pmd."8x") l c; h = hue; desc = "Base Container"; };
-    base02 = { inherit (derived.surface) l c; h = hue; desc = "Surface/Selection"; };
-    base03 = { inherit (derived.muted) l c; h = hue; desc = "Muted/Comments"; };
+    # --- Background Stack ---
+    base00 = { inherit (pmd."4x") l c; h = root; };                # 4x (True BG)
+    base01 = { inherit (pmd."8x") l c; h = root; };                # 8x (Base)
+    base02 = { inherit (derived.surface) l c; h = root; };         # 8x + 80x @ 12%
+    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x @ 64%
 
-    # Foreground colors
-    base04 = { inherit (pmd."72x") l c; h = hue; desc = "Dark Foreground"; };
-    base05 = { inherit (pmd."80x") l c; h = hue; desc = "Body Text"; };
-    base06 = { inherit (pmd."88x") l c; h = hue; desc = "Headers/Primary"; };
-    base07 = { inherit (pmd."100x") l c; h = hue; desc = "Highest Contrast"; };
+    # --- Foreground Stack ---
+    base04 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x @ 80%
+    base05 = { inherit (pmd."80x") l c; h = root; };                # 80x (Body)
+    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Secondary)
+    base07 = { inherit (pmd."88x") l c; h = root; };                # 88x (Headers)
 
-    # Accent colors (chromatic)
-    base08 = { inherit (pmd."72x") l c; h = hue; desc = "Variables/Error"; };
-    base09 = { inherit (pmd."72x") l c; h = lib.mod (hue + 30) 360; desc = "Constants/Warning"; };
-    base0A = { inherit (pmd."80x") l c; h = lib.mod (hue + 60) 360; desc = "Classes/Info"; };
-    base0B = { inherit (pmd."72x") l c; h = auxHue; desc = "Strings/Success"; };
-    base0C = { inherit (pmd."80x") l c; h = lib.mod (auxHue + 30) 360; desc = "Support/Cyan"; };
-    base0D = { inherit (pmd."72x") l c; h = hue; desc = "Functions/Links"; };
-    base0E = { inherit (pmd."72x") l c; h = lib.mod (hue + 300) 360; desc = "Keywords/Purple"; };
-    base0F = { l = pmd."72x".l; c = pmd."72x".c * 0.8; h = lib.mod (hue + 15) 360; desc = "Deprecated"; };
+    # --- Accent Stack (Semantic Tiers) ---
+    # High Visibility Tier (Alert/Identity)
+    base08 = { inherit (pmd."88x") l c; h = aux; };                # 88x Alert (Aux)
+    base09 = { inherit (pmd."80x") l c; h = root; };               # 80x Identity (Root)
+
+    # Chroma Hierarchy Tier (72x Monochromatic)
+    base0E = { l = pmd."72x".l; c = rootC;   h = root; };          # Keywords (Vibrant)
+    base0D = { l = pmd."72x".l; c = cStep 1; h = root; };          # Functions (-0.02c)
+    base0C = { l = pmd."72x".l; c = cStep 2; h = root; };          # Support (-0.04c)
+    base0B = { l = pmd."72x".l; c = cStep 3; h = root; };          # Strings (-0.06c)
+    base0A = { l = pmd."72x".l; c = cStep 4; h = root; };          # Classes (-0.08c)
+
+    # Meta Tier
+    base0F = { inherit (bake pmd pmd."72x" 0.80) l c; h = root; };    # 72x @ 80% (Deprecated)
   };
 
+  # Generate a wallpaper derivation
+  mkWallpaper = { hue, variant, width ? 3840, height ? 2160 }: 
+    let
+      pmd = if variant == "light" then light else dark;
+      # Gradient Stop 1: Center (using 8x - Surface)
+      hex8x = oklch2rgb { inherit (pmd."8x") l c; h = hue; };
+      # Gradient Stop 2: Edges (using 4x - Background)
+      hex4x = oklch2rgb { inherit (pmd."4x") l c; h = hue; };
+    in
+    pkgs.runCommand "pmd-wallpaper.png" { 
+      nativeBuildInputs = [ pkgs.imagemagick ]; 
+    } ''
+      # 1. Create a radial gradient from Center (8x) to Edges (4x)
+      # 2. Add subtle grain (+noise)
+      # 3. Soften the noise by attenuating it
+      magick -size ${toString width}x${toString height} \
+        radial-gradient:"${hex8x}-${hex4x}" \
+        -attenuate 0.2 +noise gaussian \
+        -colorspace sRGB $out
+    '';
+
 in {
-  inherit dark light composite bake computeDerived mkBase16Slots;
+  inherit dark light composite bake computeDerived mkBase16Slots mkWallpaper;
 
   # Primary API: Generate a complete scheme
   mkScheme = { hue, variant ? "dark" }: let

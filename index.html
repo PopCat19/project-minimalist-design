@@ -506,6 +506,10 @@
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">css</span>
                         CSS Variables
                     </button>
+                    <button class="export-btn" onclick="copyNixConfig()">
+                        <span class="material-symbols-rounded" style="font-size: 1.25rem;">terminal</span>
+                        Nix Config
+                    </button>
                 </div>
             </div>
             
@@ -683,38 +687,49 @@
             { name: 'Rose', hue: 345 },
         ];
         
-        // Base16 ↔ PMD Variable Mapping (dynamic per scheme)
-        const getBase16Defs = (pmd, computed) => ({
-            bg: [
-                { id: 'base00', pmd: '4x',           desc: 'Background',         ...pmd['4x'] },
-                { id: 'base01', pmd: '8x',           desc: 'Base / Containers',  ...pmd['8x'] },
-                { id: 'base02', pmd: '8x+80x@12%',   desc: 'Surface / Selection', ...computed.surface },
-                { id: 'base03', pmd: '80x@80%',      desc: 'Muted / Comments',   ...computed.muted },
-            ],
-            fg: [
-                { id: 'base04', pmd: '72x',   desc: 'Dark Foreground',     ...pmd['72x'] },
-                { id: 'base05', pmd: '80x',   desc: 'Secondary / Body',    ...pmd['80x'] },
-                { id: 'base06', pmd: '88x',   desc: 'Primary / Headers',   ...pmd['88x'] },
-                { id: 'base07', pmd: '100x',  desc: 'Highest Contrast',    ...pmd['100x'] },
-            ],
-            accent: [
-                { id: 'base08', pmd: '72x',         desc: 'Variables / Error',   ...pmd['72x'], offset: 0 },
-                { id: 'base09', pmd: '72x+30°',     desc: 'Constants / Warning', ...pmd['72x'], offset: 30 },
-                { id: 'base0A', pmd: '80x+60°',     desc: 'Classes / Info',      ...pmd['80x'], offset: 60 },
-                { id: 'base0B', pmd: '72x aux',     desc: 'Strings / Success',   ...pmd['72x'], isAux: true },
-                { id: 'base0C', pmd: '80x aux+30°', desc: 'Support / Cyan',      ...pmd['80x'], isAux: true, offset: 30 },
-                { id: 'base0D', pmd: '72x',         desc: 'Functions / Links',   ...pmd['72x'], offset: 0 },
-                { id: 'base0E', pmd: '72x-60°',     desc: 'Keywords / Purple',   ...pmd['72x'], offset: -60 },
-                { id: 'base0F', pmd: '72x+15°',     desc: 'Deprecated / Brown',  l: pmd['72x'].l, c: pmd['72x'].c * 0.8, offset: 15 },
-            ]
-        });
+        // Base16 ↔ PMD Variable Mapping (PMD HD Specification)
+        const getBase16Defs = (pmd, computed) => {
+            const rootC = pmd['72x'].c;
+            const cStep = (n) => Math.max(0.01, rootC - (n * 0.02));
+
+            return {
+                bg: [
+                    { id: 'base00', pmd: '4x', ...pmd['4x'], desc: 'True Background' },
+                    { id: 'base01', pmd: '8x', ...pmd['8x'], desc: 'Base Container' },
+                    { id: 'base02', pmd: '8x+80x@12%', ...computed.surface, desc: 'Composited Surface/Selection' },
+                    { id: 'base03', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64), desc: 'Muted / Comments' },
+                ],
+                fg: [
+                    { id: 'base04', pmd: '80x@80%', ...bake(pmd, pmd['80x'], 0.80), desc: 'Dark Foreground / Subtext' },
+                    { id: 'base05', pmd: '80x', ...pmd['80x'], desc: 'Body Text / Labels' },
+                    { id: 'base06', pmd: '80x', ...pmd['80x'], desc: 'Headers / Selection Active' },
+                    { id: 'base07', pmd: '88x', ...pmd['88x'], desc: 'Highest Contrast Text' },
+                ],
+                accent: [
+                    // High Visibility Tier (Alert/Identity)
+                    { id: 'base08', pmd: '88x aux', l: pmd['88x'].l, c: pmd['88x'].c, isAux: true, desc: 'Alert (High Visibility)' },
+                    { id: 'base09', pmd: '80x', l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Identity (High Visibility)' },
+                    
+                    // Chroma Hierarchy Tier (72x Monochromatic)
+                    { id: 'base0A', pmd: '72x-c4', l: pmd['72x'].l, c: cStep(4), desc: 'Classes (Chroma -0.08)' },
+                    { id: 'base0B', pmd: '72x-c3', l: pmd['72x'].l, c: cStep(3), desc: 'Strings (Chroma -0.06)' },
+                    { id: 'base0C', pmd: '72x-c2', l: pmd['72x'].l, c: cStep(2), desc: 'Support (Chroma -0.04)' },
+                    { id: 'base0D', pmd: '72x-c1', l: pmd['72x'].l, c: cStep(1), desc: 'Functions (Chroma -0.02)' },
+                    { id: 'base0E', pmd: '72x', l: pmd['72x'].l, c: rootC, desc: 'Keywords (Vibrant)' },
+                    
+                    // Meta Tier
+                    { id: 'base0F', pmd: '72x@80%', ...bake(pmd, pmd['72x'], 0.80), desc: 'Deprecated (Meta)' },
+                ]
+            };
+        };
 
         // Legacy compatibility - will be updated in generatePalette
         let base16Defs = getBase16Defs(PMD_DARK, getComputed(PMD_DARK));
         
         function generatePalette() {
             const hue = currentHue;
-            const auxHue = (hue + 180) % 360;
+            // 1. Calculate Aux Hue
+            const auxHue = (currentHue + 180) % 360;
             
             // Decide which hue to use for accents
             const accentHue = isHueLocked ? lockedHueValue : hue;
@@ -744,12 +759,9 @@
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
             
-            // Accent colors (chromatic)
+            // Accent colors (monochromatic chroma hierarchy)
             base16Defs.accent.forEach(def => {
-                let h = def.isAux 
-                    ? (accentAuxHue + (def.offset || 0)) % 360 
-                    : (accentHue + (def.offset || 0)) % 360;
-                if (h < 0) h += 360;
+                let h = def.isAux ? auxHue : currentHue;
                 const rgb = oklchToRgb(def.l, def.c, h);
                 const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };
@@ -960,6 +972,18 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             const css = `:root {\n${Object.entries(colors).map(([id, c]) => `  --${id}: ${c.hex};`).join('\n')}\n}`;
             navigator.clipboard.writeText(css);
             showToast('Copied CSS variables');
+        }
+        
+        function copyNixConfig() {
+            const isDark = currentScheme === 'dark';
+            const nixSnippet = `  # PMD Design System Settings
+  theme = {
+    hue = ${currentHue};
+    variant = "${currentScheme}";
+  };`;
+            
+            navigator.clipboard.writeText(nixSnippet);
+            showToast('Copied Nix configuration snippet!');
         }
         
         function downloadFile(content, filename, type) {
