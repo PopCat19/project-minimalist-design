@@ -2,15 +2,18 @@
 
 COMPLETED:
 - [x] Implement composite stacking for base02
-- [x] Implement baked opacity for base03 and base04
+- [x] Implement baked opacity for base03, base05, base0F
 - [x] Create Light Scheme optimized OKLCH map
 - [x] Sync WebUI with base16 CSS variables
-- [x] Migrate to Chroma Stepping System (replacing Hue Rotation)
+- [x] Migrate to Chroma Stepping System
 - [x] Implement system-wide Stylix integration templates
 - [x] Implement Dynamic Wallpaper generation (ImageMagick)
+- [x] Implement Soft-Text visibility tier (base05 softening)
 
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
+- Soft Content: Body text (base05) is baked at 80% alpha to reduce fatigue
+- Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
 - Monochromatic Accents: Uses Chroma Steps to distinguish code structure
 - Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
 - Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))

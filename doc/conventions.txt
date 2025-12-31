@@ -10,7 +10,7 @@ State Colors:
 - Boost: 88x+12 (complementary highlight)
 - Active: 88x (enabled primary state)
 - Selection/Hover Border: 88x
-- Occupied: 72x (interactive/focused elements)
+- Occupied: 88x / base07 Border highlight
 - Disabled: 88x at 24% opacity
 - Surface: 8x + 80x at 12% opacity (composited stack)
 - Base: 4x (solid background)

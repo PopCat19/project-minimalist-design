@@ -4,22 +4,22 @@ PMD palettes are defined in YAML format mapping to base16 slots:
 
 Base16 Slot | PMD Mapping           | Description
 ------------|-----------------------|--------------------------
-base00      | 4x                    | True Background
-base01      | 8x                    | Base Container
-base02      | 8x + 80x @ 12%        | Composited Surface/Selection
+base00      | 4x                    | True Background (Deepest Layer)
+base01      | 8x                    | Base Container (Panels/Toolbars)
+base02      | 8x + 80x @ 12%        | Surface / Selection (Composited)
 base03      | 80x @ 64%             | Muted / Comments (Baked)
-base04      | 80x @ 80%             | Dark Foreground / Subtext
-base05      | 80x                   | Body Text / Labels
-base06      | 80x                   | Secondary Text
+base04      | 72x                   | Subtext / Secondary Metadata
+base05      | 80x @ 80%             | Soft Body Text (Main Reading)
+base06      | 80x                   | Strong Body Text / Variables
 base07      | 88x                   | Headers / Highest Contrast
-base08      | 88x aux               | Alert (Auxiliary Hue)
-base09      | 80x                   | Identity (Root Hue)
+base08      | 88x aux               | Alert (Auxiliary Hue / Max Contrast)
+base09      | 80x                   | Identity (Root Hue / Medium Contrast)
 base0A      | 72x-c4                | Classes (Chroma -0.08)
 base0B      | 72x-c3                | Strings (Chroma -0.06)
 base0C      | 72x-c2                | Support (Chroma -0.04)
 base0D      | 72x-c1                | Functions (Chroma -0.02)
-base0E      | 72x                   | Keywords (Vibrant / Full C)
-base0F      | 72x @ 80%             | Deprecated (Meta)
+base0E      | 72x                   | Keywords (Vibrant / Full Chroma)
+base0F      | 72x @ 80%             | Deprecated (Meta / Baked)
 
 Example Structure:
 scheme: "PMD [Color Name]"
@@ -34,6 +34,8 @@ Example: hue 260° → aux_hue = (260 + 180) mod 360 = 80°
 
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
+- Soft Content: Body text (base05) is baked at 80% alpha to reduce fatigue
+- Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
 - Monochromatic Accents: Uses Chroma Steps to distinguish code structure
 - Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
 - Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))

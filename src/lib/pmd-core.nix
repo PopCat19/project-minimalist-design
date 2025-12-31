@@ -43,14 +43,16 @@ let
     aux = lib.mod (root + 180) 360;
     rot = base: deg: lib.mod (base + deg + 360) 360;
   in {
-    # --- Background & Foreground Stack ---
+    # --- Background Stack ---
     base00 = { inherit (pmd."4x") l c; h = root; };                # 4x (True BG)
     base01 = { inherit (pmd."8x") l c; h = root; };                # 8x (Base)
     base02 = { inherit (derived.surface) l c; h = root; };         # 8x+80@12%
-    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x@64%
-    base04 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x@80%
-    base05 = { inherit (pmd."80x") l c; h = root; };                # 80x (Body)
-    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Secondary)
+    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x@64% (Muted)
+
+    # --- Foreground Stack: Softened Tiers ---
+    base04 = { inherit (pmd."72x") l c; h = root; };               # 72x (Subtext/Secondary FG)
+    base05 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x@80% (Softened Body)
+    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Primary FG)
     base07 = { inherit (pmd."88x") l c; h = root; };                # 88x (Headers)
 
     # --- Accent Stack: Semantic 80x Hierarchy ---

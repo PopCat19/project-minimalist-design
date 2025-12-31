@@ -794,16 +794,16 @@
 
             return {
                 bg: [
-                    { id: 'base00', pmd: '4x', ...pmd['4x'] },
-                    { id: 'base01', pmd: '8x', ...pmd['8x'] },
-                    { id: 'base02', pmd: '8x+80x@12%', ...computed.surface },
-                    { id: 'base03', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64) },
+                    { id: 'base00', pmd: '4x',           desc: 'True Background', ...pmd['4x'] },
+                    { id: 'base01', pmd: '8x',           desc: 'Base Container', ...pmd['8x'] },
+                    { id: 'base02', pmd: '8x+80x@12%',   desc: 'Surface / Selection', ...computed.surface },
+                    { id: 'base03', pmd: '80x@64%',      desc: 'Muted / Comments', ...bake(pmd, pmd['80x'], 0.64) },
                 ],
                 fg: [
-                    { id: 'base04', pmd: '80x@80%', ...bake(pmd, pmd['80x'], 0.80) },
-                    { id: 'base05', pmd: '80x', ...pmd['80x'] },
-                    { id: 'base06', pmd: '80x', ...pmd['80x'] },
-                    { id: 'base07', pmd: '88x', ...pmd['88x'] },
+                    { id: 'base04', pmd: '72x',          ...pmd['72x'], desc: 'Subtext' },
+                    { id: 'base05', pmd: '80x@80%',      ...bake(pmd, pmd['80x'], 0.80), desc: 'Soft Body' },
+                    { id: 'base06', pmd: '80x',           ...pmd['80x'], desc: 'Strong Body' },
+                    { id: 'base07', pmd: '88x',           ...pmd['88x'], desc: 'Headers' },
                 ],
                 accent: [
                     // Alerts

@@ -21,7 +21,7 @@ Nix Integration:
 
 PMD provides Nix integration through:
 1. Flake-based configuration (`pmd.lib.mkScheme`)
-2. Stylix module (`inputs.pmd.nixosModules.pmd`)
+2. Stylix module (`inputs.pmd.homeManagerModules.pmd`)
 3. Wallpaper generation (`inputs.pmd.lib.mkWallpaper`)
 
 Build: `nix build` generates dark and light themes in share/pmd-base16/.
