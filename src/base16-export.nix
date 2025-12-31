@@ -32,7 +32,7 @@ let
   #
   # Composite values (dark):
   #   base02: 8x + 80x@12% → L: 0.272, C: 0.040
-  #   base03: 80x @ 48%    → L: 0.384, C: 0.048
+  #   base03: 80x @ 80%    → L: 0.640, C: 0.080
   # ==========================================================================
 
   pmdToBase16 = hue: auxHue: isDark:
@@ -86,7 +86,7 @@ let
 
       # Computed values
       surface = composite pmd.x8 pmd.x80 0.12;  # 8x + 80x@12% stacked
-      muted   = bake pmd.x80 0.48;              # 80x @ 48% on 0x
+      muted   = bake pmd.x80 0.80;              # 80x @ 80% on 0x
 
     in {
       # ======================================================================
@@ -95,7 +95,7 @@ let
       base00 = rgbToHex (pmdColor pmd.x4.l pmd.x4.c hue);         # PMD: 4x (true background)
       base01 = rgbToHex (pmdColor pmd.x8.l pmd.x8.c hue);         # PMD: 8x (base)
       base02 = rgbToHex (pmdColor surface.l surface.c hue);       # PMD: 8x + 80x@12% (surface)
-      base03 = rgbToHex (pmdColor muted.l muted.c hue);           # PMD: 80x@48% (muted)
+      base03 = rgbToHex (pmdColor muted.l muted.c hue);           # PMD: 80x@80% (muted)
 
       # ======================================================================
       # FOREGROUND TONES (base04-base07)
@@ -136,7 +136,7 @@ let
       # Base16 Mapping:
       #   base00-01: 4x, 8x (backgrounds)
       #   base02: 8x + 80x@12% (composited surface)
-      #   base03: 80x@48% (baked muted)
+      #   base03: 80x@80% (baked muted)
       #   base04-07: 72x, 80x, 88x, 100x (foregrounds)
       #   base08-0F: 72x/80x chromatic (accents)
       #

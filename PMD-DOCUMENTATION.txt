@@ -241,6 +241,11 @@ Mono (FiraCode Nerd Font)
 - Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
 - Usage: Code snippets, monospace content, nerd font icons
 
+Typographic Shade Hierarchy:
+88x - Headers, titles, sections (primary emphasis)
+80x - Descriptions, body text, definitions (secondary emphasis)
+72x - Subtext, links, smaller text (subtle emphasis)
+
 Icon Sizing:
 - Standard: 1.5rem (24px)
 - Small: 1rem (16px)
@@ -268,7 +273,7 @@ base00-base07: Grayscale and neutral tones
 base08-base0F: Accent and semantic colors
 
 Each palette maps to PMD's lightness-based system:
-100x, 88x, 88x+12, 80x, 64x, 8x, 0x
+100x, 88x, 88x+12, 80x, 64x, 8x, 4x, 0x
 
 Multiple opacity variants are specified for each base color.
 Auxiliary hues provide complementary contrast (+180° typically).
