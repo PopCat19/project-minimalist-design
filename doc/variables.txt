@@ -2,34 +2,16 @@
 
 PMD uses mutable variables formatted as <lightness%>x<opacity%><+hue-offset>
 
-Light Scheme OKLCH Mapping:
-100x - Black/lowest priority (0% lightness) - oklch(0 0 0)
-88x - Primary (28% lightness) - oklch(0.28 0.032 0)
-88x+12 - PrimaryAux (complementary, +180° hue)
-80x - Secondary (20% lightness) - oklch(0.2 0.032 0)
-80x+12 - SecondaryAux (complementary)
-64x -> 72x - Accent (32% in OKLCH) - oklch(0.32 0.052 0)
-8x - Base (88% lightness) - oklch(0.88 0.056 0)
-4x - Deep base (16% lightness) - oklch(0.16 0.022 0)
-0x - White/highest priority (100% lightness) - oklch(1 0 0)
+OKLCH Variable Definitions (Neutral Tone L/C Values):
+Variable | Dark L / C   | Light L / C  | Purpose
+---------|--------------|--------------|-------------------------
+100x     | 1.00 / 0.000 | 0.00 / 0.000 | Max Contrast Text/Symbol
+88x      | 0.88 / 0.056 | 0.28 / 0.032 | Headers, Icons, Selection
+80x      | 0.80 / 0.100 | 0.20 / 0.032 | Body Text, Description
+72x      | 0.72 / 0.122 | 0.32 / 0.052 | Accent, Subtext, Links
+8x       | 0.20 / 0.032 | 0.88 / 0.056 | Base Containers, Surfaces
+4x       | 0.16 / 0.022 | 0.92 / 0.044 | True Background (base00)
+0x       | 0.00 / 0.000 | 1.00 / 0.000 | Black/White Tinting Anchor
 
-Dark Scheme OKLCH Mapping:
-100x - White/highest priority (100% lightness) - oklch(1 0 0)
-88x - Primary (88% lightness) - oklch(0.88 0.056 0)
-88x+12 - PrimaryAux (complementary, +180° hue)
-80x - Secondary (80% lightness) - oklch(0.8 0.1 0)
-80x+12 - SecondaryAux (complementary)
-64x -> 72x - Accent (72% in OKLCH) - oklch(0.72 0.122 0)
-8x - Base (8% lightness) - oklch(0.2 0.032 0)
-4x - Deep base (16% lightness) - oklch(0.16 0.022 0)
-0x - Black/lowest priority (0% lightness) - oklch(0 0 0)
-
-Note: OkLCH definitions use L (lightness) and C (chroma) values with hue = 0 for neutral tones.
-
-DEPRECATED:
-96x - Near-white (96% lightness) - oklch(0.96 0.016 0) [REDUNDANT - use 100x instead]
-
-Each variable supports multiple opacity variants for different use cases.
-Hue and chroma are globally mutable for theme customization.
-
+Each variable supports multiple opacity variants. 
 Auxiliary hues use +180° offset by default: aux_hue = (primary_hue + 180) mod 360

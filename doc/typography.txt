@@ -2,27 +2,26 @@
 
 Font Hierarchy:
 Bold (Fredoka Bold, Rounded Mplus 1c Bold)
-- Scales: 3rem, 2.5rem, 1rem, 0.5rem
-- Usage: Major headers, subtext elements
+- Scales: 3rem, 2.5rem, 1rem
+- Usage: Major headers, logo hero elements
 
 Semibold (Fredoka SemiBold)
 - Scales: 1rem, 0.75rem, 0.625rem
-- Usage: Section headers, titles
+- Usage: Section headers, active toggle labels
 
 Medium (Fredoka Medium, Rounded Mplus 1c Medium)
-- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
-- Usage: Body text, paragraphs, hyperlinks
+- Scales: 1.25rem, 1rem, 0.75rem
+- Usage: Body text, paragraphs, definitions
 
 Mono (FiraCode Nerd Font)
-- Scales: 1.25rem, 1rem, 0.75rem, 0.625rem
-- Usage: Code snippets, monospace content, nerd font icons
+- Scales: 1rem, 0.75rem, 0.625rem, 0.5rem
+- Usage: Code snippets, HEX/OKLCH values, icons
 
 Typographic Shade Hierarchy:
-88x - Headers, titles, sections (primary emphasis)
-80x - Descriptions, body text, definitions (secondary emphasis)
-72x - Subtext, links, smaller text (subtle emphasis)
+88x - Headers, titles, sections (Primary emphasis)
+80x - Descriptions, body text, definitions (Secondary emphasis)
+72x - Subtext, links, smaller text (Subtle emphasis)
 
 Icon Sizing:
-- Standard: 1.5rem (24px)
+- Material Symbols Standard: 1.5rem (24px)
 - Small: 1rem (16px)
-- Offset: 0.25-0.5rem larger than nearby text

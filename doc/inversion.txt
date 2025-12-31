@@ -1,17 +1,11 @@
 ===== LIGHT SCHEME INVERSION =====
 
-Light scheme derives from dark scheme through systematic lightness inversion:
+Light scheme is calculated through optimized OKLCH substitution rather than 
+simple mathematical inversion to ensure perceptual legibility:
 
-Dark → Light:
-100x (100%) → 0x (0%)
-88x (88%) → 12x (12%)
-80x (80%) → 20x (20%)
-64x (64%) → 36x (36%)
-8x (8%) → 92x (92%)
-0x (0%) → 100x (100%)
+Inversion Logic:
+- Background: From 4x (Dark) to 4x (Light) [0.16 -> 0.92]
+- Foreground: From 88x (Dark) to 88x (Light) [0.88 -> 0.28]
+- Accents: Hue and Chroma persist, Lightness adjusts to 72x level (0.32).
 
-Opacity percentages remain unchanged during inversion.
-Hue and chroma values persist across schemes.
-
-This maintains relative hierarchy while inverting the visual foundation.
-Always test both schemes for sufficient contrast and legibility.
+Opacity percentages remain unchanged. Chroma is stripped for monochrome modes.

@@ -12,25 +12,22 @@ Key Characteristics:
 - Framework-agnostic implementation
 
 Light Scheme OKLCH Mapping:
-- 100x = oklch(0 0 0) - Black/lowest priority
-- 88x = oklch(0.28 0.032 0) - Primary lightness
-- 80x = oklch(0.2 0.032 0) - Secondary lightness
-- 64x -> 72x = oklch(0.32 0.052 0) - Accent lightness
-- 8x = oklch(0.88 0.056 0) - Base lightness
-- 4x = oklch(0.16 0.022 0) - Deep base
-- 0x = oklch(1 0 0) - White/highest priority
+- 100x = oklch(0 0 0)       - Black/lowest priority
+- 88x  = oklch(0.28 0.032 0) - Primary lightness
+- 80x  = oklch(0.2 0.032 0)  - Secondary lightness
+- 72x  = oklch(0.32 0.052 0) - Accent/Subtext lightness
+- 8x   = oklch(0.88 0.056 0) - Base lightness
+- 4x   = oklch(0.92 0.044 0) - Deep base/Background
+- 0x   = oklch(1 0 0)       - White/highest priority (Tinting source)
 
 Dark Scheme OKLCH Mapping:
-- 100x = oklch(1 0 0) - White/highest priority
-- 88x = oklch(0.88 0.056 0) - Primary lightness
-- 80x = oklch(0.8 0.1 0) - Secondary lightness
-- 64x -> 72x = oklch(0.72 0.122 0) - Accent lightness
-- 8x = oklch(0.2 0.032 0) - Base lightness
-- 4x = oklch(0.16 0.022 0) - Deep base
-- 0x = oklch(0 0 0) - Black/lowest priority
-
-DEPRECATED:
-- 96x = oklch(0.96 0.016 0) - Near-white [REDUNDANT - use 100x instead]
+- 100x = oklch(1 0 0)       - White/highest priority
+- 88x  = oklch(0.88 0.056 0) - Primary lightness
+- 80x  = oklch(0.8 0.1 0)    - Secondary lightness
+- 72x  = oklch(0.72 0.122 0) - Accent/Subtext lightness
+- 8x   = oklch(0.2 0.032 0)  - Base lightness
+- 4x   = oklch(0.16 0.022 0) - Deep base/Background
+- 0x   = oklch(0 0 0)       - Black/lowest priority (Tinting source)
 
 The system serves as flexible guidelines rather than rigid specifications,
 encouraging consistent visual hierarchy across diverse UI/UX projects.

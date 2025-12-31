@@ -1,27 +1,19 @@
 ===== FRAME CONVENTIONS =====
 
-Standard frame specifications for dark scheme:
+Standard frame specifications for all schemes:
 
-Border: 0.125rem (2px) default width
-Radius: 1rem (16px) or 0.5rem (8px) by prominence
+Border: 0.125rem (2px) constant width
+Radius: 1rem (16px) constant radius
 Spacing: 0.5rem (8px) or 0.25rem (4px) internal padding
 
 State Colors:
 - Boost: 88x+12 (complementary highlight)
 - Active: 88x (enabled primary state)
-- Occupied: 64x (interactive/focused elements)
+- Selection/Hover Border: 88x
+- Occupied: 72x (interactive/focused elements)
 - Disabled: 88x at 24% opacity
-- Surface: 80x at 8% opacity (content layers)
-- Base-surface: 8x at 100% (solid container)
-- Base: 8x at 40% with 24% backdrop blur (translucent)
-
-Component Hierarchy (Top-Down / Z-Layer / Y-Axis):
-88x - Selection/hover borders, Icon/hero elements (highest priority)
-80x - Text/label elements (secondary priority)
-88x - Dropdown/trail elements (return to higher priority for navigation)
-
-Note: Icons typically take visual priority regardless of text direction 
-(RTL/LTR) due to their symbolic nature and immediate recognition at glance.
+- Surface: 8x + 80x at 12% opacity (composited stack)
+- Base: 4x (solid background)
 
 For grouped components, use asymmetric radius (0.5rem on relative sides)
 to create visual connection between adjacent elements.

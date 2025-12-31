@@ -1,22 +1,11 @@
 ===== OPACITY SYSTEM =====
 
 Standard Opacity Values:
-100% - Full visibility, solid colors
-80% - Strong presence, modal overlays
-64% - Medium translucency
-40% - Subtle base layers with backdrop blur
-32% - Hover/selection states
-24% - Disabled states, outlines
-16% - Subtle emphasis
-12% - Surface layers
-8% - Background surfaces
-0% - Fully transparent
-
-DEPRECATED:
-96% - Nearly opaque [REDUNDANT - use 100% for solid colors]
-
-Simplified Values (when granular control unnecessary):
-100%, 80%, 60%, 40%, 20%, 10%
-
-Lower opacity creates subtle layering; higher opacity demands attention.
-Combine with lightness for comprehensive visibility control.
+100% - Full visibility
+80%  - Strong presence (base03 mapping)
+64%  - Medium translucency
+40%  - Subtle base layers
+24%  - Disabled states, outlines
+12%  - Surface layers (base02 alpha component)
+8%   - Background surfaces
+0%   - Fully transparent

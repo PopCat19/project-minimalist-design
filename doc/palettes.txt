@@ -1,6 +1,18 @@
 ===== PALETTE SYSTEM =====
 
-PMD palettes are defined in YAML format with primary and auxiliary hues.
+PMD palettes are defined in YAML format mapping to base16 slots:
+
+Base16 Slot | PMD Mapping           | Description
+------------|-----------------------|--------------------------
+base00      | 4x                    | True Background
+base01      | 8x                    | Base Container
+base02      | 8x + 80x @ 12%        | Composited Surface/Selection
+base03      | 80x @ 80%             | Muted / Comments (Baked)
+base04      | 72x                   | Dark Foreground / Subtext
+base05      | 80x                   | Body Text / Labels
+base06      | 88x                   | Headers / Selection Active
+base07      | 100x                  | Highest Contrast text
+base08-base0F Accents               | 72x/80x Chromatic Variants
 
 Example Structure:
 scheme: "PMD [Color Name]"
@@ -18,7 +30,7 @@ base00-base07: Grayscale and neutral tones
 base08-base0F: Accent and semantic colors
 
 Each palette maps to PMD's lightness-based system:
-100x, 88x, 88x+12, 80x, 64x, 8x, 4x, 0x
+100x, 88x, 88x+12, 80x, 72x, 8x, 4x, 0x
 
 Multiple opacity variants are specified for each base color.
 Auxiliary hues provide complementary contrast (+180° typically).

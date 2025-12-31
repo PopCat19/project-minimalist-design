@@ -1,19 +1,9 @@
 ===== EFFECTS SYSTEM =====
 
 Backdrop Blur:
-Standard: 24% opacity
-Usage: Translucent surfaces at 8x 40%
-Purpose: Creates floating panel aesthetic
+- Standard: 24% opacity
+- Usage: Translucent surfaces at 8x 40%
 
-Guidelines:
-- Apply primarily to base layers
-- Avoid excessive blur that compromises legibility
-- Consider performance on lower-end devices
-- Effects should enhance hierarchy, not decorate arbitrarily
-
-PMD intentionally limits effects to backdrop blur, avoiding:
-- Box shadows (use lightness/opacity for depth)
-- Drop shadows (use frame hierarchy instead)
-- Gradients (use solid colors unless hierarchically necessary)
-
-This maintains the minimalist philosophy while allowing subtle depth.
+Shadows/Gradients:
+- Avoid entirely per minimalist guidelines.
+- Depth is communicated via Lightness and Borders only.
