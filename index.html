@@ -142,6 +142,23 @@
             font-family: 'FiraCode Nerd Font', 'Fira Code', monospace;
         }
         
+        .keybind-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.625rem;
+            color: var(--base04);
+            margin-bottom: 0.25rem;
+        }
+
+        .keybind-hint kbd {
+            font-family: 'FiraCode Nerd Font', 'Fira Code', monospace;
+            background: var(--base02);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            border: 0.0625rem solid var(--base03);
+        }
+        
         .hue-input:focus {
             outline: none;
             border-color: var(--base06); /* 88x - Selection Border */
@@ -305,12 +322,15 @@
         .color-swatch {
             height: 4rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 0.125rem;
             font-family: 'FiraCode Nerd Font', 'Fira Code', monospace;
-            font-size: 0.75rem;
-            font-weight: 700; /* 100x equivalent weight */
         }
+
+        .swatch-hex { font-size: 0.75rem; font-weight: 700; }
+        .swatch-oklch { font-size: 0.5rem; font-weight: 500; opacity: 0.8; }
         
         .color-info {
             padding: 0.75rem;
@@ -429,6 +449,10 @@
             <div class="logo">PMD <span>Base16</span></div>
             
             <div class="control-group">
+                <div class="keybind-hint">
+                    <span class="material-symbols-rounded" style="font-size: 0.875rem;">info</span>
+                    <span><kbd>Shift</kbd> + Click cards to copy OKLCH</span>
+                </div>
                 <label class="control-label">Primary Hue</label>
                 <div class="hue-slider-container">
                     <input type="range" class="hue-slider" id="hueSlider" min="0" max="360" value="260">
@@ -697,12 +721,11 @@
             const accentAuxHue = (accentHue + 180) % 360;
 
             const isDark = currentScheme === 'dark';
+            const { pmd: pmdVars, computed } = getPMD(isDark);
             
             document.getElementById('auxHueValue').textContent = (isHueLocked ? accentAuxHue : auxHue) + '°';
             
-            // Get scheme-specific PMD values
-            const { pmd, computed } = getPMD(isDark);
-            base16Defs = getBase16Defs(pmd, computed);
+            base16Defs = getBase16Defs(pmdVars, computed);
 
             const colors = {};
             
@@ -710,13 +733,15 @@
             base16Defs.bg.forEach(def => {
                 // Backgrounds use currentHue to maintain scheme "temperature"
                 const rgb = oklchToRgb(def.l, def.c, hue);
-                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
+                const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
             
             // Foreground colors (with subtle chroma)
             base16Defs.fg.forEach(def => {
                 const rgb = oklchToRgb(def.l, def.c, hue);
-                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb) };
+                const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
             
             // Accent colors (chromatic)
@@ -726,7 +751,8 @@
                     : (accentHue + (def.offset || 0)) % 360;
                 if (h < 0) h += 360;
                 const rgb = oklchToRgb(def.l, def.c, h);
-                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h };
+                const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
+                colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };
             });
             
             return colors;
@@ -752,15 +778,16 @@
                 const color = colors[def.id];
                 const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
                 return `
-                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                    <div class="color-card" onclick="handleColorClick(event, '${color.hex}', '${color.oklch}')">
                         <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
-                            ${color.hex}
+                            <div class="swatch-hex">${color.hex}</div>
+                            <div class="swatch-oklch">${color.oklch}</div>
                         </div>
                         <div class="color-info">
                             <div class="color-name">${def.id}</div>
                             <div class="color-desc">${def.desc}</div>
                             <div class="color-values">
-                                <span class="color-hex">${def.pmd}</span>
+                                <div class="color-hex">${def.pmd}</div>
                             </div>
                         </div>
                     </div>
@@ -773,15 +800,16 @@
                 const color = colors[def.id];
                 const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
                 return `
-                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                    <div class="color-card" onclick="handleColorClick(event, '${color.hex}', '${color.oklch}')">
                         <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
-                            ${color.hex}
+                            <div class="swatch-hex">${color.hex}</div>
+                            <div class="swatch-oklch">${color.oklch}</div>
                         </div>
                         <div class="color-info">
                             <div class="color-name">${def.id}</div>
                             <div class="color-desc">${def.desc}</div>
                             <div class="color-values">
-                                <span class="color-hex">${def.pmd}</span>
+                                <div class="color-hex">${def.pmd}</div>
                             </div>
                         </div>
                     </div>
@@ -794,15 +822,16 @@
                 const color = colors[def.id];
                 const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
                 return `
-                    <div class="color-card" onclick="copyColor('${color.hex}')">
+                    <div class="color-card" onclick="handleColorClick(event, '${color.hex}', '${color.oklch}')">
                         <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
-                            ${color.hex}
+                            <div class="swatch-hex">${color.hex}</div>
+                            <div class="swatch-oklch">${color.oklch}</div>
                         </div>
                         <div class="color-info">
                             <div class="color-name">${def.id}</div>
                             <div class="color-desc">${def.desc}</div>
                             <div class="color-values">
-                                <span class="color-hex">${def.pmd}</span>
+                                <div class="color-hex">${def.pmd}</div>
                             </div>
                         </div>
                     </div>
@@ -881,9 +910,14 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
         
-        function copyColor(hex) {
-            navigator.clipboard.writeText(hex);
-            showToast(`Copied ${hex}`);
+        function handleColorClick(event, hex, oklch) {
+            if (event.shiftKey) {
+                navigator.clipboard.writeText(oklch);
+                showToast(`Copied OKLCH: ${oklch}`);
+            } else {
+                navigator.clipboard.writeText(hex);
+                showToast(`Copied Hex: ${hex}`);
+            }
         }
         
         function exportYAML() {
