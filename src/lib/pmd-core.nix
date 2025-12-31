@@ -53,21 +53,21 @@ let
     base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Secondary)
     base07 = { inherit (pmd."88x") l c; h = root; };                # 88x (Headers)
 
-    # --- Accent Stack: 80x Dominant Hierarchy ---
+    # --- Accent Stack: Semantic 80x Hierarchy ---
     
-    # Tier 1: Functional Alert (72x Red)
-    base08 = { inherit (pmd."72x") l c; h = 30; };                # 72x @ 30° (Danger)
+    # Tier 1: Functional Alert (Deep 72x)
+    base08 = { inherit (pmd."72x") l c; h = 30; };                # Danger (Red)
 
     # Tier 2: Literal & Identity Fan (80x)
-    base09 = { inherit (pmd."80x") l c; h = root; };               # 80x Identity (Root)
-    base0A = { inherit (pmd."80x") l c; h = 60; };                 # 80x @ 60° (Warning)
-    base0B = { inherit (pmd."80x") l c; h = 290; };                # 80x @ 290° (Purple)
-    base0C = { inherit (pmd."80x") l c; h = aux; };                # 80x @ +180° (Complement)
-    base0D = { inherit (pmd."80x") l c; h = rot root 30; };        # 80x @ +30°
-    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };     # 80x @ -30°
+    base09 = { inherit (pmd."80x") l c; h = 290; };               # Constants (Purple)
+    base0A = { inherit (pmd."80x") l c; h = 60; };                 # Warning (Orange)
+    base0B = { inherit (pmd."80x") l c; h = root; };               # Strings (Identity/Root)
+    base0C = { inherit (pmd."80x") l c; h = aux; };                # Support (Complement)
+    base0D = { inherit (pmd."80x") l c; h = rot root 30; };        # Functions (Identity+)
+    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };     # Keywords (Identity-)
 
     # Tier 3: Meta
-    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x@64% (Deprecated)
+    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; }; # Meta/Deprecated
   };
 
   # Generate a wallpaper derivation
