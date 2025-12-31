@@ -237,33 +237,42 @@
             background: var(--base00);
             z-index: 2000;
             flex-direction: column;
+            overflow: hidden;
         }
 
         #docSidebar {
-            width: 280px;
+            width: 300px;
             background: var(--base01);
-            border-right: 0.125rem solid var(--base02);
+            border: none; /* Relying on surface contrast (8x vs 4x) */
             padding: 1.5rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            z-index: 100;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #docViewer {
+            transition: padding 0.2s ease;
         }
 
         .doc-nav-btn.active {
             background: var(--base02) !important;
-            border-color: var(--base06) !important; /* Active/Occupied state per Sec 4 */
-            color: var(--base06) !important;
+            border-color: var(--base07) !important; /* 88x - Occupied/Active state highlight */
+            color: var(--base07) !important;
+        }
+
+        .doc-nav-btn:hover:not(.active) {
+            border-color: var(--base05);
+            background: var(--base02);
         }
 
         #docMobileToggle {
-            display: none;
+            display: none; /* Only visible on mobile */
             padding: 0.5rem;
             background: var(--base02);
             border: 0.125rem solid var(--base03);
-            border-radius: 1rem; /* Consistent 1rem radius per Sec 4 */
+            border-radius: 1rem; /* 1rem per Sec 4 Frame Conventions */
             color: var(--base05);
             cursor: pointer;
         }
@@ -272,14 +281,18 @@
             #docMobileToggle { display: flex; }
             #docSidebar {
                 position: absolute;
-                top: 73px; /* Header height */
+                top: 73px; /* Header height offset */
                 bottom: 0;
                 left: 0;
+                z-index: 110;
                 transform: translateX(-100%);
-                border-right: 0.125rem solid var(--base03); /* Explicit border for mobile depth */
+                border-right: 0.125rem solid var(--base02); /* Minimalist edge for mobile only */
             }
             #docSidebar.open {
                 transform: translateX(0);
+            }
+            #docViewer {
+                padding: 1.5rem !important; /* Flexbox fill: reduce padding to maximize text space */
             }
         }
 
@@ -607,15 +620,15 @@
     <div class="toast" id="toast"></div>
 
     <div id="docsOverlay">
-        <header style="padding: 1rem 1.5rem; background: var(--base01); border-bottom: 0.125rem solid var(--base02); display: flex; justify-content: space-between; align-items: center;">
+        <header style="padding: 1rem 1.5rem; background: var(--base01); border-bottom: none; display: flex; justify-content: space-between; align-items: center; z-index: 120;">
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <button id="docMobileToggle" onclick="toggleDocMenu()">
                     <span class="material-symbols-rounded">menu</span>
                 </button>
-                <div class="logo">PMD <span>Docs</span></div>
+                <div class="logo" style="font-size: 1.25rem;">PMD <span>Docs</span></div>
             </div>
-            <button class="export-btn" onclick="toggleDocs()" style="width: auto; padding: 0.5rem 1rem;">
-                <span class="material-symbols-rounded" style="font-size: 1.25rem;">close</span> Close
+            <button class="export-btn" onclick="toggleDocs()" style="width: auto; padding: 0.4rem 1rem; border-color: transparent; background: var(--base02);">
+                <span class="material-symbols-rounded" style="font-size: 1.25rem; vertical-align: middle;">close</span> <span style="vertical-align: middle;">Close</span>
             </button>
         </header>
         <div style="display: flex; flex: 1; overflow: hidden;">
