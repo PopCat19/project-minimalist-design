@@ -15,5 +15,13 @@ State Colors:
 - Base-surface: 8x at 100% (solid container)
 - Base: 8x at 40% with 24% backdrop blur (translucent)
 
+Component Hierarchy (Top-Down / Z-Layer / Y-Axis):
+88x - Selection/hover borders, Icon/hero elements (highest priority)
+80x - Text/label elements (secondary priority)
+88x - Dropdown/trail elements (return to higher priority for navigation)
+
+Note: Icons typically take visual priority regardless of text direction 
+(RTL/LTR) due to their symbolic nature and immediate recognition at glance.
+
 For grouped components, use asymmetric radius (0.5rem on relative sides)
 to create visual connection between adjacent elements.

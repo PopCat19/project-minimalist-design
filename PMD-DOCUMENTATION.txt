@@ -151,11 +151,20 @@ Testing:
 PMD establishes hierarchy through visibility properties rather than 
 decorative elements:
 
+Hierarchy Framework (Top-Down / Z-Layer / Y-Axis):
 Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 4x > 0x)
 Opacity: Subtle layering and emphasis (100% > 80% > 64% > 40% > 24% > 12% > 8%)
 Weight: Typographic emphasis (Bold > Semibold > Medium)
 Spacing: Breathing room and grouping (larger = more important)
 Radius: Element prominence (larger = more important/friendly)
+
+Component Hierarchy Examples (Button/Interface Elements):
+88x - Selection/hover borders, Icon/hero elements (highest priority)
+80x - Text/label elements (secondary priority)
+88x - Dropdown/trail elements (return to higher priority for navigation)
+
+Note: Icons typically take visual priority regardless of text direction 
+(RTL/LTR) due to their symbolic nature and immediate recognition at glance.
 
 Combining these properties creates clear visual hierarchy without relying
 on shadows, gradients, or other decorative effects.
@@ -178,6 +187,14 @@ State Colors:
 - Surface: 80x at 8% opacity (content layers)
 - Base-surface: 8x at 100% (solid container)
 - Base: 8x at 40% with 24% backdrop blur (translucent)
+
+Component Hierarchy (Top-Down / Z-Layer / Y-Axis):
+88x - Selection/hover borders, Icon/hero elements (highest priority)
+80x - Text/label elements (secondary priority)
+88x - Dropdown/trail elements (return to higher priority for navigation)
+
+Note: Icons typically take visual priority regardless of text direction 
+(RTL/LTR) due to their symbolic nature and immediate recognition at glance.
 
 For grouped components, use asymmetric radius (0.5rem on relative sides)
 to create visual connection between adjacent elements.
