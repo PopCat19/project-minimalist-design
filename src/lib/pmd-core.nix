@@ -40,36 +40,34 @@ let
   };
 
   mkBase16Slots = pmd: derived: root: let
-    aux = lib.mod (root + 180) 360;
     rot = base: deg: lib.mod (base + deg + 360) 360;
   in {
     # --- Background Stack ---
-    base00 = { inherit (pmd."4x") l c; h = root; };                # 4x (True BG)
-    base01 = { inherit (pmd."8x") l c; h = root; };                # 8x (Base)
-    base02 = { inherit (derived.surface) l c; h = root; };         # 8x+80@12%
-    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };    # 80x@64% (Muted)
+    base00 = { inherit (pmd."4x") l c; h = root; };
+    base01 = { inherit (pmd."8x") l c; h = root; };
+    base02 = { inherit (derived.surface) l c; h = root; };
+    base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };
 
-    # --- Foreground Stack: Softened Tiers ---
-    base04 = { inherit (pmd."72x") l c; h = root; };               # 72x (Subtext/Secondary FG)
-    base05 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x@80% (Softened Body)
-    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x (Primary FG)
-    base07 = { inherit (pmd."88x") l c; h = root; };                # 88x (Headers)
+    # --- Foreground Stack ---
+    base04 = { inherit (pmd."72x") l c; h = root; };               # 72x Subtext
+    base05 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x@80% Soft Body
+    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x Primary FG
+    base07 = { inherit (pmd."88x") l c; h = root; };                # 88x Headers
 
-    # --- Accent Stack: Semantic 80x Hierarchy ---
+    # --- Accent Stack: Semantic Spectral Hierarchy ---
+    # Functional Tiers
+    base08 = { inherit (pmd."72x") l c; h = 30; };                # 72x@30° (Danger/Red)
+    base09 = { inherit (pmd."80x") l c; h = 290; };               # 80x@290° (Constants/Purple)
+    base0A = { inherit (pmd."80x") l c; h = 60; };                 # 80x@60° (Warning/Orange)
     
-    # Tier 1: Functional Alert (Deep 72x)
-    base08 = { inherit (pmd."72x") l c; h = 30; };                # Danger (Red)
+    # Root Spectral Cluster (Relative to Identity)
+    base0B = { inherit (pmd."80x") l c; h = rot root 90; };       # Identity + 90°
+    base0C = { inherit (pmd."80x") l c; h = rot root (-90); };    # Identity - 90°
+    base0D = { inherit (pmd."80x") l c; h = rot root 30; };       # Identity + 30°
+    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };    # Identity - 30°
 
-    # Tier 2: Literal & Identity Fan (80x)
-    base09 = { inherit (pmd."80x") l c; h = 290; };               # Constants (Purple)
-    base0A = { inherit (pmd."80x") l c; h = 60; };                 # Warning (Orange)
-    base0B = { inherit (pmd."80x") l c; h = root; };               # Strings (Identity/Root)
-    base0C = { inherit (pmd."80x") l c; h = aux; };                # Support (Complement)
-    base0D = { inherit (pmd."80x") l c; h = rot root 30; };        # Functions (Identity+)
-    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };     # Keywords (Identity-)
-
-    # Tier 3: Meta
-    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; }; # Meta/Deprecated
+    # Meta
+    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; }; # 80x@64% Baked
   };
 
   # Generate a wallpaper derivation

@@ -791,34 +791,28 @@
         // Base16 ↔ PMD Variable Mapping (PMD HD Specification)
         const getBase16Defs = (pmd, computed) => {
             const rot = (base, deg) => (base + deg + 360) % 360;
-
             return {
                 bg: [
-                    { id: 'base00', pmd: '4x',           desc: 'True Background', ...pmd['4x'] },
-                    { id: 'base01', pmd: '8x',           desc: 'Base Container', ...pmd['8x'] },
-                    { id: 'base02', pmd: '8x+80x@12%',   desc: 'Surface / Selection', ...computed.surface },
-                    { id: 'base03', pmd: '80x@64%',      desc: 'Muted / Comments', ...bake(pmd, pmd['80x'], 0.64) },
+                    { id: 'base00', pmd: '4x', desc: 'Background', ...pmd['4x'] },
+                    { id: 'base01', pmd: '8x', desc: 'Base Container', ...pmd['8x'] },
+                    { id: 'base02', pmd: '8x+80x@12%', desc: 'Surface', ...computed.surface },
+                    { id: 'base03', pmd: '80x@64%', desc: 'Muted', ...bake(pmd, pmd['80x'], 0.64) },
                 ],
                 fg: [
-                    { id: 'base04', pmd: '72x',          ...pmd['72x'], desc: 'Subtext' },
-                    { id: 'base05', pmd: '80x@80%',      ...bake(pmd, pmd['80x'], 0.80), desc: 'Soft Body' },
-                    { id: 'base06', pmd: '80x',           ...pmd['80x'], desc: 'Strong Body' },
-                    { id: 'base07', pmd: '88x',           ...pmd['88x'], desc: 'Headers' },
+                    { id: 'base04', pmd: '72x', desc: 'Subtext', ...pmd['72x'] },
+                    { id: 'base05', pmd: '80x@80%', desc: 'Soft Body', ...bake(pmd, pmd['80x'], 0.80) },
+                    { id: 'base06', pmd: '80x', desc: 'Variables', ...pmd['80x'] },
+                    { id: 'base07', pmd: '88x', desc: 'Headers', ...pmd['88x'] },
                 ],
                 accent: [
-                    // Alerts
-                    { id: 'base08', pmd: '72x@30',  l: pmd['72x'].l, c: pmd['72x'].c, overrideHue: 30,  desc: 'Danger' },
-                    
-                    // 80x Visibility Tier
+                    { id: 'base08', pmd: '72x@30', l: pmd['72x'].l, c: pmd['72x'].c, overrideHue: 30, desc: 'Danger' },
                     { id: 'base09', pmd: '80x@290', l: pmd['80x'].l, c: pmd['80x'].c, overrideHue: 290, desc: 'Constants' },
-                    { id: 'base0A', pmd: '80x@60',  l: pmd['80x'].l, c: pmd['80x'].c, overrideHue: 60,  desc: 'Warning' },
-                    { id: 'base0B', pmd: '80x',     l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Strings (Root)' },
-                    { id: 'base0C', pmd: '80x aux', l: pmd['80x'].l, c: pmd['80x'].c, isAux: true, desc: 'Support' },
-                    { id: 'base0D', pmd: '80x+30',  l: pmd['80x'].l, c: pmd['80x'].c, offset: 30,  desc: 'Functions' },
-                    { id: 'base0E', pmd: '80x-30',  l: pmd['80x'].l, c: pmd['80x'].c, offset: -30, desc: 'Keywords' },
-                    
-                    // Meta Tier
-                    { id: 'base0F', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64), desc: 'Meta' },
+                    { id: 'base0A', pmd: '80x@60', l: pmd['80x'].l, c: pmd['80x'].c, overrideHue: 60, desc: 'Warning' },
+                    { id: 'base0B', pmd: '80x+90', l: pmd['80x'].l, c: pmd['80x'].c, offset: 90, desc: 'Success' },
+                    { id: 'base0C', pmd: '80x-90', l: pmd['80x'].l, c: pmd['80x'].c, offset: -90, desc: 'Info' },
+                    { id: 'base0D', pmd: '80x+30', l: pmd['80x'].l, c: pmd['80x'].c, offset: 30, desc: 'Functions' },
+                    { id: 'base0E', pmd: '80x-30', l: pmd['80x'].l, c: pmd['80x'].c, offset: -30, desc: 'Keywords' },
+                    { id: 'base0F', pmd: '80x@64%', ...bake(pmd, pmd['80x'], 0.64), desc: 'Deprecated' },
                 ]
             };
         };
@@ -828,17 +822,12 @@
         
         function generatePalette() {
             const hue = currentHue;
-            // 1. Calculate Aux Hue
-            const auxHue = (currentHue + 180) % 360;
             
             // Decide which hue to use for accents
             const accentHue = isHueLocked ? lockedHueValue : hue;
-            const accentAuxHue = (accentHue + 180) % 360;
 
             const isDark = currentScheme === 'dark';
             const { pmd: pmdVars, computed } = getPMD(isDark);
-            
-            document.getElementById('auxHueValue').textContent = (isHueLocked ? accentAuxHue : auxHue) + '°';
             
             base16Defs = getBase16Defs(pmdVars, computed);
 
@@ -859,15 +848,13 @@
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
             
-            // Accent colors (80x dominant hierarchy)
+            // Accent colors (semantic spectral hierarchy)
             base16Defs.accent.forEach(def => {
                 let h;
                 if (def.overrideHue !== undefined) {
                     h = def.overrideHue; // Fixed semantic hues
-                } else if (def.isAux) {
-                    h = auxHue; // Complement uses auxiliary hue
                 } else if (def.offset) {
-                    h = rot(currentHue, def.offset); // Identity cluster uses spectral rotation
+                    h = rot(currentHue, def.offset); // Root spectral cluster
                 } else {
                     h = currentHue; // Default uses root hue
                 }
