@@ -48,11 +48,11 @@ let
     base02 = { inherit (derived.surface) l c; h = root; };
     base03 = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; };
 
-    # --- Foreground Stack ---
-    base04 = { inherit (pmd."72x") l c; h = root; };               # 72x Subtext
-    base05 = { inherit (bake pmd pmd."80x" 0.80) l c; h = root; };    # 80x@80% Soft Body
-    base06 = { inherit (pmd."80x") l c; h = root; };                # 80x Primary FG
-    base07 = { inherit (pmd."88x") l c; h = root; };                # 88x Headers
+    # --- Foreground Stack: Strict Visibility Hierarchy ---
+    base04 = { inherit (pmd."72x") l c; h = root; };               # 72x (Subtext)
+    base05 = { inherit (pmd."80x") l c; h = root; };               # 80x (Standard Body)
+    base06 = { inherit (pmd."88x") l c; h = root; };               # 88x (Primary Header)
+    base07 = { inherit (pmd."100x") l c; h = root; };              # 100x (Max Contrast)
 
     # --- Accent Stack: Semantic Spectral Hierarchy ---
     # Functional Tiers
