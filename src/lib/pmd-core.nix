@@ -54,20 +54,20 @@ let
     base06 = { inherit (pmd."88x") l c; h = root; };               # 88x (Primary Header)
     base07 = { inherit (pmd."100x") l c; h = root; };              # 100x (Max Contrast)
 
-    # --- Accent Stack: Semantic Spectral Hierarchy ---
-    # Functional Tiers
-    base08 = { inherit (pmd."72x") l c; h = 30; };                # 72x@30° (Danger/Red)
-    base09 = { inherit (pmd."80x") l c; h = 290; };               # 80x@290° (Constants/Purple)
-    base0A = { inherit (pmd."80x") l c; h = 60; };                 # 80x@60° (Warning/Orange)
+    # --- Accent Stack: Semantic Identity Hierarchy ---
+    # Semantic Anchors
+    base08 = { inherit (pmd."72x") l c; h = 30;  };              # Danger (72x Saturation)
+    base09 = { inherit (pmd."80x") l c; h = 290; };              # Constants (Purple)
+    base0A = { inherit (pmd."80x") l c; h = 60;  };              # Warning (Orange)
     
-    # Root Spectral Cluster (Relative to Identity)
-    base0B = { inherit (pmd."80x") l c; h = rot root 90; };       # Identity + 90°
-    base0C = { inherit (pmd."80x") l c; h = rot root (-90); };    # Identity - 90°
-    base0D = { inherit (pmd."80x") l c; h = rot root 30; };       # Identity + 30°
-    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };    # Identity - 30°
+    # Root Identity Stack (Cohesive Logic)
+    base0B = { inherit (pmd."80x") l c; h = root; };              # Strings (Root Hue)
+    base0C = { inherit (pmd."72x") l c; h = root; };              # Support (Root Hue - Depth)
+    base0D = { inherit (pmd."80x") l c; h = rot root 30; };       # Functions (Identity+)
+    base0E = { inherit (pmd."80x") l c; h = rot root (-30); };    # Keywords (Identity-)
 
     # Meta
-    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; }; # 80x@64% Baked
+    base0F = { inherit (bake pmd pmd."80x" 0.64) l c; h = root; }; # Deprecated
   };
 
   # Generate a wallpaper derivation
