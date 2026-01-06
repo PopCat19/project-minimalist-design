@@ -85,6 +85,12 @@
 
   mkBase16Slots = pmd: derived: root: let
     rot = base: deg: lib.mod (base + deg + 360) 360;
+    # Light Mode Fix: L=0.45 ensures WCAG AA contrast against L=0.92 background
+    isLight = pmd."4x".l > 0.5;
+    accentL =
+      if isLight
+      then 0.45
+      else pmd."72x".l;
   in {
     # --- Background Stack ---
     base00 = {
@@ -100,9 +106,9 @@
       h = root;
     };
     base03 = {
-      inherit (bake pmd pmd."80x" 0.64) l c;
+      inherit (bake pmd pmd."80x" 0.80) l c;
       h = root;
-    };
+    }; # Muted (80x@80%)
 
     # --- Foreground Stack: Strict Visibility Hierarchy ---
     base04 = {
@@ -122,39 +128,46 @@
       h = root;
     }; # 100x (Max Contrast)
 
-    # --- Accent Stack: Uniform 72x Tier ---
+    # --- Accent Stack: New Hues + Contrast Fix ---
     base08 = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = 30;
-    }; # Danger (Red)
+    }; # Danger (Red @ 30)
     base09 = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = 290;
-    }; # Constants (Purple)
+    }; # Constants (Purple @ 290)
     base0A = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = 60;
-    }; # Warning (Orange)
+    }; # Warning (Orange @ 60)
     base0B = {
-      inherit (pmd."72x") l c;
-      h = root;
-    }; # Strings (Root Identity)
+      l = accentL;
+      inherit (pmd."72x") c;
+      h = 145;
+    }; # Strings (Green @ 145)
     base0C = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = root;
     }; # Support (Root Identity)
     base0D = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = rot root 30;
     }; # Functions (Identity+)
     base0E = {
-      inherit (pmd."72x") l c;
+      l = accentL;
+      inherit (pmd."72x") c;
       h = rot root (-30);
-    }; # Keywords (Identity-)
+    }; # Keywords (Identity-30)
 
     # Meta
     base0F = {
-      inherit (bake pmd pmd."72x" 0.64) l c;
+      inherit (bake pmd pmd."72x" 0.80) l c;
       h = root;
     }; # Deprecated (Baked Meta)
   };
