@@ -147,12 +147,12 @@
     base0B = {
       l = accentL;
       inherit (pmd."72x") c;
-      h = 145;
+      h = root;
     }; # Strings (Green @ 145)
     base0C = {
       l = accentL;
       inherit (pmd."72x") c;
-      h = root;
+      h = 145;
     }; # Support (Root Identity)
     base0D = {
       l = accentL;
