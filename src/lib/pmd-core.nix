@@ -152,8 +152,9 @@
 
     # --- Accent Stack: Fixed Semantics ---
     base08 = {
-      inherit (pmd."danger") l c h;
-    }; # Danger
+      inherit (pmd."80x") l c;
+      h = root;
+    }; # Danger (80x @ Root)
     base09 = {
       l = accentL;
       inherit (pmd."72x") c;

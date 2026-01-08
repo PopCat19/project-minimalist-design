@@ -809,7 +809,7 @@
                     { id: 'base07', pmd: '100x',         desc: 'Max Contrast', ...pmd['100x'] },
                 ],
                 accent: [
-                    { id: 'base08', pmd: 'danger',    ...pmd['danger'], overrideHue: 30,  desc: 'Danger' },
+                    { id: 'base08', pmd: '80x',       l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Danger' },
                     { id: 'base09', pmd: '72x+290',  l: pmd['72x'].l, c: pmd['72x'].c, offset: 290, desc: 'Constants' },
                     { id: 'base0A', pmd: 'warning',   ...pmd['warning'], overrideHue: 60,  desc: 'Warning' },
                     { id: 'base0B', pmd: '72x',       l: pmd['72x'].l, c: pmd['72x'].c, desc: 'Strings' },
@@ -865,7 +865,7 @@
                 } else {
                     h = currentHue; // Default uses root hue
                 }
-                const l = (def.id === 'base0F' || (def.pmd === 'danger' || def.pmd === 'warning' || (def.l !== undefined && def.l !== pmdVars['72x'].l))) ? def.l : accentL;
+                const l = (def.id === 'base0F' || def.pmd === 'warning') ? def.l : accentL;
                 const rgb = oklchToRgb(l, def.c, h);
                 const oklchStr = `oklch(${l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };
