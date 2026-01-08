@@ -35,6 +35,17 @@
       l = 0.00;
       c = 0.000;
     };
+    # Fixed semantic accents (shared across schemes)
+    "danger" = {
+      l = 0.64;
+      c = 0.200;
+      h = 30;
+    };
+    "warning" = {
+      l = 0.72;
+      c = 0.160;
+      h = 60;
+    };
   };
 
   light = {
@@ -65,6 +76,17 @@
     "0x" = {
       l = 1.00;
       c = 0.000;
+    };
+    # Fixed semantic accents (tinted for light scheme contrast)
+    "danger" = {
+      l = 0.48;
+      c = 0.160;
+      h = 30;
+    };
+    "warning" = {
+      l = 0.48;
+      c = 0.112;
+      h = 60;
     };
   };
 
@@ -128,22 +150,18 @@
       h = root;
     }; # 100x (Max Contrast)
 
-    # --- Accent Stack: New Hues + Contrast Fix ---
+    # --- Accent Stack: Fixed Semantics ---
     base08 = {
-      l = accentL;
-      inherit (pmd."72x") c;
-      h = 30;
-    }; # Danger (Red @ 30)
+      inherit (pmd."danger") l c h;
+    }; # Danger
     base09 = {
       l = accentL;
       inherit (pmd."72x") c;
       h = rot root 290;
     }; # Constants (Purple @ Root+290)
     base0A = {
-      l = accentL;
-      inherit (pmd."72x") c;
-      h = 60;
-    }; # Warning (Orange @ 60)
+      inherit (pmd."warning") l c h;
+    }; # Warning
     base0B = {
       l = accentL;
       inherit (pmd."72x") c;
