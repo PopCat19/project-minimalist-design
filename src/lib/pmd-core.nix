@@ -161,8 +161,9 @@
       h = rot root 290;
     }; # Constants (Purple @ Root+290)
     base0A = {
-      inherit (pmd."warning") l c h;
-    }; # Warning
+      inherit (pmd."80x") l c;
+      h = root;
+    }; # Warning (80x @ Root)
     base0B = {
       inherit (pmd."72x") l c;
       h = root;
