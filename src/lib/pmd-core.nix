@@ -152,8 +152,8 @@
     base0C = {
       l = accentL;
       inherit (pmd."72x") c;
-      h = 145;
-    }; # Support (Root Identity)
+      h = rot root 140;
+    }; # Support (Root+140)
     base0D = {
       l = accentL;
       inherit (pmd."72x") c;
