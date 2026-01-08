@@ -9,6 +9,32 @@ COMPLETED:
 - [x] Implement system-wide Stylix integration templates
 - [x] Implement Dynamic Wallpaper generation (ImageMagick)
 - [x] Implement Soft-Text visibility tier (base05 softening)
+- [x] Implement OKLCH to RGB conversion using Newton-Raphson iteration
+- [x] Implement sRGB gamma correction
+- [x] Implement base16 YAML export generation
+
+OKLCH to RGB Conversion Implementation:
+The implementation uses Newton-Raphson iteration for accurate color conversion:
+
+1. Newton-Raphson Methods:
+   - sqrt(x): 15 iterations for high precision
+   - cbrt(x): 15 iterations for cube root calculation
+
+2. sRGB Gamma Correction:
+   - Linear region: v <= 0.0031308 → 12.92 * v
+   - Gamma region: v > 0.0031308 → 1.055 * v^1/2.4 - 0.055
+
+3. Color Space Conversion Pipeline:
+   - OKLCH (L, C, H) → XYZ-like intermediate space
+   - Matrix multiplication for RGB conversion
+   - Gamma correction for final sRGB output
+   - Hex encoding with 8-bit clamping
+
+4. Implementation Details:
+   - Uses fmod for angle normalization
+   - Implements sin/cos using polynomial approximation
+   - Applies proper gamut clamping (0-255 range)
+   - Outputs hex color format: #RRGGBB
 
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
@@ -22,3 +48,6 @@ Implementation Notes:
 The HD specification provides a comprehensive mapping system that ensures
 perceptual uniformity while maintaining semantic color relationships across
 different UI components and code syntax highlighting contexts.
+
+The OKLCH implementation ensures accurate color reproduction across different
+displays while maintaining the perceptual benefits of the OKLCH colorspace.

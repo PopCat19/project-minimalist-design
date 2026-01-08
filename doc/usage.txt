@@ -1,7 +1,7 @@
 ===== USAGE GUIDELINES =====
 
-PMD functions as a flexible guideline rather than rigid specification 
-framework. Designers should adapt values contextually while maintaining 
+PMD functions as a flexible guideline rather than rigid specification
+framework. Designers should adapt values contextually while maintaining
 hierarchical relationships.
 
 Core Principles:
@@ -19,19 +19,45 @@ General Implementation:
 
 Nix Integration:
 
-PMD provides Nix integration through:
-1. Flake-based configuration (`pmd.lib.mkScheme`)
-2. Stylix module (`inputs.pmd.homeManagerModules.pmd`)
-3. Wallpaper generation (`inputs.pmd.lib.mkWallpaper`)
+PMD provides comprehensive Nix integration:
 
-Build: `nix build` generates dark and light themes in share/pmd-base16/.
+1. Flake-based configuration (`pmd.lib.mkScheme`):
+   - Generates OKLCH color schemes for any hue
+   - Supports both dark and light variants
+   - Exports base16 YAML format
 
-Development Environment:
-  nix develop
-  
-This provides a reproducible environment with all necessary tools.
+2. Stylix module (`inputs.pmd.homeManagerModules.pmd`):
+   - Home Manager integration for system theming
+   - Automatic base16 theme application
+
+3. Base16 Export (`pmd.lib.schemeToYaml`):
+   - Converts PMD schemes to base16 YAML format
+   - Outputs standard base16 color slots
+
+4. Theme Generation (`nix build`):
+   - Builds dark and light themes
+   - Outputs to share/pmd-base16/
+   - Ready for integration with base16-enabled applications
 
 Building Base16 Themes:
   nix build
-  
+
 This creates a derivation that converts PMD palettes to base16 format.
+Output is located at:
+  result/share/pmd-base16/pmd-dark.yaml
+  result/share/pmd-base16/pmd-light.yaml
+
+Development Environment:
+  nix develop
+
+This provides a reproducible environment with tools:
+  - yaml2json: Convert YAML to JSON
+  - jq: JSON processing
+  - nodejs: JavaScript runtime
+  - python3: Python environment
+
+Direct Imports (Advanced):
+  pmdCore = import ./lib/pmd-core.nix { inherit lib pkgs; }
+  oklch2rgb = import ./oklch2rgb.nix { inherit lib; }
+  scheme = pmdCore.mkScheme { hue = 260; variant = "dark"; }
+  hexColor = oklch2rgb { inherit (scheme.base16.base00) l c h; }

@@ -1,5 +1,3 @@
-# PMD Fallback Font Configuration
-
 fonts:
   sans:
     - "system-ui"
@@ -8,7 +6,7 @@ fonts:
     - "Segoe UI"
     - "Roboto"
     - "sans-serif"
-    
+
   mono:
     - "ui-monospace"
     - "SFMono-Regular"
