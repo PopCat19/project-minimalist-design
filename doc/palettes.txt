@@ -21,6 +21,19 @@ base0D      | 72x-c1                | Functions (Chroma -0.02)
 base0E      | 72x                   | Keywords (Vibrant / Full Chroma)
 base0F      | 72x @ 80%             | Deprecated (Meta / Baked)
 
+Base16 YAML Structure:
+The palette system exports to base16 YAML format with the following structure:
+- scheme: "PMD [Hue] [Variant]" (e.g., "PMD 260 Dark")
+- author: "Project Minimalist Design"
+- variant: "dark" or "light"
+- base00-base0F: Hex color values (6 characters, no # prefix)
+
+Generation Process:
+1. PMD scheme is defined in OKLCH color space
+2. OKLCH values are converted to RGB via Newton-Raphson iteration
+3. RGB values are converted to sRGB hex format
+4. Output is written to base16 YAML files
+
 Example Structure:
 scheme: "PMD [Color Name]"
 author: "Project Minimalist Design"

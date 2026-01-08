@@ -13,5 +13,32 @@ Variable | Dark L / C   | Light L / C  | Purpose
 4x       | 0.16 / 0.022 | 0.92 / 0.044 | True Background (base00)
 0x       | 0.00 / 0.000 | 1.00 / 0.000 | Black/White Tinting Anchor
 
-Each variable supports multiple opacity variants. 
-Auxiliary hues use +180° offset by default: aux_hue = (primary_hue + 180) mod 360
+Opacity Variants:
+Each variable supports multiple opacity variants:
+- @100% - Full visibility (no suffix)
+- @80%  - Soft content (base03, base05, base0F)
+- @64%  - Muted elements (base03)
+- @40%  - Subtle layers
+- @24%  - Disabled states, hover overlays
+- @12%  - Surface layers (base02 compositing)
+- @8%   - Background surfaces
+
+Auxiliary Hue System:
+Auxiliary hues use +180° offset by default:
+aux_hue = (primary_hue + 180) mod 360
+
+Chroma Stepping for Syntax Highlighting:
+The chroma stepping system distinguishes code elements:
+base0A: 72x-c4  - Classes (rootC - 0.08)
+base0B: 72x-c3  - Strings (rootC - 0.06)
+base0C: 72x-c2  - Support (rootC - 0.04)
+base0D: 72x-c1  - Functions (rootC - 0.02)
+base0E: 72x     - Keywords (full chroma)
+
+Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
+
+Color Conversion:
+PMD uses pure Nix implementation for OKLCH to RGB conversion:
+- Newton-Raphson iteration for sqrt/cbrt
+- sRGB gamma correction
+- 8-bit hex output (#RRGGBB format)

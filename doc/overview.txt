@@ -1,7 +1,7 @@
 ===== PROJECT MINIMALIST DESIGN - OVERVIEW =====
 
-Project Minimalist Design (PMD) is a design system built on principles of 
-simplicity and practicality. The system emphasizes YAGNI (You Aren't Gonna 
+Project Minimalist Design (PMD) is a design system built on principles of
+simplicity and practicality. The system emphasizes YAGNI (You Aren't Gonna
 Need It) and DRY (Don't Repeat Yourself) principles.
 
 Key Characteristics:
@@ -10,6 +10,15 @@ Key Characteristics:
 - OKLCH colorspace for perceptual uniformity
 - rem-based scaling (base-16)
 - Framework-agnostic implementation
+- Native Nix integration for theme generation
+
+OKLCH to RGB Conversion:
+PMD includes a complete OKLCH to RGB conversion implementation using Newton-
+Raphson iteration for accurate perceptual color conversion. The implementation:
+- Uses Newton-Raphson method for sqrt and cbrt calculations
+- Applies gamma correction (sRGB transfer function)
+- Converts OKLCH to linear RGB, then to sRGB
+- Outputs 8-bit hex color values
 
 Light Scheme OKLCH Mapping:
 - 100x = oklch(0 0 0)       - Black/lowest priority
