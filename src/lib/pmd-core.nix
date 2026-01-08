@@ -137,8 +137,8 @@
     base09 = {
       l = accentL;
       inherit (pmd."72x") c;
-      h = 290;
-    }; # Constants (Purple @ 290)
+      h = rot root 290;
+    }; # Constants (Purple @ Root+290)
     base0A = {
       l = accentL;
       inherit (pmd."72x") c;
