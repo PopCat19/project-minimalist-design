@@ -11,7 +11,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Base16 CSS Variables - Updated dynamically by JS */
+        /* Base16 CSS Variables */
         :root {
             --base00: #000000;
             --base01: #2B2532;
@@ -33,7 +33,7 @@
 
         body {
             font-family: 'Fredoka', 'Rounded Mplus 1c', system-ui, sans-serif;
-            font-weight: 500; /* Medium per PMD spec */
+            font-weight: 500;
             background: var(--base00);
             color: var(--base05);
             min-height: 100vh;
@@ -66,12 +66,12 @@
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            color: var(--base06); /* 88x - Hero */
+            color: var(--base06);
         }
 
         .logo span {
             font-weight: 400;
-            color: var(--base05); /* 80x - Secondary Hero text */
+            color: var(--base05);
         }
 
         /* Controls */
@@ -86,7 +86,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--base06); /* 88x - Section Title */
+            color: var(--base06);
         }
 
         .hue-slider-container {
@@ -137,7 +137,7 @@
             background: var(--base02);
             border: 0.125rem solid var(--base03);
             border-radius: 1rem;
-            color: var(--base05); /* 80x - Label */
+            color: var(--base05);
             font-size: 1rem;
             font-family: 'FiraCode Nerd Font', 'Fira Code', monospace;
         }
@@ -161,7 +161,7 @@
 
         .hue-input:focus {
             outline: none;
-            border-color: var(--base06); /* 88x - Selection Border */
+            border-color: var(--base06);
         }
 
         .aux-display {
@@ -243,7 +243,7 @@
         #docSidebar {
             width: 300px;
             background: var(--base01);
-            border: none; /* Relying on surface contrast (8x vs 4x) */
+            border: none;
             padding: 1.5rem;
             overflow-y: auto;
             display: flex;
@@ -258,7 +258,7 @@
 
         .doc-nav-btn.active {
             background: var(--base02) !important;
-            border-color: var(--base07) !important; /* 88x - Occupied/Active state highlight */
+            border-color: var(--base07) !important;
             color: var(--base07) !important;
         }
 
@@ -268,11 +268,11 @@
         }
 
         #docMobileToggle {
-            display: none; /* Only visible on mobile */
+            display: none;
             padding: 0.5rem;
             background: var(--base02);
             border: 0.125rem solid var(--base03);
-            border-radius: 1rem; /* 1rem per Sec 4 Frame Conventions */
+            border-radius: 1rem;
             color: var(--base05);
             cursor: pointer;
         }
@@ -281,18 +281,18 @@
             #docMobileToggle { display: flex; }
             #docSidebar {
                 position: absolute;
-                top: 73px; /* Header height offset */
+                top: 73px;
                 bottom: 0;
                 left: 0;
                 z-index: 110;
                 transform: translateX(-100%);
-                border-right: 0.125rem solid var(--base02); /* Minimalist edge for mobile only */
+                border-right: 0.125rem solid var(--base02);
             }
             #docSidebar.open {
                 transform: translateX(0);
             }
             #docViewer {
-                padding: 1.5rem !important; /* Flexbox fill: reduce padding to maximize text space */
+                padding: 1.5rem;
             }
         }
 
@@ -359,7 +359,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--base06); /* 88x - Header */
+            color: var(--base06);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -389,7 +389,7 @@
         }
 
         .color-card:hover {
-            border-color: var(--base06); /* 88x - Hover Border */
+            border-color: var(--base06);
             transform: translateY(-2px);
         }
 
@@ -411,7 +411,7 @@
         }
 
         .color-name {
-            font-weight: 600; /* Semibold */
+            font-weight: 600;
             font-size: 0.875rem;
             margin-bottom: 0.125rem;
             color: var(--base06);
@@ -447,17 +447,17 @@
             padding: 0.75rem 1rem;
             font-size: 0.875rem;
             font-weight: 500;
-            color: var(--base05); /* 80x - Label */
+            color: var(--base05);
         }
 
         .export-btn span {
-            color: var(--base06); /* 88x - Icon Hero */
+            color: var(--base06);
         }
 
         .export-btn:hover {
             background: var(--base02);
-            border-color: var(--base06); /* 88x - Selection/Hover */
-            color: var(--base06); /* Upgrade label to 88x on hover */
+            border-color: var(--base06);
+            color: var(--base06);
         }
 
         .export-btn svg {
@@ -472,8 +472,8 @@
             bottom: 1.5rem;
             left: 50%;
             transform: translateX(-50%) translateY(100%);
-            background: var(--base06); /* 88x - Hero notice */
-            color: var(--base00); /* High contrast */
+            background: var(--base06);
+            color: var(--base00);
             padding: 0.75rem 1.25rem;
             border-radius: 1rem;
             font-size: 0.875rem;
@@ -640,7 +640,6 @@
     </div>
 
     <script>
-        // OKLCH to sRGB conversion (proper implementation)
         function oklchToRgb(l, c, h) {
             // OKLCH to OKLab
             const hRad = h * Math.PI / 180;
@@ -676,7 +675,6 @@
             };
         }
 
-        // HSL to RGB (for presets display)
         function hslToRgb(h, s, l) {
             h /= 360;
             const a = s * Math.min(l, 1 - l);
@@ -706,33 +704,7 @@
         let isHueLocked = false;
         let lockedHueValue = 0;
 
-        // =======================================================================
-        // PMD VARIABLE SYSTEM (OKLCH)
-        // =======================================================================
-        // DARK SCHEME:
-        //   100x = oklch(1.00 0.000 h)
-        //   88x  = oklch(0.88 0.056 h)
-        //   80x  = oklch(0.80 0.100 h)
-        //   72x  = oklch(0.72 0.122 h)
-        //   8x   = oklch(0.20 0.032 h)
-        //   4x   = oklch(0.16 0.022 h)
-        //   0x   = oklch(0.00 0.000 h)
-        //
-        // LIGHT SCHEME (inverted):
-        //   100x = oklch(0.00 0.000 h)
-        //   88x  = oklch(0.28 0.032 h)
-        //   80x  = oklch(0.20 0.032 h)
-        //   72x  = oklch(0.56 0.094 h)
-        //   8x   = oklch(0.88 0.056 h)
-        //   4x   = oklch(0.92 0.044 h)
-        //   0x   = oklch(1.00 0.000 h)
-        //
-        // Compositing: result = bg * (1 - alpha) + fg * alpha
-        //   base02: 8x + 80x@12% (surface stack)
-        //   base03: 80x@80% (baked muted)
-        // =======================================================================
 
-        // PMD Variable definitions { lightness, chroma } per scheme
         const PMD_DARK = {
             '100x': { l: 1.00, c: 0.000 },
             '88x':  { l: 0.88, c: 0.056 },
@@ -757,25 +729,22 @@
             'warning': { l: 0.48, c: 0.112, h: 60 },
         };
 
-        // Alpha composite: bg * (1 - alpha) + fg * alpha
         const composite = (bg, fg, alpha) => ({
             l: bg.l * (1 - alpha) + fg.l * alpha,
             c: bg.c * (1 - alpha) + fg.c * alpha
         });
 
-        // Bake on 0x background
+
         const bake = (pmd, fg, alpha) => composite(pmd['0x'], fg, alpha);
 
-        // Spectral rotation utility
+
         const rot = (base, deg) => (base + deg + 360) % 360;
 
-        // Get computed values for current scheme
         const getComputed = (pmd) => ({
-            surface: composite(pmd['8x'], pmd['80x'], 0.12),  // 8x + 80x@12%
-            muted:   bake(pmd, pmd['80x'], 0.80),             // 80x@80% on 0x
+            surface: composite(pmd['8x'], pmd['80x'], 0.12),
+            muted:   bake(pmd, pmd['80x'], 0.80),
         });
 
-        // Get PMD and computed values for scheme
         const getPMD = (isDark) => {
             const pmd = isDark ? PMD_DARK : PMD_LIGHT;
             return { pmd, computed: getComputed(pmd) };
@@ -792,7 +761,7 @@
             { name: 'Rose', hue: 345 },
         ];
 
-        // Base16 ↔ PMD Variable Mapping (PMD HD Specification)
+
         const getBase16Defs = (pmd, computed) => {
             const rot = (base, deg) => (base + deg + 360) % 360;
             return {
@@ -821,49 +790,48 @@
             };
         };
 
-        // Legacy compatibility - will be updated in generatePalette
+
         let base16Defs = getBase16Defs(PMD_DARK, getComputed(PMD_DARK));
 
         function generatePalette() {
             const hue = currentHue;
 
-            // Decide which hue to use for accents
+
             const accentHue = isHueLocked ? lockedHueValue : hue;
 
             const isDark = currentScheme === 'dark';
             const { pmd: pmdVars, computed } = getPMD(isDark);
 
-            // Light Mode Fix
+
             const accentL = !isDark ? 0.45 : pmdVars['72x'].l;
 
             base16Defs = getBase16Defs(pmdVars, computed);
 
             const colors = {};
 
-            // Background colors (with hue tint via chroma)
+
             base16Defs.bg.forEach(def => {
-                // Backgrounds use currentHue to maintain scheme "temperature"
                 const rgb = oklchToRgb(def.l, def.c, hue);
                 const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
 
-            // Foreground colors (with subtle chroma)
+
             base16Defs.fg.forEach(def => {
                 const rgb = oklchToRgb(def.l, def.c, hue);
                 const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
                 colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
             });
 
-            // Accent colors (semantic spectral hierarchy)
+
             base16Defs.accent.forEach(def => {
                 let h;
                 if (def.overrideHue !== undefined) {
-                    h = def.overrideHue; // Fixed semantic hues
+                    h = def.overrideHue;
                 } else if (def.offset) {
-                    h = rot(currentHue, def.offset); // Root spectral cluster
+                    h = rot(currentHue, def.offset);
                 } else {
-                    h = currentHue; // Default uses root hue
+                    h = currentHue;
                 }
                 const l = (def.id === 'base0F' || def.pmd === '88x' || def.pmd === '80x') ? def.l : accentL;
                 const rgb = oklchToRgb(l, def.c, h);
@@ -874,7 +842,7 @@
             return colors;
         }
 
-        // Apply base16 colors to CSS custom properties
+
         function applyThemeToUI(colors) {
             const root = document.documentElement;
             Object.entries(colors).forEach(([id, color]) => {
@@ -885,10 +853,8 @@
         function renderColors() {
             const colors = generatePalette();
 
-            // Apply colors to UI
             applyThemeToUI(colors);
 
-            // Background colors
             const bgGrid = document.getElementById('bgColors');
             bgGrid.innerHTML = base16Defs.bg.map(def => {
                 const color = colors[def.id];
@@ -910,7 +876,6 @@
                 `;
             }).join('');
 
-            // Foreground colors
             const fgGrid = document.getElementById('fgColors');
             fgGrid.innerHTML = base16Defs.fg.map(def => {
                 const color = colors[def.id];
@@ -932,7 +897,6 @@
                 `;
             }).join('');
 
-            // Accent colors
             const accentGrid = document.getElementById('accentColors');
             accentGrid.innerHTML = base16Defs.accent.map(def => {
                 const color = colors[def.id];
@@ -954,15 +918,14 @@
                 `;
             }).join('');
 
-            // Code preview
             renderCodePreview(colors);
         }
 
-        // Generate a perceptually accurate OKLCH gradient for the slider
+
         function updateSliderGradient() {
             const slider = document.getElementById('hueSlider');
             const stops = [];
-            // Use 72x L/C values for the slider preview
+
             for (let i = 0; i <= 360; i += 30) {
                 const rgb = oklchToRgb(0.72, 0.122, i);
                 stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
@@ -1041,8 +1004,6 @@
             const auxHue = (currentHue + 180) % 360;
 
             const yaml = `# PMD Base16 Theme
-# base03: 80x@80% (muted)
-# base02: 8x + 80x@12% (surface)
 scheme: "PMD Custom${currentScheme === 'light' ? ' Light' : ''}"
 author: "Project Minimalist Design"
 variant: "${currentScheme}"
@@ -1090,7 +1051,7 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             showToast('Copied Nix configuration snippet!');
         }
 
-        // Documentation System
+
         const pmdDocs = [
             { name: 'Overview', path: 'doc/overview.txt' },
             { name: 'Variables', path: 'doc/variables.txt' },
@@ -1130,23 +1091,23 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
         async function loadDoc(path) {
             const viewer = document.getElementById('docViewer');
 
-            // Update Radio State
+
             document.querySelectorAll('.doc-nav-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.path === path);
             });
 
-            // Auto-close mobile drawer on selection
+
             document.getElementById('docSidebar').classList.remove('open');
 
 
-            // Local Protocol Check (CORS Restriction)
+
             if (window.location.protocol === 'file:') {
                 viewer.innerHTML = `
                     <div style="max-width: 750px; margin: 0 auto; white-space: normal; border: 0.125rem solid var(--base08); border-radius: 1rem; background: var(--base01); overflow: hidden;">
                         <div style="background: var(--base08); color: var(--base00); padding: 0.875rem 1.5rem; font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
                             <span class="material-symbols-rounded" style="font-size: 1.25rem;">security</span>
                             <span style="letter-spacing: 0.05em; font-size: 0.8125rem;">LOCAL_SECURITY_RESTRICTION</span>
-                            <span style="width: 1.25rem;"></span> <!-- Spacer for centering -->
+                            <span style="width: 1.25rem;"></span>
                         </div>
                         <div style="padding: 2rem;">
                             <p style="margin-bottom: 1.5rem; color: var(--base05); font-weight: 500;">
@@ -1155,8 +1116,7 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
                             </p>
 
                             <div style="background: var(--base00); border: 0.125rem solid var(--base02); border-radius: 0.75rem; padding: 1.5rem; font-family: 'FiraCode Nerd Font', monospace;">
-                                <div style="color: var(--base03); margin-bottom: 0.75rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem;"># Start a local server in this directory</div>
-                                <div style="color: var(--base0B); font-size: 0.875rem;">$ python3 -m http.server 8080</div>
+                                <div style="color: var(--base03); margin-bottom: 0.75rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">$ python3 -m http.server 8080</div>
                             </div>
 
                             <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 0.125rem solid var(--base02); display: flex; justify-content: space-between; align-items: center;">
@@ -1192,7 +1152,6 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             URL.revokeObjectURL(url);
         }
 
-        // Event listeners
         document.getElementById('hueSlider').addEventListener('input', (e) => {
             setHue(parseInt(e.target.value));
         });
@@ -1212,7 +1171,6 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             });
         });
 
-        // Add hue lock functionality
         document.getElementById('hueLockBtn').addEventListener('click', function() {
             isHueLocked = !isHueLocked;
             if (isHueLocked) {
@@ -1223,7 +1181,6 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
             this.textContent = isHueLocked ? 'Unlock Accent Hue' : 'Lock Accent Hue';
         });
 
-        // Initialize on load to bypass browser cache of input values
         window.addEventListener('load', () => {
             updateSliderGradient();
             setHue(0);

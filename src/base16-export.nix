@@ -8,7 +8,6 @@
   };
   oklch2rgb = import ./oklch2rgb.nix {inherit lib;};
 
-  # Convert a PMD scheme to Base16 YAML
   schemeToYaml = scheme: let
     formatHex = slot: let
       rgb = oklch2rgb {inherit (slot) l c h;};
@@ -38,7 +37,6 @@
     base0F: "${formatHex b16.base0F}"
   '';
 
-  # Generate themes for a given hue
   mkThemes = hue: {
     dark = schemeToYaml (pmdCore.mkScheme {
       inherit hue;

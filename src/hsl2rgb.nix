@@ -1,8 +1,4 @@
-_:
-# Convert HSL to RGB
-# h: hue (0-360), s: saturation (0-1), l: lightness (0-1)
-# Returns: { r, g, b } where each is 0-255
-hue: sat: light: let
+_: hue: sat: light: let
   h = hue / 360.0;
   s = sat;
   l = light;
