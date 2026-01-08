@@ -164,9 +164,9 @@
       inherit (pmd."warning") l c h;
     }; # Warning
     base0B = {
-      inherit (pmd."80x") l c;
+      inherit (pmd."72x") l c;
       h = root;
-    }; # Strings (80x @ Root)
+    }; # Strings (72x @ Root)
     base0C = {
       l = accentL;
       inherit (pmd."72x") c;
