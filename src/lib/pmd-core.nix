@@ -95,7 +95,7 @@
   bake = pmd: fg: alpha: composite pmd."0x" fg alpha;
 
   computeDerived = pmd: {
-    surface = composite pmd."8x" pmd."80x" 0.12;
+    surface = composite pmd."8x" pmd."80x" 0.16;
     muted = bake pmd pmd."80x" 0.80;
   };
 

@@ -741,7 +741,7 @@
         const rot = (base, deg) => (base + deg + 360) % 360;
 
         const getComputed = (pmd) => ({
-            surface: composite(pmd['8x'], pmd['80x'], 0.12),
+            surface: composite(pmd['8x'], pmd['80x'], 0.16),
             muted:   bake(pmd, pmd['80x'], 0.80),
         });
 
@@ -768,7 +768,7 @@
                 bg: [
                     { id: 'base00', pmd: '4x', desc: 'Background', ...pmd['4x'] },
                     { id: 'base01', pmd: '8x', desc: 'Base Container', ...pmd['8x'] },
-                    { id: 'base02', pmd: '8x+80x@12%', desc: 'Surface', ...computed.surface },
+                    { id: 'base02', pmd: '8x+80x@16%', desc: 'Surface', ...computed.surface },
                     { id: 'base03', pmd: '80x@80%', desc: 'Muted', ...bake(pmd, pmd['80x'], 0.80) },
                 ],
                 fg: [

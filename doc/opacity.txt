@@ -6,6 +6,6 @@ Standard Opacity Values:
 64%  - Medium translucency
 40%  - Subtle base layers
 24%  - Disabled states, outlines
-12%  - Surface layers (base02 alpha component)
+16%  - Surface layers (base02 alpha component)
 8%   - Background surfaces
 0%   - Fully transparent

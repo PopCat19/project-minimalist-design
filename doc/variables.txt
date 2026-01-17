@@ -20,7 +20,7 @@ Each variable supports multiple opacity variants:
 - @64%  - Muted elements (base03)
 - @40%  - Subtle layers
 - @24%  - Disabled states, hover overlays
-- @12%  - Surface layers (base02 compositing)
+- @16%  - Surface layers (base02 compositing)
 - @8%   - Background surfaces
 
 Auxiliary Hue System:

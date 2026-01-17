@@ -12,7 +12,7 @@ State Colors:
 - Selection/Hover Border: 88x
 - Occupied: 88x / base07 Border highlight
 - Disabled: 88x at 24% opacity
-- Surface: 8x + 80x at 12% opacity (composited stack)
+- Surface: 8x + 80x at 16% opacity (composited stack)
 - Base: 4x (solid background)
 
 For grouped components, use asymmetric radius (0.5rem on relative sides)
