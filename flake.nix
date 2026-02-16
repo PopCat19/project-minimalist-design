@@ -23,9 +23,7 @@
       }
     )
     // {
-      # This is the global library accessed via inputs.pmd.lib
       lib = {
-        # Export mkWallpaper
         mkWallpaper =
           {
             pkgs,
@@ -36,13 +34,11 @@
             pmdCore = import ./src/lib/pmd-core.nix {
               inherit (pkgs) lib;
               inherit pkgs;
-              # Ensure oklch2rgb is imported correctly
               oklch2rgb = import ./src/oklch2rgb.nix { inherit (pkgs) lib; };
             };
           in
           pmdCore.mkWallpaper { inherit hue variant; };
 
-        # Export mkScheme (optional, but good for consistency)
         mkScheme =
           {
             lib,
@@ -51,13 +47,12 @@
           }:
           (import ./src/lib/pmd-core.nix {
             inherit lib;
-            pkgs = null; # Not needed for pure math
+            pkgs = null;
             oklch2rgb = null;
           }).mkScheme
             { inherit hue variant; };
       };
 
-      # Keep your existing modules
       homeManagerModules.default = import ./src/stylix/default.nix;
       homeManagerModules.pmd = self.homeManagerModules.default;
       nixosModules.default = import ./src/stylix/default.nix;
