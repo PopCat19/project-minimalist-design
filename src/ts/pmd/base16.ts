@@ -47,20 +47,20 @@ export function getBase16Defs(pmd: PMDVariables, computed: ReturnType<typeof get
             { id: 'base03', pmd: '80x@80%', desc: 'Muted', l: computed.muted.l, c: computed.muted.c },
         ],
         fg: [
-            { id: 'base04', pmd: '72x', desc: 'Subtext', ...pmd['72x'] },
+            { id: 'base04', pmd: '64x', desc: 'Subtext', ...pmd['64x'] },
             { id: 'base05', pmd: '80x', desc: 'Body Text', ...pmd['80x'] },
             { id: 'base06', pmd: '88x', desc: 'Headers', ...pmd['88x'] },
             { id: 'base07', pmd: '100x', desc: 'Max Contrast', ...pmd['100x'] },
         ],
         accent: [
             { id: 'base08', pmd: '88x', l: pmd['88x'].l, c: pmd['88x'].c, desc: 'Danger' },
-            { id: 'base09', pmd: '72x+290', l: pmd['72x'].l, c: pmd['72x'].c, offset: 290, desc: 'Constants' },
+            { id: 'base09', pmd: '64x+290', l: pmd['64x'].l, c: pmd['64x'].c, offset: 290, desc: 'Constants' },
             { id: 'base0A', pmd: '80x', l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Warning' },
-            { id: 'base0B', pmd: '72x', l: pmd['72x'].l, c: pmd['72x'].c, desc: 'Strings' },
+            { id: 'base0B', pmd: '64x', l: pmd['64x'].l, c: pmd['64x'].c, desc: 'Strings' },
             { id: 'base0C', pmd: '80x+140', l: pmd['80x'].l, c: pmd['80x'].c, offset: 140, desc: 'Support' },
-            { id: 'base0D', pmd: '72x+30', l: pmd['72x'].l, c: pmd['72x'].c, offset: 30, desc: 'Functions' },
-            { id: 'base0E', pmd: '72x-30', l: pmd['72x'].l, c: pmd['72x'].c, offset: -30, desc: 'Keywords' },
-            { id: 'base0F', pmd: '72x@80%', l: computed.muted.l, c: computed.muted.c, desc: 'Meta' },
+            { id: 'base0D', pmd: '64x+30', l: pmd['64x'].l, c: pmd['64x'].c, offset: 30, desc: 'Functions' },
+            { id: 'base0E', pmd: '64x-30', l: pmd['64x'].l, c: pmd['64x'].c, offset: -30, desc: 'Keywords' },
+            { id: 'base0F', pmd: '64x@80%', l: computed.muted.l, c: computed.muted.c, desc: 'Meta' },
         ],
     };
 }
@@ -75,7 +75,7 @@ export function generatePalette(
 ): Base16Palette {
     const defs = getBase16Defs(pmd, computed);
     const accentHue = isHueLocked ? lockedHueValue : hue;
-    const accentL = !isDark ? 0.45 : pmd['72x'].l;
+    const accentL = !isDark ? 0.45 : pmd['64x'].l;
     const colors: Base16Palette = {};
 
     [...defs.bg, ...defs.fg].forEach(def => {

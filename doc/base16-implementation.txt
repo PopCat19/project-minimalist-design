@@ -38,7 +38,7 @@ The implementation uses Newton-Raphson iteration for accurate color conversion:
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
 - Soft Content: Muted text (base03) is baked at 80% alpha
-- Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
+- Physical Metadata: Subtext (base04) is dropped to the 64x lightness tier
 - Hue Rotation: Accent colors use fixed hue offsets for distinction
 - Functional Aux: Uses (Root + 180°) for complementary contrast
 

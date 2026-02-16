@@ -8,18 +8,18 @@ base00      | 4x                    | True Background (Deepest Layer)
 base01      | 8x                    | Base Container (Panels/Toolbars)
 base02      | 8x+80x@16%            | Surface / Selection (Composited)
 base03      | 80x @ 80%             | Muted / Comments (Baked)
-base04      | 72x                   | Subtext / Secondary Metadata
+base04      | 64x                   | Subtext / Secondary Metadata
 base05      | 80x                   | Body Text (Main Reading)
 base06      | 88x                   | Headers / Strong Text
 base07      | 100x                  | Max Contrast Text/Symbol
 base08      | 88x                   | Alert / Danger (Root Hue)
-base09      | 72x +290°             | Constants (Hue Rotated)
+base09      | 64x +290°             | Constants (Hue Rotated)
 base0A      | 80x                   | Warning / Classes (Root Hue)
-base0B      | 72x                   | Strings (Root Hue)
+base0B      | 64x                   | Strings (Root Hue)
 base0C      | 80x +140°             | Support (Hue Rotated)
-base0D      | 72x +30°              | Functions (Hue Rotated)
-base0E      | 72x -30°              | Keywords (Hue Rotated)
-base0F      | 72x @ 80%             | Deprecated (Meta / Baked)
+base0D      | 64x +30°              | Functions (Hue Rotated)
+base0E      | 64x -30°              | Keywords (Hue Rotated)
+base0F      | 64x @ 80%             | Deprecated (Meta / Baked)
 
 Base16 YAML Structure:
 The palette system exports to base16 YAML format with the following structure:
@@ -48,7 +48,7 @@ Example: hue 260° → aux_hue = (260 + 180) mod 360 = 80°
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
 - Soft Content: Muted text (base03) is baked at 80% alpha
-- Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
+- Physical Metadata: Subtext (base04) is dropped to the 64x lightness tier
 - Hue Rotation: Accent colors use hue offsets for distinction
 - Functional Aux: Uses (Root + 180°) for complementary contrast
 
@@ -64,7 +64,7 @@ base00-base07: Grayscale and neutral tones
 base08-base0F: Accent and semantic colors
 
 Each palette maps to PMD's lightness-based system:
-100x, 88x, 80x, 72x, 8x, 4x, 0x
+100x, 88x, 80x, 64x, 8x, 4x, 0x
 
 Multiple opacity variants are specified for each base color.
 Auxiliary hues provide complementary contrast (+180° typically).

@@ -30,7 +30,7 @@ export function renderPresets(
     if (!container) return;
 
     const pmd = isDark ? PMD_DARK : PMD_LIGHT;
-    const theme = pmd['72x'];
+    const theme = pmd['64x'];
 
     container.innerHTML = presets.map(preset => {
         const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
@@ -55,7 +55,7 @@ export function updateSliderGradient(sliderId: string, isDark: boolean): void {
     const slider = document.getElementById(sliderId) as HTMLInputElement;
     if (!slider) return;
 
-    const theme = (isDark ? PMD_DARK : PMD_LIGHT)['72x'];
+    const theme = (isDark ? PMD_DARK : PMD_LIGHT)['64x'];
     const stops: string[] = [];
     for (let i = 0; i <= HUE_MAX; i += GRADIENT_STEP) {
         const rgb = oklchToRgb(theme.l, theme.c, i);
