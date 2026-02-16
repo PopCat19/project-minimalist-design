@@ -1,3 +1,12 @@
+# default.nix
+#
+# Purpose: Stylix integration module for PMD theme system
+#
+# This module:
+# - Defines PMD configuration options
+# - Generates base16 palette for Stylix
+# - Creates wallpapers from PMD color system
+
 {
   config,
   lib,

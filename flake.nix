@@ -1,3 +1,12 @@
+# flake.nix
+#
+# Purpose: Defines the Nix flake outputs for PMD design system
+#
+# This module:
+# - Exposes base16 theme packages
+# - Provides library functions for wallpaper and scheme generation
+# - Exports Home Manager and NixOS modules
+
 {
   description = "Project Minimalist Design - A flexible design system";
 

@@ -1,3 +1,12 @@
+# pmd-core.nix
+#
+# Purpose: Core library for PMD color system calculations
+#
+# This module:
+# - Defines dark and light color variable sets
+# - Provides base16 slot generation
+# - Generates wallpapers and color schemes
+
 {
   lib ? import <nixpkgs/lib>,
   pkgs,

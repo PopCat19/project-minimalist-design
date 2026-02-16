@@ -1,3 +1,12 @@
+# base16-export.nix
+#
+# Purpose: Exports PMD color schemes as Base16 YAML files
+#
+# This module:
+# - Generates dark and light theme YAML files
+# - Provides scheme-to-YAML conversion utilities
+# - Creates distributable theme packages
+
 {
   pkgs,
   lib ? pkgs.lib,

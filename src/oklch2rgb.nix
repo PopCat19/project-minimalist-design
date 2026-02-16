@@ -1,3 +1,12 @@
+# oklch2rgb.nix
+#
+# Purpose: Converts OKLCH color values to hexadecimal RGB
+#
+# This module:
+# - Implements OKLCH to OKLab transformation
+# - Converts OKLab to linear sRGB
+# - Applies gamma correction and outputs hex
+
 _:
 {
   l,

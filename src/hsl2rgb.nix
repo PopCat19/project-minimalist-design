@@ -1,3 +1,11 @@
+# hsl2rgb.nix
+#
+# Purpose: Converts HSL color values to RGB
+#
+# This module:
+# - Transforms HSL to RGB color space
+# - Returns red, green, blue components
+
 _: hue: sat: light:
 let
   h = hue / 360.0;

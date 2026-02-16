@@ -1,3 +1,11 @@
+# dev-shell.nix
+#
+# Purpose: Development environment shell for PMD project
+#
+# This module:
+# - Provides yaml2json, jq, nodejs, python3 tools
+# - Displays environment info on shell entry
+
 {
   pkgs ? import <nixpkgs> { },
 }:
