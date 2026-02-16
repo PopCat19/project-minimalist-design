@@ -37,13 +37,49 @@ let base16Defs: ReturnType<typeof getBase16Defs>;
 function toggleSidebar(): void {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
-    sidebar?.classList.toggle('open');
-    overlay?.classList.toggle('show');
+    const isOpen = sidebar?.classList.toggle('open');
+    overlay?.classList.toggle('show', isOpen ?? false);
+    document.body.classList.toggle('no-scroll', isOpen ?? false);
 }
 
 function toggleExportSheet(): void {
     const sheet = document.getElementById('exportSheet');
-    sheet?.classList.toggle('show');
+    const isOpen = sheet?.classList.toggle('show');
+    document.body.classList.toggle('no-scroll', isOpen ?? false);
+}
+
+let sheetStartY = 0;
+let sheetCurrentY = 0;
+const SHEET_CLOSE_THRESHOLD = 100;
+
+function initSheetGesture(): void {
+    const sheet = document.getElementById('exportSheet');
+    if (!sheet) return;
+
+    sheet.addEventListener('touchstart', (e) => {
+        sheetStartY = e.touches[0].clientY;
+        sheet.style.transition = 'none';
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', (e) => {
+        sheetCurrentY = e.touches[0].clientY;
+        const diff = sheetCurrentY - sheetStartY;
+        if (diff > 0) {
+            sheet.style.transform = `translateY(${diff}px)`;
+        }
+    }, { passive: true });
+
+    sheet.addEventListener('touchend', () => {
+        const diff = sheetCurrentY - sheetStartY;
+        sheet.style.transition = '';
+        sheet.style.transform = '';
+        if (diff > SHEET_CLOSE_THRESHOLD) {
+            sheet.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+        }
+        sheetStartY = 0;
+        sheetCurrentY = 0;
+    });
 }
 
 function setHue(hue: number): void {
@@ -87,6 +123,22 @@ function initEventListeners(): void {
     sidebarOverlay?.addEventListener('click', toggleSidebar);
     fabBtn?.addEventListener('click', toggleExportSheet);
     exportSheetClose?.addEventListener('click', toggleExportSheet);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const sidebar = document.getElementById('sidebar');
+            const exportSheet = document.getElementById('exportSheet');
+            const docsOverlay = document.getElementById('docsOverlay');
+
+            if (exportSheet?.classList.contains('show')) {
+                toggleExportSheet();
+            } else if (sidebar?.classList.contains('open')) {
+                toggleSidebar();
+            } else if (docsOverlay?.style.display === 'flex') {
+                toggleDocs();
+            }
+        }
+    });
 
     const hueSlider = document.getElementById('hueSlider') as HTMLInputElement;
     if (hueSlider) {
@@ -146,6 +198,7 @@ function init(): void {
     window.copyNixConfig = () => copyNixConfig(currentHue, currentScheme);
 
     initEventListeners();
+    initSheetGesture();
 
     updateSliderGradient('hueSlider');
     setHue(30);

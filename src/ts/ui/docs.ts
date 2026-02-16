@@ -24,6 +24,7 @@ export function toggleDocs(): void {
     if (!overlay) return;
     docsOpen = !docsOpen;
     overlay.style.display = docsOpen ? 'flex' : 'none';
+    document.body.classList.toggle('no-scroll', docsOpen);
     if (docsOpen && document.getElementById('docSidebar')?.children.length === 0) {
         renderDocSidebar();
     }
@@ -31,7 +32,9 @@ export function toggleDocs(): void {
 
 export function toggleDocMenu(): void {
     const sidebar = document.getElementById('docSidebar');
-    sidebar?.classList.toggle('open');
+    const backdrop = document.getElementById('docBackdrop');
+    const isOpen = sidebar?.classList.toggle('open');
+    backdrop?.classList.toggle('show', isOpen ?? false);
 }
 
 export function renderDocSidebar(): void {

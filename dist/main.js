@@ -278,13 +278,16 @@ function toggleDocs() {
     return;
   docsOpen = !docsOpen;
   overlay.style.display = docsOpen ? "flex" : "none";
+  document.body.classList.toggle("no-scroll", docsOpen);
   if (docsOpen && document.getElementById("docSidebar")?.children.length === 0) {
     renderDocSidebar();
   }
 }
 function toggleDocMenu() {
   const sidebar = document.getElementById("docSidebar");
-  sidebar?.classList.toggle("open");
+  const backdrop = document.getElementById("docBackdrop");
+  const isOpen = sidebar?.classList.toggle("open");
+  backdrop?.classList.toggle("show", isOpen ?? false);
 }
 function renderDocSidebar() {
   const sidebar = document.getElementById("docSidebar");
@@ -406,12 +409,44 @@ var base16Defs;
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("sidebarOverlay");
-  sidebar?.classList.toggle("open");
-  overlay?.classList.toggle("show");
+  const isOpen = sidebar?.classList.toggle("open");
+  overlay?.classList.toggle("show", isOpen ?? false);
+  document.body.classList.toggle("no-scroll", isOpen ?? false);
 }
 function toggleExportSheet() {
   const sheet = document.getElementById("exportSheet");
-  sheet?.classList.toggle("show");
+  const isOpen = sheet?.classList.toggle("show");
+  document.body.classList.toggle("no-scroll", isOpen ?? false);
+}
+var sheetStartY = 0;
+var sheetCurrentY = 0;
+var SHEET_CLOSE_THRESHOLD = 100;
+function initSheetGesture() {
+  const sheet = document.getElementById("exportSheet");
+  if (!sheet)
+    return;
+  sheet.addEventListener("touchstart", (e) => {
+    sheetStartY = e.touches[0].clientY;
+    sheet.style.transition = "none";
+  }, { passive: true });
+  sheet.addEventListener("touchmove", (e) => {
+    sheetCurrentY = e.touches[0].clientY;
+    const diff = sheetCurrentY - sheetStartY;
+    if (diff > 0) {
+      sheet.style.transform = `translateY(${diff}px)`;
+    }
+  }, { passive: true });
+  sheet.addEventListener("touchend", () => {
+    const diff = sheetCurrentY - sheetStartY;
+    sheet.style.transition = "";
+    sheet.style.transform = "";
+    if (diff > SHEET_CLOSE_THRESHOLD) {
+      sheet.classList.remove("show");
+      document.body.classList.remove("no-scroll");
+    }
+    sheetStartY = 0;
+    sheetCurrentY = 0;
+  });
 }
 function setHue(hue) {
   currentHue = parseInt(String(hue));
@@ -448,6 +483,20 @@ function initEventListeners() {
   sidebarOverlay?.addEventListener("click", toggleSidebar);
   fabBtn?.addEventListener("click", toggleExportSheet);
   exportSheetClose?.addEventListener("click", toggleExportSheet);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const sidebar = document.getElementById("sidebar");
+      const exportSheet = document.getElementById("exportSheet");
+      const docsOverlay = document.getElementById("docsOverlay");
+      if (exportSheet?.classList.contains("show")) {
+        toggleExportSheet();
+      } else if (sidebar?.classList.contains("open")) {
+        toggleSidebar();
+      } else if (docsOverlay?.style.display === "flex") {
+        toggleDocs();
+      }
+    }
+  });
   const hueSlider = document.getElementById("hueSlider");
   if (hueSlider) {
     hueSlider.addEventListener("input", (e) => {
@@ -500,6 +549,7 @@ function init() {
   window.copyCSS = () => copyCSS(getColors());
   window.copyNixConfig = () => copyNixConfig(currentHue, currentScheme);
   initEventListeners();
+  initSheetGesture();
   updateSliderGradient("hueSlider");
   setHue(30);
 }

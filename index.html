@@ -51,6 +51,11 @@
             line-height: 1.5;
         }
 
+        body.no-scroll {
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
         .layout {
             display: grid;
             grid-template-columns: var(--sidebar-width) 1fr;
@@ -91,6 +96,10 @@
         .menu-btn:hover, .menu-btn:active {
             background: var(--base03);
             border-color: var(--base04);
+        }
+
+        .menu-btn:active {
+            transform: scale(0.95);
         }
 
         .sidebar-overlay {
@@ -257,6 +266,10 @@
             z-index: 1;
         }
 
+        .preset:active {
+            transform: scale(0.95);
+        }
+
         .preset::after {
             content: attr(data-name);
             position: absolute;
@@ -309,6 +322,10 @@
             color: var(--base06);
         }
 
+        .scheme-btn:active, .action-btn:active {
+            transform: scale(0.97);
+        }
+
         .main {
             padding: 1.5rem;
             overflow-y: auto;
@@ -355,6 +372,10 @@
         .color-card:hover {
             border-color: var(--base06);
             transform: translateY(-2px);
+        }
+
+        .color-card:active {
+            transform: translateY(0) scale(0.98);
         }
 
         .color-swatch {
@@ -503,6 +524,10 @@
             box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
+        .fab:active {
+            transform: scale(0.95);
+        }
+
         @media (max-width: 900px) {
             .layout {
                 grid-template-columns: 1fr;
@@ -576,8 +601,8 @@
 
         @media (max-width: 480px) {
             .presets {
-                grid-template-columns: repeat(8, 1fr);
-                gap: 0.375rem;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.5rem;
             }
 
             .preset {
@@ -632,6 +657,20 @@
             overflow: hidden;
         }
 
+        .doc-backdrop {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 105;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .doc-backdrop.show {
+            opacity: 1;
+        }
+
         #docSidebar {
             width: 300px;
             background: var(--base01);
@@ -671,9 +710,10 @@
 
         @media (max-width: 900px) {
             #docMobileToggle { display: flex; }
+            .doc-backdrop { display: block; }
             #docSidebar {
                 position: absolute;
-                top: 73px;
+                top: 0;
                 bottom: 0;
                 left: 0;
                 z-index: 110;
@@ -682,6 +722,11 @@
             }
             #docSidebar.open {
                 transform: translateX(0);
+            }
+            #docSidebar.open + .doc-backdrop,
+            .doc-backdrop.show {
+                opacity: 1;
+                pointer-events: auto;
             }
             #docViewer {
                 padding: 1.5rem;
@@ -704,15 +749,25 @@
             background: var(--base01);
             border-top: 0.125rem solid var(--base02);
             border-radius: 1.5rem 1.5rem 0 0;
-            padding: 1.5rem;
+            padding: 0.5rem 1.5rem 1.5rem;
             padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0));
             z-index: 250;
             transform: translateY(100%);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: none;
         }
 
         .export-sheet.show {
             transform: translateY(0);
+        }
+
+        .export-sheet-handle {
+            width: 2.5rem;
+            height: 0.25rem;
+            background: var(--base04);
+            border-radius: 0.125rem;
+            margin: 0 auto 1rem;
+            opacity: 0.5;
         }
 
         .export-sheet-header {
@@ -766,6 +821,10 @@
         .export-sheet-btn:hover, .export-sheet-btn:active {
             border-color: var(--base06);
             color: var(--base06);
+        }
+
+        .export-sheet-btn:active {
+            transform: scale(0.97);
         }
 
         .export-sheet-btn span:first-child {
@@ -890,6 +949,7 @@
     </button>
 
     <div class="export-sheet" id="exportSheet">
+        <div class="export-sheet-handle" id="exportSheetHandle"></div>
         <div class="export-sheet-header">
             <span class="export-sheet-title">Export Theme</span>
             <button class="export-sheet-close" id="exportSheetClose" aria-label="Close">
@@ -923,7 +983,7 @@
     <div class="toast" id="toast"></div>
 
     <div id="docsOverlay">
-        <header style="padding: 1rem 1.5rem; background: var(--base01); border-bottom: none; display: flex; justify-content: space-between; align-items: center; z-index: 120;">
+        <header style="padding: 1rem 1.5rem; background: var(--base01); border-bottom: none; display: flex; justify-content: space-between; align-items: center; z-index: 120; position: relative;">
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <button id="docMobileToggle" onclick="toggleDocMenu()">
                     <span class="material-symbols-rounded">menu</span>
@@ -934,7 +994,8 @@
                 <span class="material-symbols-rounded" style="font-size: 1.25rem; vertical-align: middle;">close</span> <span style="vertical-align: middle;">Close</span>
             </button>
         </header>
-        <div style="display: flex; flex: 1; overflow: hidden;">
+        <div style="display: flex; flex: 1; overflow: hidden; position: relative;">
+            <div class="doc-backdrop" id="docBackdrop" onclick="toggleDocMenu()"></div>
             <aside id="docSidebar"></aside>
             <main id="docViewer" style="flex: 1; padding: 3rem; overflow-y: auto; font-family: 'FiraCode Nerd Font', 'Fira Code', monospace; white-space: pre-wrap; color: var(--base05); font-size: 0.9375rem; line-height: 1.6;">
                 <div style="max-width: 850px; margin: 0 auto; color: var(--base03);">Select a document from the sidebar to view the design system specifications.</div>
