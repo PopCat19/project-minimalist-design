@@ -122,7 +122,7 @@ function init(): void {
     initEventListeners();
 
     updateSliderGradient('hueSlider');
-    setHue(260);
+    setHue(30);
 }
 
 if (typeof window !== 'undefined') {

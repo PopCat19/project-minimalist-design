@@ -463,7 +463,7 @@ function init() {
   window.copyNixConfig = () => copyNixConfig(currentHue, currentScheme);
   initEventListeners();
   updateSliderGradient("hueSlider");
-  setHue(260);
+  setHue(30);
 }
 if (typeof window !== "undefined") {
   window.addEventListener("load", init);
