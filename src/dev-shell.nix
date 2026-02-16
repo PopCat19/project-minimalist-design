@@ -18,7 +18,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    echo "Project Minimalist Design development environment"
-    echo "Available tools: yaml2json, jq, bun, python3"
+    echo "PMD • bun run build"
   '';
 }
