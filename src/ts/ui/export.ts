@@ -1,15 +1,25 @@
 import type { Base16Palette } from '../pmd';
+import { getAuxHue } from '../pmd';
 import { showToast, downloadFile } from './render';
 
+function getThemeMeta(hue: number, scheme: string): { name: string; hue: number; auxHue: number; variant: string } {
+    return {
+        name: `PMD Custom${scheme === 'light' ? ' Light' : ''}`,
+        hue,
+        auxHue: getAuxHue(hue),
+        variant: scheme,
+    };
+}
+
 export function exportYAML(colors: Base16Palette, currentHue: number, currentScheme: string): void {
-    const auxHue = (currentHue + 180) % 360;
+    const meta = getThemeMeta(currentHue, currentScheme);
 
     const yaml = `# PMD Base16 Theme
-scheme: "PMD Custom${currentScheme === 'light' ? ' Light' : ''}"
+scheme: "${meta.name}"
 author: "Project Minimalist Design"
-variant: "${currentScheme}"
-hue: ${currentHue}
-aux_hue: ${auxHue}
+variant: "${meta.variant}"
+hue: ${meta.hue}
+aux_hue: ${meta.auxHue}
 ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n')}`;
 
     downloadFile(yaml, `pmd-theme-${currentScheme}.yaml`, 'text/yaml');
@@ -17,14 +27,14 @@ ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join('\n
 }
 
 export function exportJSON(colors: Base16Palette, currentHue: number, currentScheme: string): void {
-    const auxHue = (currentHue + 180) % 360;
+    const meta = getThemeMeta(currentHue, currentScheme);
 
     const json = JSON.stringify({
-        scheme: `PMD Custom${currentScheme === 'light' ? ' Light' : ''}`,
+        scheme: meta.name,
         author: "Project Minimalist Design",
-        variant: currentScheme,
-        hue: currentHue,
-        aux_hue: auxHue,
+        variant: meta.variant,
+        hue: meta.hue,
+        aux_hue: meta.auxHue,
         ...Object.fromEntries(Object.entries(colors).map(([id, c]) => [id, c.hex.slice(1)]))
     }, null, 2);
 

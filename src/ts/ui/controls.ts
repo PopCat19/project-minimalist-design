@@ -1,4 +1,7 @@
 import { oklchToRgb, rgbToHex } from '../color';
+import { PMD_DARK, PMD_LIGHT, HUE_MAX } from '../pmd';
+
+const GRADIENT_STEP = 30;
 
 interface Preset {
     name: string;
@@ -26,9 +29,8 @@ export function renderPresets(
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const theme = isDark
-        ? { l: 0.72, c: 0.122 }
-        : { l: 0.32, c: 0.052 };
+    const pmd = isDark ? PMD_DARK : PMD_LIGHT;
+    const theme = pmd['72x'];
 
     container.innerHTML = presets.map(preset => {
         const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
@@ -53,9 +55,10 @@ export function updateSliderGradient(sliderId: string): void {
     const slider = document.getElementById(sliderId) as HTMLInputElement;
     if (!slider) return;
 
+    const theme = PMD_DARK['72x'];
     const stops: string[] = [];
-    for (let i = 0; i <= 360; i += 30) {
-        const rgb = oklchToRgb(0.72, 0.122, i);
+    for (let i = 0; i <= HUE_MAX; i += GRADIENT_STEP) {
+        const rgb = oklchToRgb(theme.l, theme.c, i);
         stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
     }
     slider.style.background = `linear-gradient(to right, ${stops.join(', ')})`;

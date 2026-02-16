@@ -1,7 +1,9 @@
 import type { RGB } from '../color';
 import { oklchToRgb, rgbToHex } from '../color';
 import type { PMDVariables, PMDVariable } from './variables';
-import { getComputed } from './variables';
+import { getComputed, HUE_MAX } from './variables';
+
+const OKLCH_PRECISION = 3;
 
 export interface Base16Def {
     id: string;
@@ -25,7 +27,11 @@ export interface Base16Palette {
 }
 
 function rot(base: number, deg: number): number {
-    return (base + deg + 360) % 360;
+    return (base + deg + HUE_MAX) % HUE_MAX;
+}
+
+function formatOklch(l: number, c: number, h: number): string {
+    return `oklch(${l.toFixed(OKLCH_PRECISION)} ${c.toFixed(OKLCH_PRECISION)} ${Math.round(h)})`;
 }
 
 export function getBase16Defs(pmd: PMDVariables, computed: ReturnType<typeof getComputed>): {
@@ -74,8 +80,7 @@ export function generatePalette(
 
     [...defs.bg, ...defs.fg].forEach(def => {
         const rgb = oklchToRgb(def.l, def.c, hue);
-        const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
-        colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
+        colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: formatOklch(def.l, def.c, hue) };
     });
 
     defs.accent.forEach(def => {
@@ -89,8 +94,7 @@ export function generatePalette(
         }
         const l = (def.id === 'base0F' || def.pmd === '88x' || def.pmd === '80x' || def.pmd === '80x+140') ? def.l : accentL;
         const rgb = oklchToRgb(l, def.c, h);
-        const oklchStr = `oklch(${l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
-        colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };
+        colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: formatOklch(l, def.c, h) };
     });
 
     return colors;

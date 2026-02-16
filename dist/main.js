@@ -36,6 +36,11 @@ function getComputed(pmd) {
     muted: bake(pmd, pmd["80x"], 0.8)
   };
 }
+var HUE_MAX = 360;
+var AUX_HUE_OFFSET = 180;
+function getAuxHue(hue) {
+  return (hue + AUX_HUE_OFFSET) % HUE_MAX;
+}
 function getPMD(isDark) {
   const pmd = isDark ? PMD_DARK : PMD_LIGHT;
   return { pmd, computed: getComputed(pmd) };
@@ -70,8 +75,12 @@ function getContrastColor(r, g, b) {
   return luminance > 0.5 ? "#000000" : "#FFFFFF";
 }
 // src/ts/pmd/base16.ts
+var OKLCH_PRECISION = 3;
 function rot(base, deg) {
-  return (base + deg + 360) % 360;
+  return (base + deg + HUE_MAX) % HUE_MAX;
+}
+function formatOklch(l, c, h) {
+  return `oklch(${l.toFixed(OKLCH_PRECISION)} ${c.toFixed(OKLCH_PRECISION)} ${Math.round(h)})`;
 }
 function getBase16Defs(pmd, computed) {
   return {
@@ -106,8 +115,7 @@ function generatePalette(hue, pmd, computed, isDark, isHueLocked, lockedHueValue
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {
     const rgb = oklchToRgb(def.l, def.c, hue);
-    const oklchStr = `oklch(${def.l.toFixed(3)} ${def.c.toFixed(3)} ${hue})`;
-    colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: oklchStr };
+    colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), oklch: formatOklch(def.l, def.c, hue) };
   });
   defs.accent.forEach((def) => {
     let h;
@@ -120,8 +128,7 @@ function generatePalette(hue, pmd, computed, isDark, isHueLocked, lockedHueValue
     }
     const l = def.id === "base0F" || def.pmd === "88x" || def.pmd === "80x" || def.pmd === "80x+140" ? def.l : accentL;
     const rgb = oklchToRgb(l, def.c, h);
-    const oklchStr = `oklch(${l.toFixed(3)} ${def.c.toFixed(3)} ${Math.round(h)})`;
-    colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: oklchStr };
+    colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: formatOklch(l, def.c, h) };
   });
   return colors;
 }
@@ -208,6 +215,7 @@ function renderCodePreview(colors, currentHue) {
     `;
 }
 // src/ts/ui/controls.ts
+var GRADIENT_STEP = 30;
 var presets = [
   { name: "Red", hue: 30 },
   { name: "Orange", hue: 60 },
@@ -222,7 +230,8 @@ function renderPresets(containerId, isDark, setHueCallback) {
   const container = document.getElementById(containerId);
   if (!container)
     return;
-  const theme = isDark ? { l: 0.72, c: 0.122 } : { l: 0.32, c: 0.052 };
+  const pmd = isDark ? PMD_DARK : PMD_LIGHT;
+  const theme = pmd["72x"];
   container.innerHTML = presets.map((preset) => {
     const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
     const hex = rgbToHex(rgb);
@@ -244,9 +253,10 @@ function updateSliderGradient(sliderId) {
   const slider = document.getElementById(sliderId);
   if (!slider)
     return;
+  const theme = PMD_DARK["72x"];
   const stops = [];
-  for (let i = 0;i <= 360; i += 30) {
-    const rgb = oklchToRgb(0.72, 0.122, i);
+  for (let i = 0;i <= HUE_MAX; i += GRADIENT_STEP) {
+    const rgb = oklchToRgb(theme.l, theme.c, i);
     stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
   }
   slider.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
@@ -336,27 +346,35 @@ async function loadDoc(path) {
   }
 }
 // src/ts/ui/export.ts
+function getThemeMeta(hue, scheme) {
+  return {
+    name: `PMD Custom${scheme === "light" ? " Light" : ""}`,
+    hue,
+    auxHue: getAuxHue(hue),
+    variant: scheme
+  };
+}
 function exportYAML(colors, currentHue, currentScheme) {
-  const auxHue = (currentHue + 180) % 360;
+  const meta = getThemeMeta(currentHue, currentScheme);
   const yaml = `# PMD Base16 Theme
-scheme: "PMD Custom${currentScheme === "light" ? " Light" : ""}"
+scheme: "${meta.name}"
 author: "Project Minimalist Design"
-variant: "${currentScheme}"
-hue: ${currentHue}
-aux_hue: ${auxHue}
+variant: "${meta.variant}"
+hue: ${meta.hue}
+aux_hue: ${meta.auxHue}
 ${Object.entries(colors).map(([id, c]) => `${id}: "${c.hex.slice(1)}"`).join(`
 `)}`;
   downloadFile(yaml, `pmd-theme-${currentScheme}.yaml`, "text/yaml");
   showToast("Downloaded YAML");
 }
 function exportJSON(colors, currentHue, currentScheme) {
-  const auxHue = (currentHue + 180) % 360;
+  const meta = getThemeMeta(currentHue, currentScheme);
   const json = JSON.stringify({
-    scheme: `PMD Custom${currentScheme === "light" ? " Light" : ""}`,
+    scheme: meta.name,
     author: "Project Minimalist Design",
-    variant: currentScheme,
-    hue: currentHue,
-    aux_hue: auxHue,
+    variant: meta.variant,
+    hue: meta.hue,
+    aux_hue: meta.auxHue,
     ...Object.fromEntries(Object.entries(colors).map(([id, c]) => [id, c.hex.slice(1)]))
   }, null, 2);
   downloadFile(json, `pmd-theme-${currentScheme}.json`, "application/json");
@@ -408,8 +426,7 @@ function renderColors() {
   renderCodePreview(colors, currentHue);
   const auxHueValue = document.getElementById("auxHueValue");
   if (auxHueValue) {
-    const auxHue = (currentHue + 180) % 360;
-    auxHueValue.textContent = `${auxHue}°`;
+    auxHueValue.textContent = `${getAuxHue(currentHue)}°`;
   }
 }
 function initEventListeners() {
@@ -423,7 +440,7 @@ function initEventListeners() {
   if (hueInput) {
     hueInput.addEventListener("change", (e) => {
       let val = parseInt(e.target.value) || 0;
-      val = Math.max(0, Math.min(360, val));
+      val = Math.max(0, Math.min(HUE_MAX, val));
       setHue(val);
     });
   }

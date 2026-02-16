@@ -48,6 +48,13 @@ export function getComputed(pmd: PMDVariables): { surface: PMDVariable; muted: P
     };
 }
 
+export const HUE_MAX = 360;
+export const AUX_HUE_OFFSET = 180;
+
+export function getAuxHue(hue: number): number {
+    return (hue + AUX_HUE_OFFSET) % HUE_MAX;
+}
+
 export function getPMD(isDark: boolean): { pmd: PMDVariables; computed: ReturnType<typeof getComputed> } {
     const pmd = isDark ? PMD_DARK : PMD_LIGHT;
     return { pmd, computed: getComputed(pmd) };

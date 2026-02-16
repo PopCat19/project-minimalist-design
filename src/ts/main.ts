@@ -1,4 +1,4 @@
-import { getPMD, getBase16Defs, generatePalette, type Base16Palette } from './pmd';
+import { getPMD, getBase16Defs, generatePalette, getAuxHue, HUE_MAX, type Base16Palette } from './pmd';
 import {
     applyThemeToUI,
     handleColorClick,
@@ -59,8 +59,7 @@ function renderColors(): void {
 
     const auxHueValue = document.getElementById('auxHueValue');
     if (auxHueValue) {
-        const auxHue = (currentHue + 180) % 360;
-        auxHueValue.textContent = `${auxHue}°`;
+        auxHueValue.textContent = `${getAuxHue(currentHue)}°`;
     }
 }
 
@@ -76,7 +75,7 @@ function initEventListeners(): void {
     if (hueInput) {
         hueInput.addEventListener('change', (e) => {
             let val = parseInt((e.target as HTMLInputElement).value) || 0;
-            val = Math.max(0, Math.min(360, val));
+            val = Math.max(0, Math.min(HUE_MAX, val));
             setHue(val);
         });
     }
