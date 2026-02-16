@@ -7,18 +7,18 @@ Base16 Slot | PMD Mapping           | Description
 base00      | 4x                    | True Background (Deepest Layer)
 base01      | 8x                    | Base Container (Panels/Toolbars)
 base02      | 8x+80x@16%            | Surface / Selection (Composited)
-base03      | 80x @ 64%             | Muted / Comments (Baked)
+base03      | 80x @ 80%             | Muted / Comments (Baked)
 base04      | 72x                   | Subtext / Secondary Metadata
-base05      | 80x @ 80%             | Soft Body Text (Main Reading)
-base06      | 80x                   | Strong Body Text / Variables
-base07      | 88x                   | Headers / Highest Contrast
-base08      | 88x aux               | Alert (Auxiliary Hue / Max Contrast)
-base09      | 80x                   | Identity (Root Hue / Medium Contrast)
-base0A      | 72x-c4                | Classes (Chroma -0.08)
-base0B      | 72x-c3                | Strings (Chroma -0.06)
-base0C      | 72x-c2                | Support (Chroma -0.04)
-base0D      | 72x-c1                | Functions (Chroma -0.02)
-base0E      | 72x                   | Keywords (Vibrant / Full Chroma)
+base05      | 80x                   | Body Text (Main Reading)
+base06      | 88x                   | Headers / Strong Text
+base07      | 100x                  | Max Contrast Text/Symbol
+base08      | 88x                   | Alert / Danger (Root Hue)
+base09      | 72x +290°             | Constants (Hue Rotated)
+base0A      | 80x                   | Warning / Classes (Root Hue)
+base0B      | 72x                   | Strings (Root Hue)
+base0C      | 80x +140°             | Support (Hue Rotated)
+base0D      | 72x +30°              | Functions (Hue Rotated)
+base0E      | 72x -30°              | Keywords (Hue Rotated)
 base0F      | 72x @ 80%             | Deprecated (Meta / Baked)
 
 Base16 YAML Structure:
@@ -47,11 +47,17 @@ Example: hue 260° → aux_hue = (260 + 180) mod 360 = 80°
 
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
-- Soft Content: Body text (base05) is baked at 80% alpha to reduce fatigue
+- Soft Content: Muted text (base03) is baked at 80% alpha
 - Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
-- Monochromatic Accents: Uses Chroma Steps to distinguish code structure
-- Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
-- Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
+- Hue Rotation: Accent colors use hue offsets for distinction
+- Functional Aux: Uses (Root + 180°) for complementary contrast
+
+Hue Rotation System:
+Accent colors use fixed hue offsets from the root hue:
+- base09: +290° (Constants)
+- base0C: +140° (Support)
+- base0D: +30° (Functions)
+- base0E: -30° (Keywords)
 
 Color Definitions:
 base00-base07: Grayscale and neutral tones

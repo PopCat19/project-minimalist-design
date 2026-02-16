@@ -2,13 +2,12 @@
 
 COMPLETED:
 - [x] Implement composite stacking for base02
-- [x] Implement baked opacity for base03, base05, base0F
+- [x] Implement baked opacity for base03, base0F
 - [x] Create Light Scheme optimized OKLCH map
 - [x] Sync WebUI with base16 CSS variables
-- [x] Migrate to Chroma Stepping System
+- [x] Implement hue rotation for accent colors
 - [x] Implement system-wide Stylix integration templates
 - [x] Implement Dynamic Wallpaper generation (ImageMagick)
-- [x] Implement Soft-Text visibility tier (base05 softening)
 - [x] Implement OKLCH to RGB conversion using Newton-Raphson iteration
 - [x] Implement sRGB gamma correction
 - [x] Implement base16 YAML export generation
@@ -21,11 +20,11 @@ The implementation uses Newton-Raphson iteration for accurate color conversion:
    - cbrt(x): 15 iterations for cube root calculation
 
 2. sRGB Gamma Correction:
-   - Linear region: v <= 0.0031308 → 12.92 * v
-   - Gamma region: v > 0.0031308 → 1.055 * v^1/2.4 - 0.055
+   - Linear region: v <= 0.0031308 -> 12.92 * v
+   - Gamma region: v > 0.0031308 -> 1.055 * v^1/2.4 - 0.055
 
 3. Color Space Conversion Pipeline:
-   - OKLCH (L, C, H) → XYZ-like intermediate space
+   - OKLCH (L, C, H) -> XYZ-like intermediate space
    - Matrix multiplication for RGB conversion
    - Gamma correction for final sRGB output
    - Hex encoding with 8-bit clamping
@@ -38,11 +37,19 @@ The implementation uses Newton-Raphson iteration for accurate color conversion:
 
 PMD HD Specification Logic:
 - Tiered Visibility: Uses Lightness for global hierarchy
-- Soft Content: Body text (base05) is baked at 80% alpha to reduce fatigue
+- Soft Content: Muted text (base03) is baked at 80% alpha
 - Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
-- Monochromatic Accents: Uses Chroma Steps to distinguish code structure
-- Functional Aux: Uses (Root + 180°) exclusively for Alert (base08)
-- Chroma Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
+- Hue Rotation: Accent colors use fixed hue offsets for distinction
+- Functional Aux: Uses (Root + 180°) for complementary contrast
+
+Hue Rotation System:
+The accent colors use fixed hue offsets from the root hue:
+- base09: root + 290° (Constants)
+- base0C: root + 140° (Support)
+- base0D: root + 30° (Functions)
+- base0E: root - 30° (Keywords)
+
+Rotation formula: rot(base, deg) = (base + deg + 360) mod 360
 
 Implementation Notes:
 The HD specification provides a comprehensive mapping system that ensures
