@@ -1,3 +1,11 @@
+// singleton.qml
+//
+// Purpose: Defines global design tokens for QML applications
+//
+// This module:
+// - Provides spacing, radius, border, opacity scales
+// - Exposes PMD color variables as QML properties
+
 pragma Singleton
 import QtQuick 2.15
 

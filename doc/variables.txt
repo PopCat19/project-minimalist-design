@@ -16,29 +16,33 @@ Variable | Dark L / C   | Light L / C  | Purpose
 Opacity Variants:
 Each variable supports multiple opacity variants:
 - @100% - Full visibility (no suffix)
-- @80%  - Soft content (base03, base05, base0F)
-- @64%  - Muted elements (base03)
+- @80%  - Soft content (base03, base0F)
+- @64%  - Muted elements
 - @40%  - Subtle layers
 - @24%  - Disabled states, hover overlays
-- @12%  - Surface layers (base02 compositing)
+- @16%  - Surface layers (base02 compositing)
 - @8%   - Background surfaces
 
 Auxiliary Hue System:
 Auxiliary hues use +180° offset by default:
 aux_hue = (primary_hue + 180) mod 360
 
-Chroma Stepping for Syntax Highlighting:
-The chroma stepping system distinguishes code elements:
-base0A: 72x-c4  - Classes (rootC - 0.08)
-base0B: 72x-c3  - Strings (rootC - 0.06)
-base0C: 72x-c2  - Support (rootC - 0.04)
-base0D: 72x-c1  - Functions (rootC - 0.02)
-base0E: 72x     - Keywords (full chroma)
+Hue Rotation for Accent Colors:
+Accent colors use fixed hue offsets from the root hue:
+- base09: +290° (Constants)
+- base0C: +140° (Support)
+- base0D: +30° (Functions)
+- base0E: -30° (Keywords)
 
-Formula: cStep(n) = max(0.01, rootC - (n * 0.02))
+Rotation formula: rot(base, deg) = (base + deg + 360) mod 360
 
 Color Conversion:
 PMD uses pure Nix implementation for OKLCH to RGB conversion:
 - Newton-Raphson iteration for sqrt/cbrt
 - sRGB gamma correction
 - 8-bit hex output (#RRGGBB format)
+
+Semantic Colors:
+PMD includes predefined semantic colors:
+- danger: l=0.64, c=0.200, h=30 (dark) / l=0.48, c=0.160, h=30 (light)
+- warning: l=0.72, c=0.160, h=60 (dark) / l=0.48, c=0.112, h=60 (light)

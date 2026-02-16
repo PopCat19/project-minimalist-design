@@ -1,91 +1,102 @@
-_: {
+# oklch2rgb.nix
+#
+# Purpose: Converts OKLCH color values to hexadecimal RGB
+#
+# This module:
+# - Implements OKLCH to OKLab transformation
+# - Converts OKLab to linear sRGB
+# - Applies gamma correction and outputs hex
+
+_:
+{
   l,
   c,
   h,
-}: let
+}:
+let
   pi = 3.14159265358979323846;
 
   fmod = x: y: x - (builtins.floor (x / y)) * y;
 
-  sqrt = x:
-    if x <= 0.0
-    then 0.0
-    else let
-      init =
-        if x < 1.0
-        then 1.0
-        else x;
-      iter = g: (g + x / g) / 2.0;
-      g1 = iter init;
-      g2 = iter g1;
-      g3 = iter g2;
-      g4 = iter g3;
-      g5 = iter g4;
-      g6 = iter g5;
-      g7 = iter g6;
-      g8 = iter g7;
-      g9 = iter g8;
-      g10 = iter g9;
-      g11 = iter g10;
-      g12 = iter g11;
-      g13 = iter g12;
-      g14 = iter g13;
-      g15 = iter g14;
-    in
+  sqrt =
+    x:
+    if x <= 0.0 then
+      0.0
+    else
+      let
+        init = if x < 1.0 then 1.0 else x;
+        iter = g: (g + x / g) / 2.0;
+        g1 = iter init;
+        g2 = iter g1;
+        g3 = iter g2;
+        g4 = iter g3;
+        g5 = iter g4;
+        g6 = iter g5;
+        g7 = iter g6;
+        g8 = iter g7;
+        g9 = iter g8;
+        g10 = iter g9;
+        g11 = iter g10;
+        g12 = iter g11;
+        g13 = iter g12;
+        g14 = iter g13;
+        g15 = iter g14;
+      in
       g15;
 
-  cbrt = x:
-    if x == 0.0
-    then 0.0
-    else if x < 0.0
-    then 0.0 - (cbrt (0.0 - x))
-    else let
-      init =
-        if x < 1.0
-        then 1.0
-        else x;
-      iter = g: (2.0 * g + x / (g * g)) / 3.0;
-      g1 = iter init;
-      g2 = iter g1;
-      g3 = iter g2;
-      g4 = iter g3;
-      g5 = iter g4;
-      g6 = iter g5;
-      g7 = iter g6;
-      g8 = iter g7;
-      g9 = iter g8;
-      g10 = iter g9;
-      g11 = iter g10;
-      g12 = iter g11;
-      g13 = iter g12;
-      g14 = iter g13;
-      g15 = iter g14;
-    in
+  cbrt =
+    x:
+    if x == 0.0 then
+      0.0
+    else if x < 0.0 then
+      0.0 - (cbrt (0.0 - x))
+    else
+      let
+        init = if x < 1.0 then 1.0 else x;
+        iter = g: (2.0 * g + x / (g * g)) / 3.0;
+        g1 = iter init;
+        g2 = iter g1;
+        g3 = iter g2;
+        g4 = iter g3;
+        g5 = iter g4;
+        g6 = iter g5;
+        g7 = iter g6;
+        g8 = iter g7;
+        g9 = iter g8;
+        g10 = iter g9;
+        g11 = iter g10;
+        g12 = iter g11;
+        g13 = iter g12;
+        g14 = iter g13;
+        g15 = iter g14;
+      in
       g15;
 
-  sinRaw = x: let
-    x_ = fmod x (2.0 * pi);
-    norm =
-      if x_ < 0.0
-      then x_ + (2.0 * pi)
-      else x_;
-  in
-    if norm <= pi
-    then (16.0 * norm * (pi - norm)) / (5.0 * pi * pi - 4.0 * norm * (pi - norm))
-    else let
-      n = norm - pi;
+  sinRaw =
+    x:
+    let
+      x_ = fmod x (2.0 * pi);
+      norm = if x_ < 0.0 then x_ + (2.0 * pi) else x_;
     in
+    if norm <= pi then
+      (16.0 * norm * (pi - norm)) / (5.0 * pi * pi - 4.0 * norm * (pi - norm))
+    else
+      let
+        n = norm - pi;
+      in
       0.0 - ((16.0 * n * (pi - n)) / (5.0 * pi * pi - 4.0 * n * (pi - n)));
 
   cos = x: sinRaw (x + (pi / 2.0));
   sin = sinRaw;
 
-  powGamma = x:
-    if x <= 0.0
-    then 0.0
-    else let
-      x1_12 = cbrt (sqrt (sqrt x));
-    in
+  powGamma =
+    x:
+    if x <= 0.0 then
+      0.0
+    else
+      let
+        x1_12 = cbrt (sqrt (sqrt x));
+      in
       x1_12 * x1_12 * x1_12 * x1_12 * x1_12;
 
   hRad = h * pi / 180.0;
@@ -104,32 +115,36 @@ _: {
   g_lin = -1.2684380046 * l_lin + 2.6097574011 * m_lin - 0.3413193965 * s_lin;
   b_lin = -0.0041960863 * l_lin - 0.7034186147 * m_lin + 1.7076147010 * s_lin;
 
-  gamma = v:
-    if v <= 0.0031308
-    then 12.92 * v
-    else 1.055 * (powGamma v) - 0.055;
+  gamma = v: if v <= 0.0031308 then 12.92 * v else 1.055 * (powGamma v) - 0.055;
 
-  clamp = v:
-    if v < 0.0
-    then 0.0
-    else if v > 1.0
-    then 1.0
-    else v;
+  clamp =
+    v:
+    if v < 0.0 then
+      0.0
+    else if v > 1.0 then
+      1.0
+    else
+      v;
 
   r = toInt (clamp (gamma r_lin));
   g = toInt (clamp (gamma g_lin));
   b = toInt (clamp (gamma b_lin));
 
   toInt = v: builtins.floor (v * 255.0 + 0.5);
-  toHex = n: let
-    hexChars = "0123456789abcdef";
-    v =
-      if n < 0
-      then 0
-      else if n > 255
-      then 255
-      else n;
-    hIdx = v / 16;
-    lIdx = v - (hIdx * 16);
-  in "${builtins.substring hIdx 1 hexChars}${builtins.substring lIdx 1 hexChars}";
-in "#${toHex r}${toHex g}${toHex b}"
+  toHex =
+    n:
+    let
+      hexChars = "0123456789abcdef";
+      v =
+        if n < 0 then
+          0
+        else if n > 255 then
+          255
+        else
+          n;
+      hIdx = v / 16;
+      lIdx = v - (hIdx * 16);
+    in
+    "${builtins.substring hIdx 1 hexChars}${builtins.substring lIdx 1 hexChars}";
+in
+"#${toHex r}${toHex g}${toHex b}"
