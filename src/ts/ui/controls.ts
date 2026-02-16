@@ -51,11 +51,11 @@ export function renderPresets(
     });
 }
 
-export function updateSliderGradient(sliderId: string): void {
+export function updateSliderGradient(sliderId: string, isDark: boolean): void {
     const slider = document.getElementById(sliderId) as HTMLInputElement;
     if (!slider) return;
 
-    const theme = PMD_DARK['72x'];
+    const theme = (isDark ? PMD_DARK : PMD_LIGHT)['72x'];
     const stops: string[] = [];
     for (let i = 0; i <= HUE_MAX; i += GRADIENT_STEP) {
         const rgb = oklchToRgb(theme.l, theme.c, i);

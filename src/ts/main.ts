@@ -95,6 +95,7 @@ function setHue(hue: number): void {
 function renderColors(): void {
     const isDark = currentScheme === 'dark';
     const { pmd: pmdVars, computed } = getPMD(isDark);
+    updateSliderGradient('hueSlider', isDark);
     base16Defs = getBase16Defs(pmdVars, computed);
 
     const colors = generatePalette(currentHue, pmdVars, computed, isDark, isHueLocked, lockedHueValue);
@@ -200,7 +201,7 @@ function init(): void {
     initEventListeners();
     initSheetGesture();
 
-    updateSliderGradient('hueSlider');
+    updateSliderGradient('hueSlider', currentScheme === 'dark');
     setHue(30);
 }
 
