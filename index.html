@@ -549,14 +549,16 @@
             .sidebar {
                 position: fixed;
                 top: var(--header-height);
-                left: 0;
+                right: 0;
                 bottom: 0;
                 width: var(--sidebar-width);
                 max-width: 85vw;
                 z-index: 200;
-                transform: translateX(-100%);
+                transform: translateX(100%);
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 padding-top: 1rem;
+                border-left: 0.125rem solid var(--base02);
+                border-right: none;
             }
 
             .sidebar.open {
