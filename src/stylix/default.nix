@@ -3,19 +3,24 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.stylix.pmd;
   pmdCore = import ../lib/pmd-core.nix {
     inherit lib pkgs;
-    oklch2rgb = import ../oklch2rgb.nix {inherit lib;};
+    oklch2rgb = import ../oklch2rgb.nix { inherit lib; };
   };
 
   scheme = pmdCore.mkScheme {
     inherit (cfg) hue;
     inherit (cfg) variant;
   };
-  base16Palette = lib.mapAttrs (_name: value: lib.removePrefix "#" (import ../oklch2rgb.nix {inherit lib;} {inherit (value) l c h;})) scheme.base16;
-in {
+  base16Palette = lib.mapAttrs (
+    _name: value:
+    lib.removePrefix "#" (import ../oklch2rgb.nix { inherit lib; } { inherit (value) l c h; })
+  ) scheme.base16;
+in
+{
   options.stylix.pmd = {
     enable = lib.mkEnableOption "PMD Stylix integration";
     hue = lib.mkOption {
@@ -23,7 +28,10 @@ in {
       default = 260;
     };
     variant = lib.mkOption {
-      type = lib.types.enum ["dark" "light"];
+      type = lib.types.enum [
+        "dark"
+        "light"
+      ];
       default = "dark";
     };
 
