@@ -1,0 +1,31 @@
+scheme: "PMD Red"
+author: "Project Minimalist Design"
+hue: 30
+aux_hue: 210
+
+colors:
+  # Backgrounds
+  base00: "000000"
+  base01: "16120A"
+  
+  # Dark background
+  base02: "1C160C"
+  
+  # Text - luminance 72x with stepwise chroma
+  base03: "665C4E"
+  base04: "7D6D5E"
+  base05: "947D6E"
+  
+  # Bright text
+  base06: "ABA37A"
+  base07: "FFFFFF"
+  
+  # Syntax colors - chromatic steps from hue 30
+  base08: "5E7EB8"
+  base09: "C77D36"
+  base0A: "D4823F"
+  base0B: "E18C45"
+  base0C: "ED9651"
+  base0D: "F3A05E"
+  base0E: "FFAA6B"
+  base0F: "665C4E"
