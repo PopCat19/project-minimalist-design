@@ -403,6 +403,16 @@ var currentScheme = "dark";
 var isHueLocked = false;
 var lockedHueValue = 0;
 var base16Defs;
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  sidebar?.classList.toggle("open");
+  overlay?.classList.toggle("show");
+}
+function toggleExportSheet() {
+  const sheet = document.getElementById("exportSheet");
+  sheet?.classList.toggle("show");
+}
 function setHue(hue) {
   currentHue = parseInt(String(hue));
   const slider = document.getElementById("hueSlider");
@@ -430,6 +440,14 @@ function renderColors() {
   }
 }
 function initEventListeners() {
+  const menuBtn = document.getElementById("menuBtn");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  const fabBtn = document.getElementById("fabBtn");
+  const exportSheetClose = document.getElementById("exportSheetClose");
+  menuBtn?.addEventListener("click", toggleSidebar);
+  sidebarOverlay?.addEventListener("click", toggleSidebar);
+  fabBtn?.addEventListener("click", toggleExportSheet);
+  exportSheetClose?.addEventListener("click", toggleExportSheet);
   const hueSlider = document.getElementById("hueSlider");
   if (hueSlider) {
     hueSlider.addEventListener("input", (e) => {
@@ -475,6 +493,8 @@ function init() {
   window.handleColorClick = handleColorClick;
   window.toggleDocs = toggleDocs;
   window.toggleDocMenu = toggleDocMenu;
+  window.toggleSidebar = toggleSidebar;
+  window.toggleExportSheet = toggleExportSheet;
   window.exportYAML = () => exportYAML(getColors(), currentHue, currentScheme);
   window.exportJSON = () => exportJSON(getColors(), currentHue, currentScheme);
   window.copyCSS = () => copyCSS(getColors());

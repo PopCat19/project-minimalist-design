@@ -19,6 +19,8 @@ declare global {
         handleColorClick: (event: MouseEvent, hex: string, oklch: string) => void;
         toggleDocs: () => void;
         toggleDocMenu: () => void;
+        toggleExportSheet: () => void;
+        toggleSidebar: () => void;
         exportYAML: () => void;
         exportJSON: () => void;
         copyCSS: () => void;
@@ -31,6 +33,18 @@ let currentScheme: 'dark' | 'light' = 'dark';
 let isHueLocked = false;
 let lockedHueValue = 0;
 let base16Defs: ReturnType<typeof getBase16Defs>;
+
+function toggleSidebar(): void {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar?.classList.toggle('open');
+    overlay?.classList.toggle('show');
+}
+
+function toggleExportSheet(): void {
+    const sheet = document.getElementById('exportSheet');
+    sheet?.classList.toggle('show');
+}
 
 function setHue(hue: number): void {
     currentHue = parseInt(String(hue));
@@ -64,6 +78,16 @@ function renderColors(): void {
 }
 
 function initEventListeners(): void {
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const fabBtn = document.getElementById('fabBtn');
+    const exportSheetClose = document.getElementById('exportSheetClose');
+
+    menuBtn?.addEventListener('click', toggleSidebar);
+    sidebarOverlay?.addEventListener('click', toggleSidebar);
+    fabBtn?.addEventListener('click', toggleExportSheet);
+    exportSheetClose?.addEventListener('click', toggleExportSheet);
+
     const hueSlider = document.getElementById('hueSlider') as HTMLInputElement;
     if (hueSlider) {
         hueSlider.addEventListener('input', (e) => {
@@ -114,6 +138,8 @@ function init(): void {
     window.handleColorClick = handleColorClick;
     window.toggleDocs = toggleDocs;
     window.toggleDocMenu = toggleDocMenu;
+    window.toggleSidebar = toggleSidebar;
+    window.toggleExportSheet = toggleExportSheet;
     window.exportYAML = () => exportYAML(getColors(), currentHue, currentScheme);
     window.exportJSON = () => exportJSON(getColors(), currentHue, currentScheme);
     window.copyCSS = () => copyCSS(getColors());
