@@ -14,8 +14,6 @@ export const PMD_DARK: PMDVariables = {
     '8x':   { l: 0.20, c: 0.032 },
     '4x':   { l: 0.16, c: 0.022 },
     '0x':   { l: 0.00, c: 0.000 },
-    'danger':  { l: 0.64, c: 0.200, h: 30 },
-    'warning': { l: 0.72, c: 0.160, h: 60 },
 };
 
 export const PMD_LIGHT: PMDVariables = {
@@ -26,8 +24,6 @@ export const PMD_LIGHT: PMDVariables = {
     '8x':   { l: 0.88, c: 0.056 },
     '4x':   { l: 0.92, c: 0.044 },
     '0x':   { l: 1.00, c: 0.000 },
-    'danger':  { l: 0.48, c: 0.160, h: 30 },
-    'warning': { l: 0.48, c: 0.112, h: 60 },
 };
 
 export function composite(bg: PMDVariable, fg: PMDVariable, alpha: number): PMDVariable {

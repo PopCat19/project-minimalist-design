@@ -53,9 +53,9 @@ export function getBase16Defs(pmd: PMDVariables, computed: ReturnType<typeof get
             { id: 'base07', pmd: '100x', desc: 'Max Contrast', ...pmd['100x'] },
         ],
         accent: [
-            { id: 'base08', pmd: 'danger', l: pmd['danger'].l, c: pmd['danger'].c, overrideHue: pmd['danger'].h, desc: 'Danger' },
+            { id: 'base08', pmd: '88x', l: pmd['88x'].l, c: pmd['88x'].c, desc: 'Danger' },
             { id: 'base09', pmd: '72x+290', l: pmd['72x'].l, c: pmd['72x'].c, offset: 290, desc: 'Constants' },
-            { id: 'base0A', pmd: 'warning', l: pmd['warning'].l, c: pmd['warning'].c, overrideHue: pmd['warning'].h, desc: 'Warning' },
+            { id: 'base0A', pmd: '80x', l: pmd['80x'].l, c: pmd['80x'].c, desc: 'Warning' },
             { id: 'base0B', pmd: '72x', l: pmd['72x'].l, c: pmd['72x'].c, desc: 'Strings' },
             { id: 'base0C', pmd: '80x+140', l: pmd['80x'].l, c: pmd['80x'].c, offset: 140, desc: 'Support' },
             { id: 'base0D', pmd: '72x+30', l: pmd['72x'].l, c: pmd['72x'].c, offset: 30, desc: 'Functions' },
@@ -92,7 +92,7 @@ export function generatePalette(
         } else {
             h = accentHue;
         }
-        const l = (def.id === 'base0F' || def.overrideHue !== undefined || def.pmd === '80x+140') ? def.l : accentL;
+        const l = (def.id === 'base0F' || def.pmd === '88x' || def.pmd === '80x' || def.pmd === '80x+140') ? def.l : accentL;
         const rgb = oklchToRgb(l, def.c, h);
         colors[def.id] = { ...def, rgb, hex: rgbToHex(rgb), hue: h, oklch: formatOklch(l, def.c, h) };
     });

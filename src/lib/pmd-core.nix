@@ -42,17 +42,6 @@ let
       l = 0.00;
       c = 0.000;
     };
-
-    "danger" = {
-      l = 0.64;
-      c = 0.200;
-      h = 30;
-    };
-    "warning" = {
-      l = 0.72;
-      c = 0.160;
-      h = 60;
-    };
   };
 
   light = {
@@ -83,17 +72,6 @@ let
     "0x" = {
       l = 1.00;
       c = 0.000;
-    };
-
-    "danger" = {
-      l = 0.48;
-      c = 0.160;
-      h = 30;
-    };
-    "warning" = {
-      l = 0.48;
-      c = 0.112;
-      h = 60;
     };
   };
 
@@ -154,8 +132,8 @@ let
       };
 
       base08 = {
-        inherit (pmd."danger") l c;
-        inherit (pmd."danger") h;
+        inherit (pmd."88x") l c;
+        h = root;
       };
       base09 = {
         l = accentL;
@@ -163,8 +141,8 @@ let
         h = rot root 290;
       };
       base0A = {
-        inherit (pmd."warning") l c;
-        inherit (pmd."warning") h;
+        inherit (pmd."80x") l c;
+        h = root;
       };
       base0B = {
         l = accentL;
