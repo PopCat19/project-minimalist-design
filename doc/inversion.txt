@@ -7,6 +7,6 @@ Inversion Logic:
 - Background: From 4x (Dark) to 4x (Light) [0.16 -> 0.92]
 - Foreground: From 80x (Dark) to 80x (Light) [0.80 -> 0.20]
 - Headers: From 88x (Dark) to 88x (Light) [0.88 -> 0.28]
-- Accents: Lightness adjusts to 64x level (0.32).
+- Accents: Lightness adjusts to 68x level (0.32).
 
 Opacity percentages remain unchanged. Chroma is stripped for monochrome modes.

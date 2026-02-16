@@ -11,7 +11,7 @@ colors:
   # Dark background
   base02: "1C160C"
   
-  # Text - luminance 64x with stepwise chroma
+  # Text - luminance 68x with stepwise chroma
   base03: "665C4E"
   base04: "7D6D5E"
   base05: "947D6E"

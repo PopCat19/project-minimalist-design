@@ -3,7 +3,7 @@ var PMD_DARK = {
   "100x": { l: 1, c: 0 },
   "88x": { l: 0.88, c: 0.056 },
   "80x": { l: 0.8, c: 0.1 },
-  "64x": { l: 0.64, c: 0.122 },
+  "68x": { l: 0.68, c: 0.122 },
   "8x": { l: 0.2, c: 0.032 },
   "4x": { l: 0.16, c: 0.022 },
   "0x": { l: 0, c: 0 }
@@ -12,7 +12,7 @@ var PMD_LIGHT = {
   "100x": { l: 0, c: 0 },
   "88x": { l: 0.28, c: 0.032 },
   "80x": { l: 0.2, c: 0.032 },
-  "64x": { l: 0.32, c: 0.052 },
+  "68x": { l: 0.32, c: 0.052 },
   "8x": { l: 0.88, c: 0.056 },
   "4x": { l: 0.92, c: 0.044 },
   "0x": { l: 1, c: 0 }
@@ -87,27 +87,27 @@ function getBase16Defs(pmd, computed) {
       { id: "base03", pmd: "80x@80%", desc: "Muted", l: computed.muted.l, c: computed.muted.c }
     ],
     fg: [
-      { id: "base04", pmd: "64x", desc: "Subtext", ...pmd["64x"] },
+      { id: "base04", pmd: "68x", desc: "Subtext", ...pmd["68x"] },
       { id: "base05", pmd: "80x", desc: "Body Text", ...pmd["80x"] },
       { id: "base06", pmd: "88x", desc: "Headers", ...pmd["88x"] },
       { id: "base07", pmd: "100x", desc: "Max Contrast", ...pmd["100x"] }
     ],
     accent: [
       { id: "base08", pmd: "88x", l: pmd["88x"].l, c: pmd["88x"].c, desc: "Danger" },
-      { id: "base09", pmd: "64x+290", l: pmd["64x"].l, c: pmd["64x"].c, offset: 290, desc: "Constants" },
+      { id: "base09", pmd: "68x+290", l: pmd["68x"].l, c: pmd["68x"].c, offset: 290, desc: "Constants" },
       { id: "base0A", pmd: "80x", l: pmd["80x"].l, c: pmd["80x"].c, desc: "Warning" },
-      { id: "base0B", pmd: "64x", l: pmd["64x"].l, c: pmd["64x"].c, desc: "Strings" },
+      { id: "base0B", pmd: "68x", l: pmd["68x"].l, c: pmd["68x"].c, desc: "Strings" },
       { id: "base0C", pmd: "80x+140", l: pmd["80x"].l, c: pmd["80x"].c, offset: 140, desc: "Support" },
-      { id: "base0D", pmd: "64x+30", l: pmd["64x"].l, c: pmd["64x"].c, offset: 30, desc: "Functions" },
-      { id: "base0E", pmd: "64x-30", l: pmd["64x"].l, c: pmd["64x"].c, offset: -30, desc: "Keywords" },
-      { id: "base0F", pmd: "64x@80%", l: computed.muted.l, c: computed.muted.c, desc: "Meta" }
+      { id: "base0D", pmd: "68x+30", l: pmd["68x"].l, c: pmd["68x"].c, offset: 30, desc: "Functions" },
+      { id: "base0E", pmd: "68x-30", l: pmd["68x"].l, c: pmd["68x"].c, offset: -30, desc: "Keywords" },
+      { id: "base0F", pmd: "68x@80%", l: computed.muted.l, c: computed.muted.c, desc: "Meta" }
     ]
   };
 }
 function generatePalette(hue, pmd, computed, isDark, isHueLocked, lockedHueValue) {
   const defs = getBase16Defs(pmd, computed);
   const accentHue = isHueLocked ? lockedHueValue : hue;
-  const accentL = !isDark ? 0.45 : pmd["64x"].l;
+  const accentL = !isDark ? 0.45 : pmd["68x"].l;
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {
     const rgb = oklchToRgb(def.l, def.c, hue);
@@ -227,7 +227,7 @@ function renderPresets(containerId, isDark, setHueCallback) {
   if (!container)
     return;
   const pmd = isDark ? PMD_DARK : PMD_LIGHT;
-  const theme = pmd["64x"];
+  const theme = pmd["68x"];
   container.innerHTML = presets.map((preset) => {
     const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
     const hex = rgbToHex(rgb);
@@ -249,7 +249,7 @@ function updateSliderGradient(sliderId, isDark) {
   const slider = document.getElementById(sliderId);
   if (!slider)
     return;
-  const theme = (isDark ? PMD_DARK : PMD_LIGHT)["64x"];
+  const theme = (isDark ? PMD_DARK : PMD_LIGHT)["68x"];
   const stops = [];
   for (let i = 0;i <= HUE_MAX; i += GRADIENT_STEP) {
     const rgb = oklchToRgb(theme.l, theme.c, i);

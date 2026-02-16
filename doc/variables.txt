@@ -8,7 +8,7 @@ Variable | Dark L / C   | Light L / C  | Purpose
 100x     | 1.00 / 0.000 | 0.00 / 0.000 | Max Contrast Text/Symbol
 88x      | 0.88 / 0.056 | 0.28 / 0.032 | Headers, Icons, Selection
 80x      | 0.80 / 0.100 | 0.20 / 0.032 | Body Text, Description
-64x      | 0.64 / 0.122 | 0.32 / 0.052 | Accent, Subtext, Links
+68x      | 0.68 / 0.122 | 0.32 / 0.052 | Accent, Subtext, Links
 8x       | 0.20 / 0.032 | 0.88 / 0.056 | Base Containers, Surfaces
 4x       | 0.16 / 0.022 | 0.92 / 0.044 | True Background (base00)
 0x       | 0.00 / 0.000 | 1.00 / 0.000 | Black/White Tinting Anchor
@@ -44,5 +44,5 @@ PMD uses pure Nix implementation for OKLCH to RGB conversion:
 
 Semantic Colors:
 PMD includes predefined semantic colors:
-- danger: l=0.64, c=0.200, h=30 (dark) / l=0.48, c=0.160, h=30 (light)
+- danger: l=0.68, c=0.200, h=30 (dark) / l=0.48, c=0.160, h=30 (light)
 - warning: l=0.72, c=0.160, h=60 (dark) / l=0.48, c=0.112, h=60 (light)
