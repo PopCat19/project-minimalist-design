@@ -450,6 +450,7 @@ function initEventListeners() {
       btn.classList.add("active");
       currentScheme = btn.dataset.scheme;
       renderColors();
+      renderPresets("presets", currentScheme === "dark", setHue);
     });
   });
   const hueLockBtn = document.getElementById("hueLockBtn");

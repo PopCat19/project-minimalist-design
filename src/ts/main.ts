@@ -86,6 +86,7 @@ function initEventListeners(): void {
             btn.classList.add('active');
             currentScheme = (btn as HTMLElement).dataset.scheme as 'dark' | 'light';
             renderColors();
+            renderPresets('presets', currentScheme === 'dark', setHue);
         });
     });
 
