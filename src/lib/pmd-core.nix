@@ -154,8 +154,8 @@ let
       };
 
       base08 = {
-        inherit (pmd."88x") l c;
-        h = root;
+        inherit (pmd."danger") l c;
+        inherit (pmd."danger") h;
       };
       base09 = {
         l = accentL;
@@ -163,11 +163,12 @@ let
         h = rot root 290;
       };
       base0A = {
-        inherit (pmd."80x") l c;
-        h = root;
+        inherit (pmd."warning") l c;
+        inherit (pmd."warning") h;
       };
       base0B = {
-        inherit (pmd."72x") l c;
+        l = accentL;
+        inherit (pmd."72x") c;
         h = root;
       };
       base0C = {
@@ -186,7 +187,7 @@ let
       };
 
       base0F = {
-        inherit (bake pmd pmd."72x" 0.80) l c;
+        inherit (bake pmd pmd."80x" 0.80) l c;
         h = root;
       };
     };
