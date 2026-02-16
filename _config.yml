@@ -1,0 +1,7 @@
+# Jekyll configuration for GitHub Pages
+# Excludes convention files from processing to avoid Liquid syntax errors
+
+exclude:
+  - conventions/
+  - changelog_archive/
+  - "CHANGELOG-*.md"
