@@ -4,6 +4,6 @@
 	"type": "module",
 	"scripts": {
 		"build": "bun build src/ts/main.ts --outdir=dist --target=browser",
-		"dev": "bun build src/ts/main.ts --outdir=dist --target=browser --watch"
+		"dev": "bun run src/dev-server.ts"
 	}
 }
