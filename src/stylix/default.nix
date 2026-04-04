@@ -15,7 +15,7 @@
 }:
 let
   cfg = config.stylix.pmd;
-  pmdCore = import ../lib/pmd-core.nix {
+  pmdCore = import ../pmd-core.nix {
     inherit lib pkgs;
     oklch2rgb = import ../oklch2rgb.nix { inherit lib; };
   };

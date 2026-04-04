@@ -1,9 +1,9 @@
 {
-  "name": "pmd-base16",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "build": "bun build src/ts/main.ts --outdir=dist --target=browser",
-    "dev": "bun build src/ts/main.ts --outdir=dist --target=browser --watch"
-  }
+	"name": "pmd-base16",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"build": "bun build src/ts/main.ts --outdir=dist --target=browser",
+		"dev": "bun build src/ts/main.ts --outdir=dist --target=browser --watch"
+	}
 }

@@ -12,7 +12,7 @@
   lib ? pkgs.lib,
 }:
 let
-  pmdCore = import ./lib/pmd-core.nix {
+  pmdCore = import ./pmd-core.nix {
     inherit lib pkgs;
     inherit oklch2rgb;
   };

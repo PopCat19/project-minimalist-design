@@ -40,7 +40,7 @@
             variant,
           }:
           let
-            pmdCore = import ./src/lib/pmd-core.nix {
+            pmdCore = import ./src/pmd-core.nix {
               inherit (pkgs) lib;
               inherit pkgs;
               oklch2rgb = import ./src/oklch2rgb.nix { inherit (pkgs) lib; };
@@ -54,7 +54,7 @@
             hue,
             variant ? "dark",
           }:
-          (import ./src/lib/pmd-core.nix {
+          (import ./src/pmd-core.nix {
             inherit lib;
             pkgs = null;
             oklch2rgb = null;

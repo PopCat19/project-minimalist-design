@@ -77,6 +77,18 @@
             z-index: 100;
         }
 
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--base06);
+        }
+
+        .logo span {
+            font-weight: 400;
+            color: var(--base05);
+        }
+
         .mobile-header .logo { font-size: 1.25rem; }
 
         .menu-btn {
@@ -690,9 +702,9 @@
         }
 
         .doc-nav-btn.active {
-            background: var(--base02) !important;
-            border-color: var(--base07) !important;
-            color: var(--base07) !important;
+            background: var(--base02);
+            border-color: var(--base07);
+            color: var(--base07);
         }
 
         .doc-nav-btn:hover:not(.active) {
@@ -846,7 +858,7 @@
     
     <header class="mobile-header">
         <div class="logo">PMD <span>Base16</span></div>
-        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <button type="button" class="menu-btn" id="menuBtn" aria-label="Toggle menu">
             <span class="material-symbols-rounded">menu</span>
         </button>
     </header>
@@ -884,38 +896,38 @@
             <div class="control-group">
                 <label class="control-label">Scheme</label>
                 <div class="scheme-toggle">
-                    <button class="scheme-btn active" data-scheme="dark">Dark</button>
-                    <button class="scheme-btn" data-scheme="light">Light</button>
+                    <button type="button" class="scheme-btn active" data-scheme="dark">Dark</button>
+                    <button type="button" class="scheme-btn" data-scheme="light">Light</button>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Accents</label>
                 <div class="scheme-toggle">
-                    <button class="action-btn" id="hueLockBtn">Lock Accent Hue</button>
+                    <button type="button" class="action-btn" id="hueLockBtn">Lock Accent Hue</button>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Export</label>
                 <div class="export-sidebar">
-                    <button class="export-btn" onclick="exportYAML()">
+                    <button type="button" class="export-btn" onclick="exportYAML()">
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">description</span>
                         YAML
                     </button>
-                    <button class="export-btn" onclick="exportJSON()">
+                    <button type="button" class="export-btn" onclick="exportJSON()">
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">data_object</span>
                         JSON
                     </button>
-                    <button class="export-btn" onclick="copyCSS()">
+                    <button type="button" class="export-btn" onclick="copyCSS()">
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">css</span>
                         CSS Variables
                     </button>
-                    <button class="export-btn" onclick="copyNixConfig()">
+                    <button type="button" class="export-btn" onclick="copyNixConfig()">
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">terminal</span>
                         Nix Config
                     </button>
-                    <button class="export-btn" onclick="toggleDocs()">
+                    <button type="button" class="export-btn" onclick="toggleDocs()">
                         <span class="material-symbols-rounded" style="font-size: 1.25rem;">menu_book</span>
                         Documentation
                     </button>
@@ -946,7 +958,7 @@
         </main>
     </div>
 
-    <button class="fab" id="fabBtn" aria-label="Export options">
+    <button type="button" class="fab" id="fabBtn" aria-label="Export options">
         <span class="material-symbols-rounded" style="font-size: 1.5rem;">ios_share</span>
     </button>
 
@@ -954,28 +966,28 @@
         <div class="export-sheet-handle" id="exportSheetHandle"></div>
         <div class="export-sheet-header">
             <span class="export-sheet-title">Export Theme</span>
-            <button class="export-sheet-close" id="exportSheetClose" aria-label="Close">
+            <button type="button" class="export-sheet-close" id="exportSheetClose" aria-label="Close">
                 <span class="material-symbols-rounded" style="font-size: 1.25rem;">close</span>
             </button>
         </div>
         <div class="export-sheet-grid">
-            <button class="export-sheet-btn" onclick="exportYAML(); toggleExportSheet();">
+            <button type="button" class="export-sheet-btn" onclick="exportYAML(); toggleExportSheet();">
                 <span class="material-symbols-rounded">description</span>
                 YAML
             </button>
-            <button class="export-sheet-btn" onclick="exportJSON(); toggleExportSheet();">
+            <button type="button" class="export-sheet-btn" onclick="exportJSON(); toggleExportSheet();">
                 <span class="material-symbols-rounded">data_object</span>
                 JSON
             </button>
-            <button class="export-sheet-btn" onclick="copyCSS(); toggleExportSheet();">
+            <button type="button" class="export-sheet-btn" onclick="copyCSS(); toggleExportSheet();">
                 <span class="material-symbols-rounded">css</span>
                 CSS
             </button>
-            <button class="export-sheet-btn" onclick="copyNixConfig(); toggleExportSheet();">
+            <button type="button" class="export-sheet-btn" onclick="copyNixConfig(); toggleExportSheet();">
                 <span class="material-symbols-rounded">terminal</span>
                 Nix
             </button>
-            <button class="export-sheet-btn" onclick="toggleDocs(); toggleExportSheet();">
+            <button type="button" class="export-sheet-btn" onclick="toggleDocs(); toggleExportSheet();">
                 <span class="material-symbols-rounded">menu_book</span>
                 Docs
             </button>
@@ -987,12 +999,12 @@
     <div id="docsOverlay">
         <header style="padding: 1rem 1.5rem; background: var(--base01); border-bottom: none; display: flex; justify-content: space-between; align-items: center; z-index: 120; position: relative;">
             <div style="display: flex; align-items: center; gap: 1rem;">
-                <button id="docMobileToggle" onclick="toggleDocMenu()">
+                <button type="button" id="docMobileToggle" onclick="toggleDocMenu()">
                     <span class="material-symbols-rounded">menu</span>
                 </button>
                 <div class="logo" style="font-size: 1.25rem;">PMD <span>Docs</span></div>
             </div>
-            <button class="export-btn" onclick="toggleDocs()" style="width: auto; padding: 0.4rem 1rem; border-color: transparent; background: var(--base02);">
+            <button type="button" class="export-btn" onclick="toggleDocs()" style="width: auto; padding: 0.4rem 1rem; border-color: transparent; background: var(--base02);">
                 <span class="material-symbols-rounded" style="font-size: 1.25rem; vertical-align: middle;">close</span> <span style="vertical-align: middle;">Close</span>
             </button>
         </header>
