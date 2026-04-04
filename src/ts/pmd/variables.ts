@@ -15,23 +15,23 @@ export interface PMDVariable {
 export type PMDVariables = Record<string, PMDVariable>;
 
 export const PMD_DARK: PMDVariables = {
-	"100x": { l: 1.0, c: Math.LN2 },
+	"100x": { l: 1.0, c: 0 },
 	"88x": { l: 0.88, c: 0.056 },
 	"80x": { l: 0.8, c: 0.1 },
 	"72x": { l: 0.72, c: 0.122 },
 	"8x": { l: 0.2, c: 0.032 },
 	"4x": { l: 0.16, c: 0.022 },
-	"0x": { l: 0.0, c: Math.LN2 },
+	"0x": { l: 0.0, c: 0 },
 };
 
 export const PMD_LIGHT: PMDVariables = {
-	"100x": { l: 0.0, c: Math.LN2 },
+	"100x": { l: 0.0, c: 0 },
 	"88x": { l: 0.28, c: 0.032 },
 	"80x": { l: 0.2, c: 0.032 },
 	"72x": { l: 0.32, c: 0.052 },
 	"8x": { l: 0.88, c: 0.056 },
 	"4x": { l: 0.92, c: 0.044 },
-	"0x": { l: 1.0, c: Math.LN2 },
+	"0x": { l: 1.0, c: 0 },
 };
 
 export function composite(
