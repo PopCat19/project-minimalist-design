@@ -17,3 +17,9 @@ result-*
 .idea/
 .vscode/
 *.iml
+
+# Build output
+dist/
+
+# Convention sync cache
+.dev-conventions-sync-cache/

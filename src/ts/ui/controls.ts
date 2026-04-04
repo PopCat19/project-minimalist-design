@@ -1,3 +1,11 @@
+// ui-controls.ts
+//
+// Purpose: Renders UI controls for color selection and theme presets
+//
+// This module:
+// - Manages hue/lightness/chroma sliders and gradient backgrounds
+// - Provides preset color configurations
+// - Handles slider interactions and theme switching
 import { oklchToRgb, rgbToHex } from '../color';
 import { PMD_DARK, PMD_LIGHT, HUE_MAX } from '../pmd';
 

@@ -1,3 +1,11 @@
+// ui-docs.ts
+//
+// Purpose: Manages documentation sidebar and doc loading in the UI
+//
+// This module:
+// - Lists available documentation files
+// - Renders doc sidebar and handles doc menu toggling
+// - Loads and displays doc content on demand
 import { showToast } from './render';
 
 interface DocItem {

@@ -1,3 +1,11 @@
+// ui-export.ts
+//
+// Purpose: Exports theme configurations to various formats
+//
+// This module:
+// - Generates YAML, JSON, CSS, and Nix config output
+// - Copies formatted code snippets to clipboard
+// - Adds metadata to exported themes
 import type { Base16Palette } from '../pmd';
 import { getAuxHue } from '../pmd';
 import { showToast, downloadFile } from './render';

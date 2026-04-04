@@ -1,3 +1,11 @@
+// ui-render.ts
+//
+// Purpose: Renders theme colors and UI components to the DOM
+//
+// This module:
+// - Applies color palettes to CSS custom properties
+// - Renders color grids, code previews, and toast notifications
+// - Handles file download triggers from UI events
 import type { Base16Color, Base16Palette } from '../pmd';
 import { getContrastColor } from '../color';
 
