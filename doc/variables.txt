@@ -3,25 +3,25 @@
 PMD uses mutable variables formatted as <lightness%>x<opacity%><+hue-offset>
 
 OKLCH Variable Definitions (Neutral Tone L/C Values):
-Variable | Dark L / C   | Light L / C  | Purpose
----------|--------------|--------------|-------------------------
-100x     | 1.00 / 0.000 | 0.00 / 0.000 | Max Contrast Text/Symbol
-88x      | 0.88 / 0.056 | 0.28 / 0.032 | Headers, Icons, Selection
-80x      | 0.80 / 0.100 | 0.20 / 0.032 | Body Text, Description
-72x      | 0.72 / 0.122 | 0.32 / 0.052 | Accent, Subtext, Links
-8x       | 0.20 / 0.032 | 0.88 / 0.056 | Base Containers, Surfaces
-4x       | 0.16 / 0.022 | 0.92 / 0.044 | True Background (base00)
-0x       | 0.00 / 0.000 | 1.00 / 0.000 | Black/White Tinting Anchor
+ Variable | Dark L / C   | Light L / C  | Purpose
+ ---------|--------------|--------------|-------------------------
+ 100x     | 1.00 / 0.000 | 0.00 / 0.000 | Priority 0 (absolute)
+ 88x      | 0.88 / 0.056 | 0.28 / 0.032 | Priority 1
+ 80x      | 0.80 / 0.100 | 0.20 / 0.032 | Priority 2
+ 72x      | 0.72 / 0.122 | 0.32 / 0.052 | Priority 3
+ 8x       | 0.20 / 0.032 | 0.88 / 0.056 | Priority 4 (surface)
+ 4x       | 0.16 / 0.022 | 0.92 / 0.044 | Priority 5 (floor)
+ 0x       | 0.00 / 0.000 | 1.00 / 0.000 | Tinting anchor
 
 Opacity Variants:
-Each variable supports multiple opacity variants:
-- @100% - Full visibility (no suffix)
-- @80%  - Soft content (base03, base0F)
-- @64%  - Muted elements
-- @40%  - Subtle layers
-- @24%  - Disabled states, hover overlays
-- @16%  - Surface layers (base02 compositing)
-- @8%   - Background surfaces
+ Each variable supports multiple opacity variants:
+ - @100% (no suffix)
+ - @80%
+ - @64%
+ - @40%
+ - @24%
+ - @16%
+ - @8%
 
 Auxiliary Hue System:
 Auxiliary hues use +180° offset by default:

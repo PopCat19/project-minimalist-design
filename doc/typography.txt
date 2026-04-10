@@ -18,9 +18,7 @@ Mono (FiraCode Nerd Font)
 - Usage: Code snippets, HEX/OKLCH values, icons
 
 Typographic Shade Hierarchy:
-88x - Headers, titles, sections (Primary emphasis)
-80x - Descriptions, body text, definitions (Secondary emphasis)
-72x - Subtext, links, smaller text (Subtle emphasis)
+See hierarchy.txt ownership table.
 
 Icon Sizing:
 - Material Symbols Standard: 1.5rem (24px)

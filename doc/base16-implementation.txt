@@ -36,25 +36,9 @@ The implementation uses Newton-Raphson iteration for accurate color conversion:
    - Outputs hex color format: #RRGGBB
 
 PMD HD Specification Logic:
-- Tiered Visibility: Uses Lightness for global hierarchy
-- Soft Content: Muted text (base03) is baked at 80% alpha
-- Physical Metadata: Subtext (base04) is dropped to the 72x lightness tier
-- Hue Rotation: Accent colors use fixed hue offsets for distinction
-- Functional Aux: Uses (Root + 180°) for complementary contrast
+- base03 baked at 80% alpha
+- base04 maps to 72x tier
+- Accent hue offsets: see variables.txt
+- Aux hue: (root + 180°) mod 360
 
-Hue Rotation System:
-The accent colors use fixed hue offsets from the root hue:
-- base09: root + 290° (Constants)
-- base0C: root + 140° (Support)
-- base0D: root + 30° (Functions)
-- base0E: root - 30° (Keywords)
-
-Rotation formula: rot(base, deg) = (base + deg + 360) mod 360
-
-Implementation Notes:
-The HD specification provides a comprehensive mapping system that ensures
-perceptual uniformity while maintaining semantic color relationships across
-different UI components and code syntax highlighting contexts.
-
-The OKLCH implementation ensures accurate color reproduction across different
-displays while maintaining the perceptual benefits of the OKLCH colorspace.
+Hue rotation and palette logic: see variables.txt and palettes.txt.

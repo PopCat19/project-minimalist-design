@@ -1,19 +1,48 @@
 ===== HIERARCHY THROUGH VISIBILITY =====
 
+## Rule
+
+Each element class owns one lightness tier. Tier name defines reading
+priority — 88x is always seen first, regardless of its L value in the
+active variant. Opacity modulates state within the owned tier. No class
+borrows another's tier.
+
+Exception: active inversion. When an element is drawn on an 88x surface,
+on-surface elements use 8x (the floor). The tier relationship flips
+locally at that boundary only.
+
 PMD establishes hierarchy through visibility properties rather than 
 decorative elements:
 
-Hierarchy Framework (Top-Down / Z-Layer / Y-Axis):
-Lightness: Primary differentiator (100x > 88x > 80x > 64x > 8x > 4x > 0x)
-Opacity: Subtle layering and emphasis (100% > 80% > 64% > 40% > 24% > 12% > 8%)
-Weight: Typographic emphasis (Bold > Semibold > Medium)
-Spacing: Breathing room and grouping (larger = more important)
-Radius: Element prominence (1rem default for all frames)
+## Reading Priority (highest → lowest)
 
-Component Hierarchy Examples:
-88x - Selection/hover borders, Icon/hero elements (Highest priority)
-80x - Text/label elements (Secondary priority)
-88x - Dropdown/trail elements (Navigation priority)
+88x → 80x → 72x → 8x → 4x
 
-Note: Icons take visual priority due to their symbolic nature and immediate 
-recognition at glance.
+Tier names are stable across variants. The variable system remaps L values
+per variant — 88x is brightest in dark, darkest in light. Priority is
+invariant; L value is not.
+
+## Ownership Table
+
+Element Class       Tier   Opacity   State
+──────────────────────────────────────────
+Icon, Header        88x    100%      Active
+Icon, Header        88x    24%       Inactive / Disabled
+Body text           80x    100%      Default
+Body text           80x    48%       Collapsed / Secondary
+Timestamp, Meta     80x    48%       Only value — never full opacity
+Subtext, Link       72x    100%      Default
+Surface             8x     100%      Solid card / panel bg
+Surface overlay     8x     16%       Composited with 80x (base02)
+Background          4x     —         Floor, never foreground
+
+## Hierarchy Properties
+
+Lightness: Tier ownership (see table above)
+Opacity:   State within tier (100% active → 24% disabled)
+Weight:    Typographic emphasis (Bold > Semibold > Medium)
+Spacing:   Grouping and importance (larger = more prominent)
+Radius:    1rem default for all frames
+
+Icons own 88x for the same reason headers do: immediate recognition
+precedes reading. Ownership is by element class, not component context.
