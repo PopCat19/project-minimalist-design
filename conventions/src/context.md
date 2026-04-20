@@ -1,8 +1,8 @@
 # Context
 
-- `changelog.sh` — Generates changelog from git history and manages merge workflows
+- `changelog.sh` — Changelog generation and merge workflow
 - `check-context.sh` — Verifies context.md files match actual directory contents
-- `lib.sh` — Provides shared logging, prompt, and git utilities for convention tooling
-- `lint.sh` — Runs shell script linting and formatting via shfmt and shellcheck
-- `merge.sh` — Handles git merges with automatic conflict resolution and backup tags
-- `sync.sh` — Syncs dev-conventions files from remote GitHub repositories
+- `lib.sh` — Shared utilities for dev-conventions tool
+- `lint.sh` — Shell script linting and formatting utilities
+- `merge.sh` — Git merge utilities with automatic conflict resolution
+- `sync.sh` — Sync dev-conventions files from remote repository
