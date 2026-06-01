@@ -194,9 +194,10 @@
     font-size: var(--fs);
     font-family: Fira Code, monospace;
     font-weight: 500;
+    transition: outline-color 0ms;
   }
-  .hue-input:hover { outline-color: var(--hout); transition: outline-color 0ms; }
-  .hue-input:focus { outline-color: var(--base07); transition: outline-color 0ms; }
+  .hue-input:hover { outline-color: var(--hout); }
+  .hue-input:focus { outline-color: var(--base07); }
   .hue-input::-webkit-outer-spin-button,
   .hue-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .hue-input[type=number] { -moz-appearance: textfield; }
