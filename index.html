@@ -92,6 +92,10 @@
     border-bottom: 2px solid var(--base02);
   }
   .hero svg { flex-shrink: 0; }
+  .hero-logo-r { transition: fill 1000ms var(--ease); }
+  .hero-logo-r.a { fill: var(--base04); }
+  .hero-logo-r.b { fill: var(--base06); }
+  .hero-logo-r.c { fill: var(--base07); }
   .hero-text { display: flex; flex-direction: column; gap: 0; }
   .hero-text .brand {
     font-size: 1.0rem; font-weight: 600; line-height: 1.25;
@@ -643,7 +647,7 @@
 
 <header class="mobile-header">
   <div class="hero">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="1" y="3" width="18" height="12" rx="4" fill="var(--base04)" opacity="0.5"/><rect x="7" y="8" width="18" height="12" rx="4" fill="var(--base06)" opacity="0.7"/><rect x="13" y="13" width="18" height="12" rx="4" fill="var(--base07)"/></svg>
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect class="hero-logo-r a" x="1" y="3" width="18" height="12" rx="4" opacity="0.5"/><rect class="hero-logo-r b" x="7" y="8" width="18" height="12" rx="4" opacity="0.7"/><rect class="hero-logo-r c" x="13" y="13" width="18" height="12" rx="4"/></svg>
     <div class="hero-text">
       <span class="brand">PMD</span>
     </div>
@@ -657,9 +661,9 @@
   <aside class="sidebar" id="sidebar">
     <div class="hero">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <rect x="1" y="3" width="18" height="12" rx="4" fill="var(--base04)" opacity="0.5"/>
-        <rect x="7" y="8" width="18" height="12" rx="4" fill="var(--base06)" opacity="0.7"/>
-        <rect x="13" y="13" width="18" height="12" rx="4" fill="var(--base07)"/>
+        <rect class="hero-logo-r a" x="1" y="3" width="18" height="12" rx="4" opacity="0.5"/>
+        <rect class="hero-logo-r b" x="7" y="8" width="18" height="12" rx="4" opacity="0.7"/>
+        <rect class="hero-logo-r c" x="13" y="13" width="18" height="12" rx="4"/>
       </svg>
       <div class="hero-text">
         <span class="brand">PMD</span>
