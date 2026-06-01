@@ -29,7 +29,12 @@
     outline-offset: -2px;
   }
 
-  :active { outline-color: var(--base07); }
+  /* Click feedback: 100x outline flash on interactive elements */
+  .preset:active, .scheme-btn:active, .lock-btn:active, .export-btn:active,
+  .doc-nav-btn:active, .menu-btn:active, .color-card:active, .fab:active,
+  .export-sheet-btn:active, .export-sheet-close:active {
+    outline-color: var(--base07);
+  }
 
   /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
   body, .sidebar, .sidebar *, .main, .main *,
@@ -362,7 +367,7 @@
     -webkit-backdrop-filter: blur(24px);
   }
 
-  .color-info { padding: 0.5rem 0.625rem; }
+  .color-info { padding: 0.5rem 0.625rem; text-align: center; }
   .color-name {
     font-weight: 600; font-size: var(--fs); margin-bottom: 0.0625rem;
     color: var(--base06);
