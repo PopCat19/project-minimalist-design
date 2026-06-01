@@ -83,6 +83,31 @@ Shell script linting and formatting (shfmt, shellcheck). Called via `dev-convent
 
 Verifies `context.md` files match actual directory contents. Detects structural and content drift.
 
+## Project-Specific Documentation
+
+The `doc/` directory contains all PMD design system documentation.
+Start with `doc/context.md` for a file-by-file index, then read
+specific files as needed.
+
+**Key entry points:**
+- `doc/overview.txt` — Design philosophy, foundation slots, stack expressions
+- `doc/variables.txt` — Foundation slot definitions (dark/light), naming conventions
+- `doc/hierarchy.txt` — Visual hierarchy rules, ownership table, alert column
+- `doc/palettes.txt` — Base16 YAML mapping table
+- `doc/effects.txt` — Borders, radius, hover/focus, backdrop blur
+- `doc/patterns.txt` — Reusable structural patterns (welded panels, button groups, etc.)
+- `doc/typography.txt` — Fredoka font, weights (600/500/700), sizes (48/40/20/16/12/10/8px)
+- `doc/spacing.txt` — Gaps, padding, border-radius conventions
+- `doc/usage.txt` — Implementation guidelines and Nix integration
+
+**When working on the codebase, read the relevant doc files first.**
+The design system rules in `doc/` are the source of truth for how
+PMD colors, spacing, typography, and patterns should behave.
+
+**Repo vocabulary mapping** lives in the root `context.md`, not in
+convention files. It maps DDD terms (Aggregate Root, Bounded Context,
+etc.) to this repo's actual file structure.
+
 ## Important Notice
 
 **Do not revise these files unless explicitly requested by the user:**
@@ -92,9 +117,5 @@ Verifies `context.md` files match actual directory contents. Detects structural 
 - `SKILL.md` — Condensed conventions derived from DEVELOPMENT.md
 - `src/changelog.sh` — Workflow script following project conventions
 - `src/sync.sh` — Workflow script following project conventions
-
-**Repo-specific vocabulary mapping lives in the root `context.md`, not in
-convention files. Do not add project paths to DEVELOPMENT.md or
-SKILL.md.**
 
 These files represent intentional design decisions. Modifications should only occur when the user explicitly states a need for changes.
