@@ -4,6 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "bun build src/ts/main.ts --outdir=dist --target=browser",
-		"dev": "bun run src/dev-server.ts"
+		"dev": "bun run src/dev-server.ts",
+		"serve": "bun run src/dev-server.ts"
 	}
 }
