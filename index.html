@@ -34,7 +34,11 @@
   .color-card, .color-card *, .color-swatch,
   .stack-swatch, .stack-swatch::before, .stack-swatch::after,
   .ui-pv, .ui-pv *, .preview-content, .preview-content * {
-    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
+    transition: background 1000ms var(--ease), background-image 1000ms var(--ease),
+                color 1000ms var(--ease),
+                border-color 1000ms var(--ease), outline-color 1000ms var(--ease),
+                outline 1000ms var(--ease), transform 500ms var(--ease),
+                opacity 1000ms var(--ease);
   }
 
   /* Interactive children in themed containers: keep outline fast */
@@ -43,7 +47,11 @@
   .main .preset, .main .scheme-btn, .main .lock-btn,
   .main .export-btn, .main .doc-nav-btn, .main .menu-btn,
   .color-card {
-    transition-duration: 1000ms, 1000ms, 1000ms, 150ms, 150ms, 150ms, 500ms, 1000ms;
+    transition: background 1000ms var(--ease), background-image 1000ms var(--ease),
+                color 1000ms var(--ease),
+                border-color 150ms var(--ease), outline-color 150ms var(--ease),
+                outline 150ms var(--ease), transform 500ms var(--ease),
+                opacity 1000ms var(--ease);
   }
 
   /* ── Semantic layer variables ── */
