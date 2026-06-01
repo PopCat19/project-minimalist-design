@@ -821,7 +821,12 @@
           width: 1.5rem; height: 0.75rem; border-radius: 0.5rem; flex-shrink: 0;
         }
         .cref-radio {
-          width: 0.5rem; height: 0.5rem; border-radius: 50%; flex-shrink: 0;
+          width: 0.75rem; height: 0.75rem; border-radius: 50%; flex-shrink: 0;
+          border: 2px solid; display: flex; align-items: center; justify-content: center;
+        }
+        .cref-radio::after {
+          content: ''; width: 0.375rem; height: 0.375rem; border-radius: 50%;
+          background: var(--cref-panel);
         }
 
         .cref-pagination { display: flex; gap: 0.25rem; align-items: center; }
@@ -845,6 +850,13 @@
         }
         .cref-sl-std-dot {
           width: 0.25rem; height: 0.25rem; border-radius: 50%; flex-shrink: 0;
+        }
+
+        .cref-sl-pg-fill {
+          height: 0.5rem; border-radius: var(--r) 0.25rem 0.25rem var(--r); flex-shrink: 0;
+        }
+        .cref-sl-pg-track {
+          flex: 1; height: 0.5rem; border-radius: 0.25rem var(--r) var(--r) 0.25rem;
         }
 
         .cref-ws-card {
