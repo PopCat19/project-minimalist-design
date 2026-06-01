@@ -28,11 +28,11 @@
     outline-offset: -2px;
   }
 
-  /* Interactive feedback stays at 200ms */
+  /* Interactive feedback stays at 120ms */
   .preset:hover, .scheme-btn:hover, .lock-btn:hover, .export-btn:hover,
   .doc-nav-btn:hover, .menu-btn:hover, .color-card:hover::after,
   .hue-input:hover, .hue-input:focus, :focus-visible {
-    transition-duration: 200ms, 200ms, 200ms, 200ms, 200ms, 100ms, 200ms;
+    transition-duration: 120ms, 120ms, 120ms, 120ms, 120ms, 80ms, 120ms;
   }
 
   /* ── Semantic layer variables ── */
@@ -301,15 +301,16 @@
     position: relative;
     z-index: 0;
   }
-  .color-card:hover::after {
+  .color-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    border: 2px solid var(--hout);
+    border: 2px solid transparent;
     border-radius: inherit;
     pointer-events: none;
     z-index: 2;
   }
+  .color-card:hover::after { border-color: var(--hout); }
   .color-card:active { transform: scale(0.98); }
 
   .color-swatch {
