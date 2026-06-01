@@ -113,7 +113,6 @@
 
   /* ── Hover outline token: 100x default, 4x on CTA fill ── */
   :root { --hout: var(--base07); }
-  .scheme-btn.active, .lock-btn.active, .doc-nav-btn.active { --hout: var(--base00); }
 
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
@@ -189,7 +188,7 @@
     position: relative;
     transition: transform 0.12s;
   }
-  .preset:hover  { outline: 2px solid var(--base07); outline-offset: -2px; z-index: 1; }
+  .preset:hover  { outline: 2px solid var(--hout); outline-offset: -2px; z-index: 1; }
   .preset:active { transform: scale(0.94); }
   .preset::after {
     content: attr(data-name);
@@ -227,11 +226,12 @@
     transition: background 0.12s, color 0.12s;
   }
   .scheme-btn.active, .lock-btn.active {
+    --hout: var(--base00);
     background: var(--base06);
     color: var(--base01);
   }
   .scheme-btn:active, .lock-btn:active { transform: scale(0.96); }
-  .scheme-btn:hover, .lock-btn:hover { outline: 2px solid var(--base00); outline-offset: -2px; }
+  .scheme-btn:hover, .lock-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
 
   /* ── Export buttons ── */
   .export-sidebar {
@@ -253,7 +253,7 @@
     font-family: inherit;
     transition: background 0.12s;
   }
-  .export-btn:hover { outline: 2px solid var(--base07); outline-offset: -2px; }
+  .export-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
   .export-btn:active { transform: scale(0.97); }
   .export-btn svg { width: 1.25rem; height: 1.25rem; opacity: 0.6; }
 
@@ -439,7 +439,7 @@
     color: var(--base05); cursor: pointer;
   }
   .menu-btn:active { transform: scale(0.94); }
-  .menu-btn:hover { outline: 2px solid var(--base07); outline-offset: -2px; }
+  .menu-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
 
   /* ── Sidebar overlay (mobile) ── */
   .sb-overlay {
@@ -555,8 +555,8 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .doc-nav-btn:hover  { outline: 2px solid var(--base07); outline-offset: -2px; }
-  .doc-nav-btn.active { background: var(--base06); color: var(--base01); }
+  .doc-nav-btn:hover  { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .doc-nav-btn.active { --hout: var(--base00); background: var(--base06); color: var(--base01); }
 
   #docViewer {
     flex: 1; padding: 1.5rem 2.0rem; overflow-y: auto;
