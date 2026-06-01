@@ -6,8 +6,8 @@ Handle height is always 2× the track height.
 Compact:
   Track height: 12px
   Handle:       4×24px, fully rounded (radius 16px)
-  Active track:  radius 16px 2px 2px 16px
-  Inactive:      radius 2px 16px 16px 2px
+  Active track:  radius 16px 4px 4px 16px
+  Inactive:      radius 4px 16px 16px 4px
 
 Standard:
   Track height: 16px
@@ -17,8 +17,8 @@ Standard:
 
 Common (both variants):
   Gap between segments: 4px
-  Stop indicator:       4×4px dot, 80x at 100%, fully rounded
-  Active track + handle: 88x at 100% (or 88×12 for active device)
+  Stop indicator:       4×4px dot, 80x, fully rounded (radius 16px)
+  Active track + handle: 88x
   Inactive track:        80×48%
 
 Labels:
