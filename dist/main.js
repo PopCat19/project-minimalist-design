@@ -251,21 +251,27 @@ function renderPresets(containerId, isDark, setHueCallback) {
     return;
   const pmd = isDark ? PMD_DARK : PMD_LIGHT;
   const theme = pmd["72x"];
-  container.innerHTML = presets.map((preset) => {
-    const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
-    const hex = rgbToHex(rgb);
-    return `
+  const root = document.documentElement;
+  if (!container.dataset.ready) {
+    container.innerHTML = presets.map((preset, i) => {
+      return `
             <button class="preset"
-                    style="background: ${hex};"
+                    style="background: var(--pr-${i});"
                     data-name="${preset.name}"
                     data-hue="${preset.hue}">
             </button>`;
-  }).join("");
-  container.querySelectorAll(".preset").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const hue = parseInt(btn.dataset.hue || "0", 10);
-      setHueCallback(hue);
+    }).join("");
+    container.querySelectorAll(".preset").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const hue = parseInt(btn.dataset.hue || "0", 10);
+        setHueCallback(hue);
+      });
     });
+    container.dataset.ready = "1";
+  }
+  presets.forEach((preset, i) => {
+    const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
+    root.style.setProperty(`--pr-${i}`, rgbToHex(rgb));
   });
 }
 function updateSliderGradient(sliderId, isDark) {
