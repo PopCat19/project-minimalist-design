@@ -30,10 +30,10 @@
   }
 
   /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
-  body, .sidebar, .main, .color-card, .color-swatch, .stack-swatch,
-  .stack-swatch::before, .stack-swatch::after,
-  .ui-pv, .ui-pv *, .preview-content, .color-info, .color-name, .color-desc,
-  .swatch-hex, .swatch-oklch, .scheme-btn, .lock-btn, .preset {
+  body, .sidebar, .sidebar *, .main, .main *,
+  .color-card, .color-card *, .color-swatch,
+  .stack-swatch, .stack-swatch::before, .stack-swatch::after,
+  .ui-pv, .ui-pv *, .preview-content, .preview-content * {
     transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
   }
 
@@ -202,7 +202,6 @@
     border-radius: var(--r);
     cursor: pointer;
     position: relative;
-    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 150ms, 150ms, 500ms, 1000ms;
   }
   .preset:hover  { outline-color: var(--hout); z-index: 1; }
   .preset:active { transform: scale(0.94); }
@@ -239,7 +238,6 @@
     cursor: pointer;
     border-radius: var(--r);
     font-family: inherit;
-    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 150ms, 150ms, 500ms, 1000ms;
   }
   .scheme-btn.active, .lock-btn.active {
     --hout: var(--base02);
