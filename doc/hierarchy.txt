@@ -24,6 +24,10 @@ Element             Tier     Opacity   State
 Heading             88x      100%      Active / Prominent
 Heading (disabled)  88x      24%       Inactive / Disabled
 Active fill         88x      100%      Selected toggle / tab
+                                        Text on active uses the
+                                        surface colour beneath it,
+                                        skipping alpha-composited
+                                        intermediate layers.
 Body text           80x      100%      Default labels, body
 Source name         80x      100%      Small secondary heading
 Timestamp, Meta     80x      48%       Muted — never full opacity

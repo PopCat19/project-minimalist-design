@@ -13,6 +13,14 @@ Borders:
 No Shadows, No Gradients:
   Depth is communicated through lightness tier alone.
 
+Active Fill Text:
+  Text on a filled active surface (88x toggle, filled track)
+  uses the colour of the surface beneath the fill — not a
+  computed contrast colour, not a fixed tier. If the surface
+  immediately beneath is alpha-composited (80×8%, 80×48%),
+  skip it and use the next opaque surface below. This keeps
+  the text anchored to context rather than floating free.
+
 Widget Surfaces:
   Built as 8x at 100% layered with 80×8% tint. This is the
   canonical widget background: composite(8x, 80x, 0.08).
