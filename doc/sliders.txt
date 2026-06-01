@@ -1,3 +1,7 @@
+# sliders.txt
+#
+# Purpose: Slider component specification with two size variants
+
 ===== SLIDER COMPONENT =====
 
 Two size variants share identical structure, scaled proportionally.

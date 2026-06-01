@@ -10,7 +10,9 @@
 - `opacity.txt` — Opacity and transparency guidelines
 - `overview.txt` — High-level overview of the PMD design system
 - `palettes.txt` — Palette mapping and color assignment rules
+- `patterns.txt` — Reusable structural design patterns for the PMD design system
 - `scale.txt` — Typographic and spacing scale definitions
+- `sliders.txt` — Slider component specification with two size variants
 - `spacing.txt` — Spacing system and layout grid rules
 - `typography.txt` — Typography choices and font pairing guidelines
 - `usage.txt` — Usage guidelines for applying the design system

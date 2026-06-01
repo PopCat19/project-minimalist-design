@@ -1,5 +1,9 @@
-# Jekyll configuration for GitHub Pages
-# Excludes convention files from processing to avoid Liquid syntax errors
+# _config.yml
+#
+# Purpose: Jekyll configuration for GitHub Pages, excludes conventions from processing
+#
+# This module:
+# - Excludes convention files to avoid Liquid syntax errors
 
 exclude:
   - conventions/

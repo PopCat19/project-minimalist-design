@@ -1,4 +1,6 @@
-# Changelog — dev → main
+# CHANGELOG-407aea2.md
+#
+# Purpose: Changelog for the dev → main merge at commit 407aea2
 
 **Date:** 2026-02-16
 **Branch:** dev

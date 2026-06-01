@@ -1,4 +1,6 @@
-# Project Minimalist Design
+# README.md
+#
+# Purpose: Project overview and quick start guide for PMD design system
 
 A design system emphasizing simplicity and practicality through YAGNI and DRY principles.
 

@@ -1,3 +1,7 @@
+# patterns.txt
+#
+# Purpose: Reusable structural design patterns for the PMD design system
+
 ===== STRUCTURAL PATTERNS =====
 
 These are reusable compositional patterns, not component specs.
