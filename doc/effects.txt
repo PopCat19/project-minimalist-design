@@ -4,7 +4,7 @@ PMD communicates depth, state, and structure without decorative
 effects. Every visual property has a functional role.
 
 Backdrop Blur:
-  Apply to 8×40% (flyout) surfaces only. Blur amount: 12–24px.
+  Apply to 8×40% (flyout) surfaces only. Blur amount: 24px.
   Solid (8x 100%) surfaces never blur. The blur creates a
   sense of elevation without shadows.
 
