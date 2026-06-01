@@ -191,6 +191,13 @@ function initEventListeners(): void {
 			val = Math.max(0, Math.min(HUE_MAX, val));
 			setHue(val);
 		});
+		hueInput.addEventListener("wheel", (e) => {
+			e.preventDefault();
+			const step = e.deltaY < 0 ? 1 : -1;
+			let val = (parseInt(hueInput.value, 10) || 0) + step;
+			val = Math.max(0, Math.min(HUE_MAX, val));
+			setHue(val);
+		});
 	}
 
 	document.querySelectorAll(".scheme-toggle .scheme-btn").forEach((btn) => {
