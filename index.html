@@ -29,12 +29,12 @@
     outline-offset: -2px;
   }
 
-  /* Interactive feedback: 150ms linear */
+  /* Interactive feedback: 150ms ease-in-out */
   .preset:hover, .scheme-btn:hover, .lock-btn:hover, .export-btn:hover,
   .doc-nav-btn:hover, .menu-btn:hover, .color-card:hover::after,
   .hue-input:hover, .hue-input:focus, :focus-visible {
     transition-duration: 150ms, 150ms, 150ms, 150ms, 150ms, 150ms, 100ms, 150ms;
-    transition-timing-function: linear, linear, linear, linear, linear, linear, linear, linear;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
   }
 
   /* ── Semantic layer variables ── */
