@@ -29,19 +29,13 @@
     outline-offset: -2px;
   }
 
-  /* Click feedback: 100x outline flash on interactive elements */
-  .preset:active, .scheme-btn:active, .lock-btn:active, .export-btn:active,
-  .doc-nav-btn:active, .menu-btn:active, .color-card:active, .fab:active,
-  .export-sheet-btn:active, .export-sheet-close:active {
-    outline-color: var(--base07);
-  }
-
-  /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
-  body, .sidebar, .sidebar *, .main, .main *,
-  .color-card, .color-card *, .color-swatch,
-  .stack-swatch, .stack-swatch::before, .stack-swatch::after,
-  .ui-pv, .ui-pv *, .preview-content, .preview-content * {
-    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
+  /* Interactive children in themed containers: keep outline fast */
+  .sidebar .preset, .sidebar .scheme-btn, .sidebar .lock-btn,
+  .sidebar .export-btn, .sidebar .doc-nav-btn, .sidebar .menu-btn,
+  .main .preset, .main .scheme-btn, .main .lock-btn,
+  .main .export-btn, .main .doc-nav-btn, .main .menu-btn,
+  .color-card {
+    transition-duration: 1000ms, 1000ms, 1000ms, 150ms, 150ms, 150ms, 500ms, 1000ms;
   }
 
   /* ── Semantic layer variables ── */
@@ -596,6 +590,14 @@
   }
 
   /* ── Responsive ── */
+
+  /* Click feedback: 100x outline flash on interactive elements */
+  .preset:active, .scheme-btn:active, .lock-btn:active, .export-btn:active,
+  .doc-nav-btn:active, .menu-btn:active, .color-card:active, .fab:active,
+  .export-sheet-btn:active, .export-sheet-close:active {
+    outline-color: var(--base07);
+  }
+
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; }
 
