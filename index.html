@@ -112,7 +112,7 @@
   }
 
   /* ── Hover outline token: 100x default, 4x on CTA fill ── */
-  :root { --hout: var(--base07); }
+  :root { --hout: var(--base05); }
 
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
@@ -157,7 +157,11 @@
     font-weight: 500;
     transition: outline-color 0.12s;
   }
+  .hue-input:hover { outline-color: var(--hout); }
   .hue-input:focus { outline-color: var(--base07); }
+  .hue-input::-webkit-outer-spin-button,
+  .hue-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .hue-input[type=number] { -moz-appearance: textfield; }
   .hue-suffix { font-size: 0.625rem; color: var(--base04); }
 
   /* ── Aux display ── */
@@ -194,11 +198,11 @@
     content: attr(data-name);
     position: absolute; bottom: 50%; left: 50%;
     transform: translate(-50%, 50%);
-    font-size: 0.625rem; font-weight: 600;
-    color: var(--base04);
-    background: var(--base02);
-    padding: 0.25rem 0.5rem;
-    border-radius: 1.0rem;
+    font-size: 0.5rem; font-weight: 500;
+    color: var(--label, var(--base05));
+    background: var(--base01);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.5rem;
     white-space: nowrap;
     opacity: 0; transition: opacity 0.12s;
     pointer-events: none;

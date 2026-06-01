@@ -6,7 +6,7 @@
 // - Manages hue/lightness/chroma sliders and gradient backgrounds
 // - Provides preset color configurations
 // - Handles slider interactions and theme switching
-import { rgbToHex, safeOklchToRgb } from "../color";
+import { getContrastColor, rgbToHex, safeOklchToRgb } from "../color";
 import { HUE_MAX, PMD_DARK, PMD_LIGHT } from "../pmd";
 
 const GRADIENT_STEP = 30;
@@ -44,9 +44,10 @@ export function renderPresets(
 		.map((preset) => {
 			const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
 			const hex = rgbToHex(rgb);
+			const lbl = getContrastColor(rgb.r, rgb.g, rgb.b);
 			return `
             <button class="preset"
-                    style="background: ${hex};"
+                    style="background: ${hex}; --label: ${lbl};"
                     data-name="${preset.name}"
                     data-hue="${preset.hue}">
             </button>`;

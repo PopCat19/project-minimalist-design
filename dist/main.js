@@ -254,9 +254,10 @@ function renderPresets(containerId, isDark, setHueCallback) {
   container.innerHTML = presets.map((preset) => {
     const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
     const hex = rgbToHex(rgb);
+    const lbl = getContrastColor(rgb.r, rgb.g, rgb.b);
     return `
             <button class="preset"
-                    style="background: ${hex};"
+                    style="background: ${hex}; --label: ${lbl};"
                     data-name="${preset.name}"
                     data-hue="${preset.hue}">
             </button>`;

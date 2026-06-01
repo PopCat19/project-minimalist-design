@@ -15,7 +15,7 @@ No Shadows, No Gradients:
   and would conflict with the tier system.
 
 Hover and Focus Feedback:
-  Hover uses a 100x inner outline (2px, outline-offset: -2px)
+  Hover uses an 80x inner outline (2px, outline-offset: -2px)
   — the highest tier is always distinguishable. Keyboard
   focus (:focus-visible) uses 2px 80×48% to signal "here"
   without competing with content. Input fields default to

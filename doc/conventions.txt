@@ -15,10 +15,10 @@ No Shadows, No Gradients:
 
 Hover Feedback:
   Use a `--hout` custom property for hover outlines. Default
-  value is 100x (highest-priority tier). Active/CTA elements
-  (88x fill) override to 4x — the opposite tier always
-  contrasts regardless of scheme. All hover rules reference
-  `var(--hout)`, not per-component hardcodes.
+  value is 80x (body-text tier). Active/CTA elements (88x
+  fill) override to 4x — the opposite tier always contrasts
+  regardless of scheme. All hover rules reference `var(--hout)`,
+  not per-component hardcodes.
 
 Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
