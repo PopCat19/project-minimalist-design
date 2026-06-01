@@ -234,7 +234,6 @@ function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
   return colors;
 }
 // src/ts/ui/controls.ts
-var GRADIENT_STEP = 30;
 var presets = [
   { name: "Red", hue: 30 },
   { name: "Orange", hue: 60 },
@@ -274,18 +273,7 @@ function renderPresets(containerId, isDark, setHueCallback) {
     root.style.setProperty(`--pr-${i}`, rgbToHex(rgb));
   });
 }
-function updateSliderGradient(sliderId, isDark) {
-  const slider = document.getElementById(sliderId);
-  if (!slider)
-    return;
-  const theme = (isDark ? PMD_DARK : PMD_LIGHT)["72x"];
-  const stops = [];
-  for (let i = 0;i <= HUE_MAX; i += GRADIENT_STEP) {
-    const rgb = safeOklchToRgb(theme.l, theme.c, i);
-    stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
-  }
-  slider.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
-}
+function updateSliderGradient(_sliderId, _isDark) {}
 // src/ts/ui/docs.ts
 var pmdDocs = [
   { name: "Overview", path: "doc/overview.txt" },

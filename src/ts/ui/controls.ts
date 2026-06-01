@@ -7,9 +7,7 @@
 // - Provides preset color configurations
 // - Handles slider interactions and theme switching
 import { rgbToHex, safeOklchToRgb } from "../color";
-import { HUE_MAX, PMD_DARK, PMD_LIGHT } from "../pmd";
-
-const GRADIENT_STEP = 30;
+import { PMD_DARK, PMD_LIGHT } from "../pmd";
 
 interface Preset {
 	name: string;
@@ -69,15 +67,9 @@ export function renderPresets(
 	});
 }
 
-export function updateSliderGradient(sliderId: string, isDark: boolean): void {
-	const slider = document.getElementById(sliderId) as HTMLInputElement;
-	if (!slider) return;
-
-	const theme = (isDark ? PMD_DARK : PMD_LIGHT)["72x"];
-	const stops: string[] = [];
-	for (let i = 0; i <= HUE_MAX; i += GRADIENT_STEP) {
-		const rgb = safeOklchToRgb(theme.l, theme.c, i);
-		stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
-	}
-	slider.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
+export function updateSliderGradient(
+	_sliderId: string,
+	_isDark: boolean,
+): void {
+	// Slider uses PMD tokens (--base03 track, --base06 thumb) — no gradient
 }
