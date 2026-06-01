@@ -318,48 +318,44 @@ export function renderUIPreview(
 	const alertBg = hex("88x", 12);
 	const alertBorder = `${c88}FF`;
 
-	const F = "font-family:Fredoka,system-ui,sans-serif";
-	const T12 = "font-size:0.75rem;line-height:1.25";
-	const T10 = "font-size:0.625rem;line-height:1.25";
-
 	container.innerHTML = `
-    <div style="background:${c4x};border-radius:1rem;padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;${F}">
-<div style="display:flex;gap:0.5rem">
-        <div style="flex:1;background:${c8x};border-radius:1rem;padding:0.75rem">
-          <div style="color:${c88};font-weight:600;${T12};margin-bottom:0.25rem">Header · 88x 600</div>
-          <div style="color:${c72};font-weight:500;${T12};margin-bottom:0.625rem">Subtext · 72x 500</div>
-          <div style="display:flex;gap:0.25rem">
-            <div style="padding:0.25rem 0.5rem;border-radius:1rem;background:${c88};color:${txtOn(c88)};font-weight:600;${T12}">88x active</div>
-            <div style="padding:0.25rem 0.5rem;border-radius:1rem;background:${surfWidget};color:${txtInactive};font-weight:500;${T12}">88×24%</div>
-            <div style="padding:0.25rem 0.5rem;border-radius:1rem;background:${surfWidget};color:${c80};font-weight:500;${T12}">80×8%</div>
+    <div class="ui-pv ui-pv-panel" style="background:${c4x}">
+      <div class="ui-pv-row">
+        <div class="ui-pv-card" style="background:${c8x}">
+          <div class="ui-pv-head ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
+          <div class="ui-pv-body ui-pv-mb-xs" style="color:${c72}">Subtext · 72x 500</div>
+          <div class="ui-pv-gap-xs">
+            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:600">88x active</div>
+            <div class="ui-pv-btn" style="background:${surfWidget};color:${txtInactive};font-weight:500">88×24%</div>
+            <div class="ui-pv-btn" style="background:${surfWidget};color:${c80};font-weight:500">80×8%</div>
           </div>
         </div>
-        <div style="flex:1;background:${c8x};border-radius:1rem;padding:0.75rem;display:flex;flex-direction:column;gap:0.375rem">
-          <div style="display:flex;justify-content:space-between">
-            <span style="color:${c88};font-weight:600;${T12}">0:56</span>
-            <span style="color:${c80};font-weight:500;${T12};text-align:center;overflow:hidden;white-space:nowrap">Zen Browser</span>
-            <span style="color:${surfMuted};font-weight:500;${T12}">4:08</span>
+        <div class="ui-pv-card ui-pv-col" style="background:${c8x}">
+          <div class="ui-pv-btwn">
+            <span class="ui-pv-head" style="color:${c88}">0:56</span>
+            <span class="ui-pv-body ui-pv-center" style="color:${c80}">Zen Browser</span>
+            <span class="ui-pv-body" style="color:${surfMuted}">4:08</span>
           </div>
-          <div style="display:flex;align-items:center;height:1.5rem;gap:0.25rem">
-            <div style="width:3rem;height:0.75rem;background:${c88};border-radius:1rem 0.125rem 0.125rem 1rem;flex-shrink:0"></div>
-            <div style="width:0.25rem;height:100%;background:${c88};border-radius:1rem;flex-shrink:0"></div>
-            <div style="flex:1;height:0.75rem;background:${surfMuted};border-radius:0.125rem 1rem 1rem 0.125rem;display:flex;align-items:center;justify-content:flex-end;padding-right:0.25rem">
-              <div style="width:0.25rem;height:0.25rem;background:${c80};border-radius:1rem;flex-shrink:0"></div>
+          <div class="ui-pv-slider">
+            <div class="ui-pv-sfill" style="background:${c88}"></div>
+            <div class="ui-pv-sknob" style="background:${c88}"></div>
+            <div class="ui-pv-strack" style="background:${surfMuted}">
+              <div class="ui-pv-sdot" style="background:${c80}"></div>
             </div>
           </div>
-          <div style="display:flex;gap:0.25rem">
-            <div style="flex:1;padding:0.25rem 0.5rem;border-radius:1rem;background:${c88};color:${txtOn(c88)};text-align:center;font-weight:600;${T12}">88x active</div>
-            <div style="flex:1;padding:0.25rem 0.5rem;border-radius:1rem;background:${surfWidget};color:${c80};text-align:center;font-weight:500;${T12}">80×8% def</div>
+          <div class="ui-pv-gap-xs">
+            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:600">88x active</div>
+            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500">80×8% def</div>
           </div>
         </div>
       </div>
-      <div style="display:flex;gap:0.5rem">
-        <div style="flex:1;background:${c8x};border-radius:1rem;padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.375rem">
-          <span style="color:${surfMuted};font-weight:500;${T12}">Timestamp</span>
-          <span style="color:${surfMuted};font-weight:500;${T10}">14:32</span>
-          <span style="color:${surfMuted};font-weight:500;${T10}">· 80x 48%</span>
+      <div class="ui-pv-row">
+        <div class="ui-pv-gap-sm ui-pv-card" style="background:${c8x};padding:0.5rem 0.75rem">
+          <span class="ui-pv-body" style="color:${surfMuted}">Timestamp</span>
+          <span class="ui-pv-meta" style="color:${surfMuted}">14:32</span>
+          <span class="ui-pv-meta" style="color:${surfMuted}">· 80x 48%</span>
         </div>
-        <div style="background:${alertBg};border:2px solid ${alertBorder};border-radius:1rem;padding:0.5rem 0.75rem;color:${txtOn(alertBg)};font-weight:600;${T12}">88×12 priority</div>
+        <div class="ui-pv-alert ui-pv-head" style="background:${alertBg};border:2px solid ${alertBorder};color:${txtOn(alertBg)}">88×12 priority</div>
       </div>
     </div>`;
 }
