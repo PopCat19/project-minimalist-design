@@ -29,12 +29,11 @@
     outline-offset: -2px;
   }
 
-  /* Interactive feedback: 150ms ease-in-out */
-  .preset:hover, .scheme-btn:hover, .lock-btn:hover, .export-btn:hover,
-  .doc-nav-btn:hover, .menu-btn:hover, .color-card:hover::after,
-  .hue-input:hover, .hue-input:focus, :focus-visible {
-    transition-duration: 150ms, 150ms, 150ms, 150ms, 150ms, 150ms, 100ms, 150ms;
-    transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+  /* Interactive outline: 150ms ease-in-out, both directions */
+  .preset, .scheme-btn, .lock-btn, .export-btn, .doc-nav-btn, .menu-btn,
+  .color-card::after, .hue-input, :focus-visible {
+    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 150ms, 150ms, 500ms, 1000ms;
+    transition-timing-function: var(--ease), var(--ease), var(--ease), var(--ease), ease-in-out, ease-in-out, var(--ease), var(--ease);
   }
 
   /* ── Semantic layer variables ── */
