@@ -20,11 +20,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
 <style>
   *, *::before, *::after {
-    transition: background 150ms var(--ease), background-image 150ms var(--ease),
-                color 150ms var(--ease),
-                border-color 150ms var(--ease), outline-color 150ms var(--ease),
-                outline 150ms var(--ease), transform 100ms var(--ease),
-                opacity 150ms var(--ease);
     outline: 2px solid transparent;
     outline-offset: -2px;
   }
@@ -38,19 +33,6 @@
                 color 1000ms var(--ease),
                 border-color 1000ms var(--ease), outline-color 1000ms var(--ease),
                 outline 1000ms var(--ease), transform 500ms var(--ease),
-                opacity 1000ms var(--ease);
-  }
-
-  /* Interactive children in themed containers: keep outline fast */
-  .sidebar .preset, .sidebar .scheme-btn, .sidebar .lock-btn,
-  .sidebar .export-btn, .sidebar .doc-nav-btn, .sidebar .menu-btn,
-  .main .preset, .main .scheme-btn, .main .lock-btn,
-  .main .export-btn, .main .doc-nav-btn, .main .menu-btn,
-  .color-card {
-    transition: background 1000ms var(--ease), background-image 1000ms var(--ease),
-                color 1000ms var(--ease),
-                border-color 150ms var(--ease), outline-color 150ms var(--ease),
-                outline 150ms var(--ease), transform 500ms var(--ease),
                 opacity 1000ms var(--ease);
   }
 
@@ -606,16 +588,6 @@
   }
 
   /* ── Responsive ── */
-
-  /* Click feedback: 100x outline flash on buttons */
-  .preset:active, .scheme-btn:active, .lock-btn:active, .export-btn:active,
-  .doc-nav-btn:active, .menu-btn:active, .color-card:active, .fab:active,
-  .export-sheet-btn:active, .export-sheet-close:active,
-  .color-card:active::after {
-    outline-color: var(--base07);
-    border-color: var(--base07);
-  }
-
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; }
 
