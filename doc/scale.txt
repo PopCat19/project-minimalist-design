@@ -11,9 +11,9 @@ Borders:
   2px — Standard. Priority alerts, control clusters.
 
 Outlines (inner, -offset):
-  2px — Hover (100x). Highest priority, always distinguishable.
-  4px — Focus-visible (80×48%). Medium weight for keyboard nav.
-  Inner via outline-offset: -2px / -4px matching the width.
+  2px — Default. Hover (100x), focus-visible (80×48%).
+  Inputs default to 80×48% (matches slider inactive track),
+  override to 100x on focus. Inner via outline-offset: -2px.
 
 Gaps:
   4px  — Standard gap between sibling elements.

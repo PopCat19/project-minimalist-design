@@ -17,13 +17,13 @@ No Shadows, No Gradients:
 Hover and Focus Feedback:
   Hover uses a 100x inner outline (2px, outline-offset: -2px)
   — the highest tier is always distinguishable. Keyboard
-  focus (:focus-visible) uses a 4px 80×48% outline to signal
-  "here" without competing with content; optionally, elements
-  that need constant contrast against a similar-toned
-  background may always show an 80×8% outline as a persistent
-  boundary. Active input fields override to 100x to signal
-  "editing now." Never use scale or translate animations on
-  hover. :active may use scale(0.96) for click confirmation.
+  focus (:focus-visible) uses 2px 80×48% to signal "here"
+  without competing with content. Input fields default to
+  80×48% (matching the slider inactive track) and override to
+  100x on focus to signal "editing now." Optionally, elements
+  that need constant contrast may always show an 80×8% outline
+  as a persistent boundary. Never use scale or translate
+  animations on hover. :active may use scale(0.96).
 
 Border-Radius — Three Categories:
   16px (1rem) — default. Cards, buttons, standalone elements.
