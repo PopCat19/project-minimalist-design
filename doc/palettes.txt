@@ -22,11 +22,13 @@ Mapping Table:
   base0E  64x -30°      Keywords (hue rotated)
   base0F  80×48%        Deprecated / meta (baked)
 
-  In light themes, accent slots (base09, base0B, base0D, base0E)
-  use 64x luminance (0.36) with dark-mode chroma (0.122) to
-  match the distinguishability of dark-mode accents. The PMD
-  light 64x chroma (0.058) is intentional for subtext but too
-  subtle for code accents. Gamut clamping handles edge hues.
+  In light themes, accent slots (base09, base0B, base0E) use 64x
+  luminance (0.36) with dark-mode chroma (0.122) to match the
+  distinguishability of dark-mode accents. base0D (Functions,
+  80x+30°) keeps 80x luminance without overrides -- same tier
+  as base0A (Warning) and base0C (Support). The PMD light 64x
+  chroma (0.058) is intentional for subtext but too subtle for
+  code accents. Gamut clamping handles edge hues.
 
 Export Format:
   scheme: "PMD [Hue] [Variant]"  (e.g., "PMD 260 Dark")

@@ -13,9 +13,10 @@ Standard Stack Expressions:
   (alert column) — a hue shift, not an opacity change.
 
 Baked Values (flat/pre-multiplied):
-  80×48% (baked) = 80x at 80% over 0x — used for base03/base0F
-  in Base16 exports where alpha compositing is unavailable.
-  Equivalent to: composite(0x, composite(8x, 80x, 0.48), 1.0).
+  80×48% (baked) = composite(8x, 80x, 0.48) over 0x at full opacity.
+  Used for base03/base0F in Base16 exports where alpha compositing
+  is unavailable. Equivalent to:
+  composite(0x, composite(8x, 80x, 0.48), 1.0).
 
 Opacity values used: 8%, 24%, 40%, 48%, 80%, 100%.
 Values 16%, 64% are not used in the current system.

@@ -8,12 +8,12 @@ A design system emphasizing simplicity and practicality through YAGNI and DRY pr
 
 - View `doc/overview.txt` for design philosophy
 - Check `doc/usage.txt` for implementation guidelines
-- Explore `src/palette/pmd/` for color definitions
+- Explore the interactive generator at `index.html`
 - Open `index.html` for the base16 generator/inverter
 
 ## Structure
 
-- `src/` - Implementation assets (Nix, palettes, fonts, variables)
+- `src/` - Implementation assets (Nix, fonts, variables, TypeScript core)
 - `doc/` - Comprehensive documentation
 - `index.html` - Portable base16 generator/inverter tool
 

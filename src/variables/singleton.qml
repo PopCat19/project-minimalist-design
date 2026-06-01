@@ -5,6 +5,9 @@
 // This module:
 // - Provides spacing, radius, border, opacity scales
 // - Exposes PMD color variables as QML properties
+//
+// Note: Color values are a static snapshot at hue 345 (Rose).
+// For dynamic palette generation, use the PMD TypeScript or Nix library.
 
 pragma Singleton
 import QtQuick 2.15
@@ -22,18 +25,16 @@ QtObject {
 
     readonly property real radiusSmall: 0.5 * rem
     readonly property real radiusMedium: 1.0 * rem
-    readonly property real radiusLarge: 2.0 * rem
+    readonly property real radiusLarge: 2.5 * rem // 40px, matches PMD pill radius
     readonly property real radiusFull: 9999
 
     readonly property real borderDefault: 0.125 * rem
     readonly property real borderThick: 0.25 * rem
 
     readonly property real opacity8: 0.08
-    readonly property real opacity12: 0.12
     readonly property real opacity24: 0.24
-    readonly property real opacity32: 0.32
     readonly property real opacity40: 0.40
-    readonly property real opacity64: 0.64
+    readonly property real opacity48: 0.48
     readonly property real opacity80: 0.80
 
     readonly property real backdropBlur: 24

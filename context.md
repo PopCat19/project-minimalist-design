@@ -21,7 +21,7 @@ DDD term mappings for this repo. Definitions at Rule 21 in
 | **Shared Kernel** | `src/pmd-core.nix` |
 | **Anti-Corruption Layer** | `src/oklch2rgb.nix`, `src/base16-export.nix` |
 | **Factory** | `src/ts/pmd/variables.ts` |
-| **Value Object** | `src/palette/pmd/*.yaml` (color palettes) |
+| **Value Object** | `src/ts/pmd/variables.ts` (PMD variable definitions) |
 | **Entity** | `index.html` (single-page app instance) |
 | **Aggregate** | `src/ts/main.ts` (application entry) |
 | **Supporting Domain** | `doc/`, `conventions/` |

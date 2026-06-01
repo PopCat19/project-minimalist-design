@@ -12,7 +12,7 @@ Core Principles:
 5. Verify both light and dark schemes for accessibility
 
 General Implementation:
-- Import palette definitions from src/palette/pmd/
+- Use the TypeScript PMD library (src/ts/pmd/) for programmatic palette generation
 - Apply font configurations from src/fonts/
 - Reference variables in your framework of choice
 - Test across multiple viewport sizes

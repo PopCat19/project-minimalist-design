@@ -15,6 +15,8 @@ Weights — Three Only:
   700 (Bold)     — Tiny non-interactive text only. Unit
                    affixes (% symbol) at 8px and 80×48%.
                    Never used for interactive labels.
+  Bold weight 700 also supports 40px (2.5rem) and 48px (3.0rem)
+  display sizes for non-UI contexts (wallpapers, splash screens).
 
   The 600/500 distinction is semantic, not decorative. CTA
   buttons use 500, not 600 — only true headings get 600.
@@ -22,6 +24,10 @@ Weights — Three Only:
   Weight 700 is reserved for 8px text exclusively.
 
 Sizes:
+  48px — Bold display headings (Fredoka 700).
+  40px — Large headings (Fredoka 700).
+  20px — Medium display text (Fredoka 500), mono code
+         (FiraCode 400). For non-UI contexts.
   16px — Song titles (1.125 line-height), group totals,
          page indicators, gauge labels.
   12px — Body text, labels, headings, slider values,
