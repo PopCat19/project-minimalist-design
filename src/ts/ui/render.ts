@@ -458,7 +458,7 @@ export function renderComponentReference(pmd: PMDVariables, hue: number): void {
 			// ── Togglables ──
 			`<div class="cref-group"><h3 class="cref-group-title">Togglables</h3><div class="cref-grid">`,
 			// Toggle pill
-			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.375rem;display:flex"><div class="cref-tgl" style="background:var(--cref-tgl-on-bg);border:2px solid var(--cref-tgl-on-bor)"></div><div class="cref-tgl" style="background:var(--cref-tgl-off-bg);border:2px solid var(--cref-tgl-off-bor)"></div><div class="cref-tgl" style="background:transparent;border:2px solid var(--cref-dis-ol);display:flex;align-items:center;justify-content:center;color:var(--cref-dis-fg);font-size:0.5rem;line-height:1;font-weight:700;font-family:Fredoka">/</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">On</span><span class="cref-tok-stack">88x · 88x b</span><span class="cref-tok-hex" data-cref="tgl-on-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Off</span><span class="cref-tok-stack">80×8% · 80×8% b</span><span class="cref-tok-hex" data-cref="tgl-off-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Disabled</span><span class="cref-tok-stack">80×8% OL</span><span class="cref-tok-hex" data-cref="dis-ol"></span></div></div><div class="cref-label">Pill Toggle</div></div>`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.375rem;display:flex"><div class="cref-tgl" style="background:var(--cref-tgl-on-bg);border:2px solid var(--cref-tgl-on-bor)"></div><div class="cref-tgl" style="background:var(--cref-tgl-off-bg);border:2px solid var(--cref-tgl-off-bor)"></div><div class="cref-tgl" style="background:transparent;border:2px solid var(--cref-dis-ol);display:flex;align-items:center;justify-content:center;color:var(--cref-dis-fg);font-size:0.5rem;line-height:1;font-weight:700;font-family:Fredoka">/</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">On</span><span class="cref-tok-stack">88x · 88x b</span><span class="cref-tok-hex" data-cref="tgl-on-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Off</span><span class="cref-tok-stack">80×8% · 80x b</span><span class="cref-tok-hex" data-cref="tgl-off-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Disabled</span><span class="cref-tok-stack">80×8% OL</span><span class="cref-tok-hex" data-cref="dis-ol"></span></div></div><div class="cref-label">Pill Toggle</div></div>`,
 			// Radio
 			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.5rem;display:flex"><div class="cref-radio" style="border-color:var(--cref-radio-on)"></div><div class="cref-radio" style="border-color:var(--cref-radio-off)"></div><div class="cref-radio" style="border:2px solid var(--cref-dis-ol);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--cref-dis-fg);font-size:0.5rem;line-height:1;font-weight:700;font-family:Fredoka">/</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Active</span><span class="cref-tok-stack">88x</span><span class="cref-tok-hex" data-cref="radio-on"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Inactive</span><span class="cref-tok-stack">80×8%</span><span class="cref-tok-hex" data-cref="radio-off"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Disabled</span><span class="cref-tok-stack">80×8% OL</span><span class="cref-tok-hex" data-cref="dis-ol"></span></div></div><div class="cref-label">Radio</div></div>`,
 			`</div></div>`,
@@ -508,7 +508,7 @@ export function renderComponentReference(pmd: PMDVariables, hue: number): void {
 	root.style.setProperty("--cref-tgl-on-bg", h88x);
 	root.style.setProperty("--cref-tgl-on-bor", h88x);
 	root.style.setProperty("--cref-tgl-off-bg", h80x8);
-	root.style.setProperty("--cref-tgl-off-bor", h80x8);
+	root.style.setProperty("--cref-tgl-off-bor", h80x);
 	root.style.setProperty("--cref-radio-on", h88x);
 	root.style.setProperty("--cref-radio-off", h80x8);
 	// Pagination
@@ -560,7 +560,7 @@ export function renderComponentReference(pmd: PMDVariables, hue: number): void {
 		"tgl-on-bg": h88x,
 		"tgl-on-bor": h88x,
 		"tgl-off-bg": h80x8,
-		"tgl-off-bor": h80x8,
+		"tgl-off-bor": h80x,
 		"radio-on": h88x,
 		"radio-off": h80x8,
 		"pg-active": h88x,
