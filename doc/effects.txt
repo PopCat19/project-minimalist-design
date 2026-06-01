@@ -15,13 +15,15 @@ No Shadows, No Gradients:
   and would conflict with the tier system.
 
 Hover and Focus Feedback:
-  Use a 100x outline (2px, 2px offset) for both :hover and
-  :focus-visible states. Never use scale or translate
-  animations on hover — 100x is the highest-priority tier,
-  so the outline is always distinguishable regardless of
-  background colour. Click-down (:active) may use a
-  brief scale reduction (0.96×) for tactile confirmation
-  since the pointer has already landed on the target.
+  Hover uses a 100x inner outline (2px, outline-offset: -2px)
+  — the highest tier is always distinguishable. Keyboard
+  focus (:focus-visible) uses 80×8% to signal "here" without
+  competing with content; optionally, elements that need
+  constant contrast against a similar-toned background may
+  always show the 80×8% outline as a persistent boundary.
+  Active input fields override to 100x to signal "editing
+  now." Never use scale or translate animations on hover.
+  :active may use scale(0.96) for click confirmation.
 
 Border-Radius — Three Categories:
   16px (1rem) — default. Cards, buttons, standalone elements.
