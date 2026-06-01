@@ -29,6 +29,8 @@
     outline-offset: -2px;
   }
 
+  :active { outline-color: var(--base07); }
+
   /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
   body, .sidebar, .sidebar *, .main, .main *,
   .color-card, .color-card *, .color-swatch,
@@ -209,7 +211,6 @@
     position: relative;
   }
   .preset:hover  { outline-color: var(--hout); z-index: 1; }
-  .preset:active { transform: scale(0.94); }
   .preset::after {
     content: attr(data-name);
     position: absolute; bottom: 50%; left: 50%;
@@ -249,7 +250,6 @@
     background: var(--base06);
     color: var(--base01);
   }
-  .scheme-btn:active, .lock-btn:active { transform: scale(0.96); }
   .scheme-btn:hover, .lock-btn:hover { outline-color: var(--hout); }
 
   /* ── Export buttons ── */
@@ -272,7 +272,6 @@
     font-family: inherit;
   }
   .export-btn:hover { outline-color: var(--hout); }
-  .export-btn:active { transform: scale(0.97); }
   .export-btn svg { width: 1.25rem; height: 1.25rem; opacity: 0.6; }
 
   /* ── Main content ── */
@@ -318,7 +317,6 @@
     z-index: 2;
   }
   .color-card:hover::after { border-color: var(--hout); }
-  .color-card:active { transform: scale(0.98); }
 
   .color-swatch {
     height: 3.5rem;
@@ -450,7 +448,6 @@
     border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer;
   }
-  .menu-btn:active { transform: scale(0.94); }
   .menu-btn:hover { outline-color: var(--hout); }
 
   /* ── Sidebar overlay (mobile) ── */
@@ -475,7 +472,6 @@
     z-index: 90;
     align-items: center; justify-content: center;
   }
-  .fab:active { transform: scale(0.94); }
 
   /* ── Export sheet (mobile) ── */
   .export-sheet {
@@ -518,7 +514,6 @@
     padding: 0.625rem; background: var(--base02); border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer; font-family: inherit; font-size: var(--fs);
   }
-  .export-sheet-btn:active { transform: scale(0.96); }
   .export-sheet-btn .mat { font-size: 1.25rem; color: var(--base06); }
 
   /* ── Docs overlay ── */
