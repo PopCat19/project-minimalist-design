@@ -14,6 +14,15 @@ No Shadows, No Gradients:
   difference. Adding shadows or gradients would be redundant
   and would conflict with the tier system.
 
+Hover and Focus Feedback:
+  Use a 100x outline (2px, 2px offset) for both :hover and
+  :focus-visible states. Never use scale or translate
+  animations on hover — 100x is the highest-priority tier,
+  so the outline is always distinguishable regardless of
+  background colour. Click-down (:active) may use a
+  brief scale reduction (0.96×) for tactile confirmation
+  since the pointer has already landed on the target.
+
 Border-Radius — Three Categories:
   16px (1rem) — default. Cards, buttons, standalone elements.
   8px        — compact. Small cards, middle items in a group.

@@ -13,6 +13,14 @@ Borders:
 No Shadows, No Gradients:
   Depth is communicated through lightness tier alone.
 
+Hover Feedback:
+  Use a 100x outline (2px, 2px offset), never a scale or
+  translate animation. 100x is the highest-priority tier so
+  hover is always distinguishable regardless of background.
+  Focus-visible (:focus-visible) uses the same outline for
+  keyboard navigation parity. Click-down (:active) may use
+  a brief scale-down (0.96×) for tactile feedback.
+
 Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
   uses the colour of the surface beneath the fill — not a
