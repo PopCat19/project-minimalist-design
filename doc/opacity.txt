@@ -1,11 +1,21 @@
 ===== OPACITY SYSTEM =====
 
-Standard Opacity Values:
-100% - Full visibility
-80%  - Strong presence (base03 mapping)
-64%  - Medium translucency
-40%  - Subtle base layers
-24%  - Disabled states, outlines
-16%  - Surface layers (base02 alpha component)
-8%   - Background surfaces
-0%   - Fully transparent
+Opacity is applied as alpha compositing of a tint layer over a
+base layer. The naming convention is: base × opacity%.
+
+Standard Stack Expressions:
+  80×8%  = composite(8x, 80x, 0.08)  interactable surface hint
+  80×48% = composite(8x, 80x, 0.48)  muted text, inactive track
+  88×24% = composite(8x, 88x, 0.24)  disabled foreground
+  8×40%  = composite(0x, 8x, 0.40)   flyout / translucent surface
+
+  The 88×12 notation means 88x tint at reference hue column 12
+  (alert column) — a hue shift, not an opacity change.
+
+Baked Values (flat/pre-multiplied):
+  80×48% (baked) = 80x at 80% over 0x — used for base03/base0F
+  in Base16 exports where alpha compositing is unavailable.
+  Equivalent to: composite(0x, composite(8x, 80x, 0.48), 1.0).
+
+Opacity values used: 8%, 24%, 40%, 48%, 80%, 100%.
+Values 16%, 64% are not used in the current system.

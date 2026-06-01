@@ -1,0 +1,92 @@
+===== STRUCTURAL PATTERNS =====
+
+These are reusable compositional patterns, not component specs.
+Apply them wherever the same structural need arises.
+
+Connected Panels (Welded Groups):
+  When sibling panels form a logical unit, connect them with
+  asymmetric border-radii and a 4px vertical gap. No borders
+  or dividers — the radius shape alone signals grouping:
+    - First panel:  16px 16px 8px 8px  (top rounded)
+    - Middle panel: 8px 8px 8px 8px    (all flat)
+    - Last panel:   8px 8px 16px 16px  (bottom rounded)
+  All panels share the same surface and padding.
+
+Button Groups (Tabs, Pagination, Media Controls):
+  Asymmetric radii signal position within the group:
+    - First:   16px 8px 8px 16px
+    - Middle:  8px 8px 8px 8px
+    - Last:    8px 16px 16px 8px
+    - Standalone: 16px all corners
+  Borders (2px solid 80×8%) appear only on control clusters —
+  pagination arrows, source-switch buttons, prev/next controls.
+  Standalone buttons never have borders.
+
+Title-Date Rows:
+  Every notifiable message uses this row pattern:
+    - Title: 12px, tier-88x, weight 600
+    - Date:  10px, tier-80x at 48%, weight 500
+    - Horizontal flex, 4px gap between
+  Source-time rows follow the same pattern at 10px scale.
+
+Icon-Only Action Buttons:
+  32×24px, no text label. Icon at 88x 100%. The background
+  surface matches the parent card's hue column — green cards
+  use 80×8%, alert cards use the alert column's 80×12 at 8%.
+
+Active vs Inactive Device:
+  In device lists, the active item uses the alert hue column
+  for its controls. Inactive items use the base column. The
+  hue shift signals selection — no border or opacity change
+  needed.
+
+Workspace Cards (Grid of States):
+  Three states communicate workspace occupancy:
+    - Current:  8x solid        + 2px 88x border   + 88x label
+    - Occupied: 8x solid        + 2px 72x border   + 72x label
+    - Empty:    8x at 80%       + 2px 88×24% border + 88×24% label
+  All labels at weight 600. Compact 8px radius, 120×68px
+  card size. Grab dots ("...." × 2) at 88×24% with -12px
+  vertical stacking serve as a drag handle indicator.
+
+Media Control Groups:
+  Play/pause/skip grouped with the button-group radius rules.
+  The active center button (pause) gets 88x fill with 0x icon
+  and standalone 8px radius — it sits between the bordered
+  side buttons as the focal point. 24px icons throughout.
+
+Bar Widget Groups (Horizontal):
+  Widgets in the top bar use the same asymmetric-radius
+  signalling as button groups to indicate position:
+    - Leftmost in group:  16px 8px 8px 16px
+    - Middle:             8px 8px 8px 8px
+    - Rightmost:          8px 16px 16px 8px
+    - Standalone:         16px all around
+  Widgets with no horizontal neighbors (network, bluetooth,
+  battery, time) use full 16px radius. Widgets flanking
+  another widget (tray→systray items, volume→playback→music)
+  use their asymmetric radii.
+
+Notification Count Badge:
+  The unread count (e.g., "6") uses the alert hue column
+  (88×12) at weight 500. This aligns with the workspace
+  active indicator — both signal "needs attention" via hue
+  shift rather than opacity or size changes.
+
+Time and Date Format:
+  Higher-significance units use higher text tiers:
+    Day name: 80x, weight 500
+    Month:    88x, weight 500
+    Day:      80x, weight 500
+    Hour:     88x, weight 500
+    Minute:   80x, weight 500
+    Separators ("/", "-", ":"): 80×48%, weight 500
+  The progression communicates which part carries meaning
+  first (88x = month, hour) vs. filler (80×48% = separators).
+  Day name is 80x because it is assumed, not parsed.
+
+Percent Sign (Unit Affix):
+  When labelling a numeric value (e.g. volume "80%", battery
+  level), the unit symbol uses 80×48% at weight 700 and 8px
+  size — deliberately tiny, bold, and muted to distinguish
+  it from the value it annotates.

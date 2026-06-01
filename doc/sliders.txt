@@ -1,0 +1,27 @@
+===== SLIDER COMPONENT =====
+
+Two size variants share identical structure, scaled proportionally.
+Handle height is always 2× the track height.
+
+Compact:
+  Track height: 12px
+  Handle:       4×24px, fully rounded (radius 16px)
+  Active track:  radius 16px 2px 2px 16px
+  Inactive:      radius 2px 16px 16px 2px
+
+Standard:
+  Track height: 16px
+  Handle:       4×32px, fully rounded (radius 16px)
+  Active track:  radius 16px 4px 4px 16px
+  Inactive:      radius 4px 16px 16px 4px
+
+Common (both variants):
+  Gap between segments: 4px
+  Stop indicator:       4×4px dot, 80x at 100%, fully rounded
+  Active track + handle: 88x at 100% (or 88×12 for active device)
+  Inactive track:        80×48%
+
+Labels:
+  Current value:     left-aligned, 88x at 600 weight
+  Max value (total): right-aligned, 80×48% at 500 weight
+  Source name:       above slider, 80x at 500 weight

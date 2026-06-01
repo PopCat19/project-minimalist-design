@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMD Base16 Generator</title>
+    <title>PMD Palette</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fredoka:wght@400;500;600;700&family=Rounded+Mplus+1c:wght@500;700&display=swap" rel="stylesheet">
@@ -857,7 +857,7 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     
     <header class="mobile-header">
-        <div class="logo">PMD <span>Base16</span></div>
+        <div class="logo">PMD <span>Palette</span></div>
         <button type="button" class="menu-btn" id="menuBtn" aria-label="Toggle menu">
             <span class="material-symbols-rounded">menu</span>
         </button>
@@ -937,18 +937,33 @@
 
         <main class="main">
             <section class="section">
-                <h2 class="section-title">Background Colors</h2>
+                <h2 class="section-title">Foundation Palette (-x slots)</h2>
+                <div class="color-grid" id="foundationGrid"></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Derived Surfaces (stack expressions)</h2>
+                <div class="color-grid" id="stackGrid"></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Base16 · Background</h2>
                 <div class="color-grid" id="bgColors"></div>
             </section>
 
             <section class="section">
-                <h2 class="section-title">Foreground Colors</h2>
+                <h2 class="section-title">Base16 · Foreground</h2>
                 <div class="color-grid" id="fgColors"></div>
             </section>
 
             <section class="section">
-                <h2 class="section-title">Accent Colors</h2>
+                <h2 class="section-title">Base16 · Accents</h2>
                 <div class="color-grid" id="accentColors"></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">UI Preview</h2>
+                <div class="preview-panel" id="uiPreview"></div>
             </section>
 
             <section class="section">

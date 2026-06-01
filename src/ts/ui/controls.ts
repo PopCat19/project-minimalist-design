@@ -6,7 +6,7 @@
 // - Manages hue/lightness/chroma sliders and gradient backgrounds
 // - Provides preset color configurations
 // - Handles slider interactions and theme switching
-import { oklchToRgb, rgbToHex } from "../color";
+import { rgbToHex, safeOklchToRgb } from "../color";
 import { HUE_MAX, PMD_DARK, PMD_LIGHT } from "../pmd";
 
 const GRADIENT_STEP = 30;
@@ -42,7 +42,7 @@ export function renderPresets(
 
 	container.innerHTML = presets
 		.map((preset) => {
-			const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
+			const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
 			const hex = rgbToHex(rgb);
 			return `
             <button class="preset"
@@ -68,7 +68,7 @@ export function updateSliderGradient(sliderId: string, isDark: boolean): void {
 	const theme = (isDark ? PMD_DARK : PMD_LIGHT)["72x"];
 	const stops: string[] = [];
 	for (let i = 0; i <= HUE_MAX; i += GRADIENT_STEP) {
-		const rgb = oklchToRgb(theme.l, theme.c, i);
+		const rgb = safeOklchToRgb(theme.l, theme.c, i);
 		stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
 	}
 	slider.style.background = `linear-gradient(to right, ${stops.join(", ")})`;

@@ -1,48 +1,35 @@
 ===== VARIABLE SYSTEM =====
 
-PMD uses mutable variables formatted as <lightness%>x<opacity%><+hue-offset>
+Foundation Slots (hand-picked OKLCH {l, c} per variant):
 
-OKLCH Variable Definitions (Neutral Tone L/C Values):
- Variable | Dark L / C   | Light L / C  | Purpose
- ---------|--------------|--------------|-------------------------
- 100x     | 1.00 / 0.000 | 0.00 / 0.000 | Priority 0 (absolute)
- 88x      | 0.88 / 0.056 | 0.28 / 0.032 | Priority 1
- 80x      | 0.80 / 0.100 | 0.20 / 0.032 | Priority 2
- 72x      | 0.72 / 0.122 | 0.32 / 0.052 | Priority 3
- 8x       | 0.20 / 0.032 | 0.88 / 0.056 | Priority 4 (surface)
- 4x       | 0.16 / 0.022 | 0.92 / 0.044 | Priority 5 (floor)
- 0x       | 0.00 / 0.000 | 1.00 / 0.000 | Tinting anchor
+  Slot   Dark l/c          Light l/c         Role
+  ─────  ────────────────  ────────────────  ─────────────────
+  100x   1.00 / 0.000      0.00 / 0.000      Absolute endpoints
+  88x    0.88 / 0.056      0.28 / 0.032      Primary / headings
+  80x    0.80 / 0.100      0.20 / 0.032      Secondary / body
+  72x    0.72 / 0.122      0.32 / 0.052      Accent / subtext
+  8x     0.20 / 0.032      0.88 / 0.056      Base surface
+  4x     0.16 / 0.022      0.92 / 0.044      Deep background
+  0x     0.00 / 0.000      1.00 / 0.000      Canvas extreme
 
-Opacity Variants:
- Each variable supports multiple opacity variants:
- - @100% (no suffix)
- - @80%
- - @64%
- - @40%
- - @24%
- - @16%
- - @8%
+Naming Convention:
+  -x × opacity%  [+hueColumn]
+  Example: 80×8% = 80x tint at 8% over 8x base
+           88×12  = 88x tint at 100% from hue column 12 (alert)
 
-Auxiliary Hue System:
-Auxiliary hues use +180° offset by default:
-aux_hue = (primary_hue + 180) mod 360
+Compositing:
+  composite(bg, fg, alpha) = { l: lerp(bg.l, fg.l, alpha),
+                               c: lerp(bg.c, fg.c, alpha) }
+  stack(base, tint, opacity[, hueOffset])
+  bake(fg, alpha) = composite(0x, fg, alpha)
 
-Hue Rotation for Accent Colors:
-Accent colors use fixed hue offsets from the root hue:
-- base09: +290° (Constants)
-- base0C: +140° (Support)
-- base0D: +30° (Functions)
-- base0E: -30° (Keywords)
+Auxiliary Hue:
+  Default: (primary_hue + 180) mod 360
+  Used for complementary contrast in dual-hue palettes.
 
-Rotation formula: rot(base, deg) = (base + deg + 360) mod 360
-
-Color Conversion:
-PMD uses pure Nix implementation for OKLCH to RGB conversion:
-- Newton-Raphson iteration for sqrt/cbrt
-- sRGB gamma correction
-- 8-bit hex output (#RRGGBB format)
-
-Semantic Colors:
-PMD includes predefined semantic colors:
-- danger: l=0.64, c=0.200, h=30 (dark) / l=0.48, c=0.160, h=30 (light)
-- warning: l=0.72, c=0.160, h=60 (dark) / l=0.48, c=0.112, h=60 (light)
+Accent Hue Offsets (for Base16 mapping):
+  base09: +290° (Constants)
+  base0C: +140° (Support)
+  base0D: +30°  (Functions)
+  base0E: -30°  (Keywords)
+  Rotation: rot(base, deg) = (base + deg + 360) mod 360

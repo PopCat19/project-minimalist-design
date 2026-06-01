@@ -1,11 +1,23 @@
 ===== SPACING SYSTEM =====
 
-Internal Padding:
-- 0.25rem - Compact (buttons)
-- 0.5rem  - Standard (cards)
-- 1rem    - Generous (containers)
+Gaps (between siblings):
+  4px  — Standard gap for grouped elements.
+  8px  — Content group separation, icon-to-label distance.
+  10px — Dropdown chevron inner spacing.
 
-External Margins:
-- 0.5rem  - Tight grouping
-- 1rem    - Standard separation
-- 2rem    - Section breaks
+Padding (inside containers):
+  4px block / 8px inline  — Buttons, widgets, bar items.
+  8px all around          — Cards, notification panels.
+  12px all around         — Flyout inner cards, player panels.
+
+Negative Gaps (tight vertical stacking):
+  Used exclusively for stacking text-only elements where
+  normal gaps would add unwanted height:
+    -8px  — Label stacked above dots in compact cards.
+    -12px — Two-line drag handle indicator dots.
+  Never apply negative gaps to interactive elements.
+
+Border-Radius:
+  16px — Standard. Cards, standalone buttons, panels.
+  8px  — Compact. Small cards, middle items in a group.
+  40px — Pill. Consolidated summary items.

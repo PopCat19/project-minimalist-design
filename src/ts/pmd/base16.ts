@@ -7,7 +7,7 @@
 // - Generates complete palettes with accent hue rotation
 // - Formats OKLCH color strings
 import type { RGB } from "../color";
-import { oklchToRgb, rgbToHex } from "../color";
+import { rgbToHex, safeOklchToRgb } from "../color";
 import type { PMDVariables } from "./variables";
 import { type getComputed, HUE_MAX } from "./variables";
 
@@ -54,10 +54,10 @@ export function getBase16Defs(
 		bg: [
 			{ id: "base00", pmd: "4x", desc: "Background", ...pmd["4x"] },
 			{ id: "base01", pmd: "8x", desc: "Base Container", ...pmd["8x"] },
-			{ id: "base02", pmd: "8x+80x@16%", desc: "Surface", ...computed.surface },
+			{ id: "base02", pmd: "80×8%", desc: "Surface", ...computed.surface },
 			{
 				id: "base03",
-				pmd: "80x@80%",
+				pmd: "80×48%",
 				desc: "Muted",
 				l: computed.muted.l,
 				c: computed.muted.c,
@@ -125,7 +125,7 @@ export function getBase16Defs(
 			},
 			{
 				id: "base0F",
-				pmd: "72x@80%",
+				pmd: "80×48%",
 				l: computed.muted.l,
 				c: computed.muted.c,
 				desc: "Meta",
@@ -138,17 +138,18 @@ export function generatePalette(
 	hue: number,
 	pmd: PMDVariables,
 	computed: ReturnType<typeof getComputed>,
-	isDark: boolean,
 	isHueLocked: boolean,
 	lockedHueValue: number,
 ): Base16Palette {
 	const defs = getBase16Defs(pmd, computed);
 	const accentHue = isHueLocked ? lockedHueValue : hue;
-	const accentL = !isDark ? 0.45 : pmd["72x"].l;
+	const isLight = pmd["4x"].l > 0.5;
+	const accentL = pmd["72x"].l;
+	const accentC = isLight ? 0.1 : pmd["72x"].c;
 	const colors: Base16Palette = {};
 
 	[...defs.bg, ...defs.fg].forEach((def) => {
-		const rgb = oklchToRgb(def.l, def.c, hue);
+		const rgb = safeOklchToRgb(def.l, def.c, hue);
 		colors[def.id] = {
 			...def,
 			rgb,
@@ -166,20 +167,21 @@ export function generatePalette(
 		} else {
 			h = accentHue;
 		}
-		const l =
+		const useAccent = !(
 			def.id === "base0F" ||
 			def.pmd === "88x" ||
 			def.pmd === "80x" ||
 			def.pmd === "80x+140"
-				? def.l
-				: accentL;
-		const rgb = oklchToRgb(l, def.c, h);
+		);
+		const l = useAccent ? accentL : def.l;
+		const c = useAccent ? accentC : def.c;
+		const rgb = safeOklchToRgb(l, c, h);
 		colors[def.id] = {
 			...def,
 			rgb,
 			hex: rgbToHex(rgb),
 			hue: h,
-			oklch: formatOklch(l, def.c, h),
+			oklch: formatOklch(l, c, h),
 		};
 	});
 

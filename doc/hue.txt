@@ -1,6 +1,6 @@
 ===== HUE REFERENCE =====
 
-OKLCH Hue Values (shifted ~30° from HSL):
+OKLCH Hue Angles:
 - Red: 30°
 - Orange: 60°
 - Yellow: 90°

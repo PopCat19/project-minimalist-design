@@ -13,5 +13,8 @@ export {
 	handleColorClick,
 	renderCodePreview,
 	renderColorGrid,
+	renderFoundationGrid,
+	renderStackGrid,
+	renderUIPreview,
 	showToast,
 } from "./render";

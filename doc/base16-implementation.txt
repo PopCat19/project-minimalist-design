@@ -1,44 +1,25 @@
-===== BASE16 MAPPING IMPLEMENTATION =====
+===== BASE16 IMPLEMENTATION =====
 
-COMPLETED:
-- [x] Implement composite stacking for base02
-- [x] Implement baked opacity for base03, base0F
-- [x] Create Light Scheme optimized OKLCH map
-- [x] Sync WebUI with base16 CSS variables
-- [x] Implement hue rotation for accent colors
-- [x] Implement system-wide Stylix integration templates
-- [x] Implement Dynamic Wallpaper generation (ImageMagick)
-- [x] Implement OKLCH to RGB conversion using Newton-Raphson iteration
-- [x] Implement sRGB gamma correction
-- [x] Implement base16 YAML export generation
+The base16 palette is generated from PMD foundation slots via
+the TypeScript module `src/ts/pmd/base16.ts` and the Nix module
+`src/pmd-core.nix`. Both implement identical logic.
 
-OKLCH to RGB Conversion Implementation:
-The implementation uses Newton-Raphson iteration for accurate color conversion:
+Slot Construction:
+  - base00–base01: Direct foundation slot mapping
+  - base02:        composited surface (80×8%)
+  - base03:        baked muted (80×48%)
+  - base04–base07: Direct foundation slot mapping
+  - base08–base0E: Accent colours with hue rotation
+  - base0F:        Same baked value as base03
 
-1. Newton-Raphson Methods:
-   - sqrt(x): 15 iterations for high precision
-   - cbrt(x): 15 iterations for cube root calculation
+Colour Pipeline:
+  1. PMD OKLCH values → oklchToRgb → sRGB
+  2. Gamut clamping via binary search (safeOklchToRgb)
+  3. 8-bit hex encoding: #RRGGBB
 
-2. sRGB Gamma Correction:
-   - Linear region: v <= 0.0031308 -> 12.92 * v
-   - Gamma region: v > 0.0031308 -> 1.055 * v^1/2.4 - 0.055
-
-3. Color Space Conversion Pipeline:
-   - OKLCH (L, C, H) -> XYZ-like intermediate space
-   - Matrix multiplication for RGB conversion
-   - Gamma correction for final sRGB output
-   - Hex encoding with 8-bit clamping
-
-4. Implementation Details:
-   - Uses fmod for angle normalization
-   - Implements sin/cos using polynomial approximation
-   - Applies proper gamut clamping (0-255 range)
-   - Outputs hex color format: #RRGGBB
-
-PMD HD Specification Logic:
-- base03 baked at 80% alpha
-- base04 maps to 72x tier
-- Accent hue offsets: see variables.txt
-- Aux hue: (root + 180°) mod 360
-
-Hue rotation and palette logic: see variables.txt and palettes.txt.
+Accent Lightness Override (Light Themes):
+  Accent slots (base09, base0B, base0D, base0E) use PMD 72x
+  luminance with bumped chroma (0.1) in light themes. The PMD
+  light 72x chroma (0.052) is deliberately subtle for subtext
+  but insufficient for distinguishable code accents. Dark mode
+  uses the native PMD 72x chroma (0.122) without adjustment.

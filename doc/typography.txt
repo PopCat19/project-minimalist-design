@@ -1,25 +1,42 @@
 ===== TYPOGRAPHY SYSTEM =====
 
-Font Hierarchy:
-Bold (Fredoka Bold, Rounded Mplus 1c Bold)
-- Scales: 3rem, 2.5rem, 1rem
-- Usage: Major headers, logo hero elements
+Font Family:
+  Fredoka is the primary UI font. Source Sans Pro may be
+  used for CJK text (song titles, artist names) where Fredoka
+  lacks glyph coverage. Never mix families within the same
+  component context.
 
-Semibold (Fredoka SemiBold)
-- Scales: 1rem, 0.75rem, 0.625rem
-- Usage: Section headers, active toggle labels
+Weights — Three Only:
+  600 (SemiBold) — "Read this first": headings, active tabs,
+                   active toggle labels, source identifiers,
+                   structural separators between tiers.
+  500 (Medium)   — "Read this second": body text, button
+                   labels, timestamps, metadata, CTAs.
+  700 (Bold)     — Tiny non-interactive text only. Unit
+                   affixes (% symbol) at 8px and 80×48%.
+                   Never used for interactive labels.
 
-Medium (Fredoka Medium, Rounded Mplus 1c Medium)
-- Scales: 1.25rem, 1rem, 0.75rem
-- Usage: Body text, paragraphs, definitions
+  The 600/500 distinction is semantic, not decorative. CTA
+  buttons use 500, not 600 — only true headings get 600.
+  Labels on active toggles and tabs use 600 as well.
+  Weight 700 is reserved for 8px text exclusively.
 
-Mono (FiraCode Nerd Font)
-- Scales: 1rem, 0.75rem, 0.625rem, 0.5rem
-- Usage: Code snippets, HEX/OKLCH values, icons
+Sizes:
+  16px — Song titles (1.125 line-height), group totals,
+         page indicators, gauge labels.
+  12px — Body text, labels, headings, slider values,
+         artist names. The primary workhorse size.
+  10px — Timestamps, dates, source names, metadata.
+   8px — Unit affixes, annotation symbols. Always paired
+         with weight 700 at 80×48%.
 
-Typographic Shade Hierarchy:
-See hierarchy.txt ownership table.
+Line Height:
+  1.125 on 16px song titles (centered text).
+  1.25  on all other sizes.
 
-Icon Sizing:
-- Material Symbols Standard: 1.5rem (24px)
-- Small: 1rem (16px)
+Icon Sizes:
+  24px — Tab bar icons, media playback controls.
+  20px — Dropdown chevrons, playlist controls.
+  16px — Notification buttons, widget icons, action buttons.
+  12px — Overlay icons on filled surfaces.
+         Drop one step from the element's normal icon size.

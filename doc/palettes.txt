@@ -1,69 +1,33 @@
-===== PALETTE SYSTEM (HD SPECIFICATION) =====
+===== PALETTE SYSTEM =====
 
-PMD palettes are defined in YAML format mapping to base16 slots:
+Base16 YAML exports map PMD slots to the 16 base16 colour keys.
 
-Base16 Slot | PMD Mapping           | Description
-------------|-----------------------|--------------------------
-base00      | 4x                    | True Background (Deepest Layer)
-base01      | 8x                    | Base Container (Panels/Toolbars)
-base02      | 8x+80x@16%            | Surface / Selection (Composited)
-base03      | 80x @ 80%             | Muted / Comments (Baked)
-base04      | 72x                   | Subtext / Secondary Metadata
-base05      | 80x                   | Body Text (Main Reading)
-base06      | 88x                   | Headers / Strong Text
-base07      | 100x                  | Max Contrast Text/Symbol
-base08      | 88x                   | Alert / Danger (Root Hue)
-base09      | 72x +290°             | Constants (Hue Rotated)
-base0A      | 80x                   | Warning / Classes (Root Hue)
-base0B      | 72x                   | Strings (Root Hue)
-base0C      | 80x +140°             | Support (Hue Rotated)
-base0D      | 72x +30°              | Functions (Hue Rotated)
-base0E      | 72x -30°              | Keywords (Hue Rotated)
-base0F      | 72x @ 80%             | Deprecated (Meta / Baked)
+Mapping Table:
+  Base16  PMD Stack     Description
+  ──────  ────────────  ──────────────────────────
+  base00  4x            True background (deepest)
+  base01  8x            Base container
+  base02  80×8%         Surface (composited)
+  base03  80×48%        Muted / comments (baked)
+  base04  72x           Subtext / secondary metadata
+  base05  80x           Body text (main reading)
+  base06  88x           Headers / strong text
+  base07  100x          Max contrast text/symbol
+  base08  88x           Alert / danger (root hue)
+  base09  72x +290°     Constants (hue rotated)
+  base0A  80x           Warning / classes (root hue)
+  base0B  72x           Strings (root hue)
+  base0C  80x +140°     Support (hue rotated)
+  base0D  72x +30°      Functions (hue rotated)
+  base0E  72x -30°      Keywords (hue rotated)
+  base0F  80×48%        Deprecated / meta (baked)
 
-Base16 YAML Structure:
-The palette system exports to base16 YAML format with the following structure:
-- scheme: "PMD [Hue] [Variant]" (e.g., "PMD 260 Dark")
-- author: "Project Minimalist Design"
-- variant: "dark" or "light"
-- base00-base0F: Hex color values (6 characters, no # prefix)
+  In light themes, accent slots (base09, base0B, base0D, base0E)
+  use 72x luminance (0.32) with bumped chroma (0.1) to maintain
+  visibility — the PMD light 72x chroma (0.052) is intentionally
+  low for subtext readability but too subtle for code accents.
 
-Generation Process:
-1. PMD scheme is defined in OKLCH color space
-2. OKLCH values are converted to RGB via Newton-Raphson iteration
-3. RGB values are converted to sRGB hex format
-4. Output is written to base16 YAML files
-
-Example Structure:
-scheme: "PMD [Color Name]"
-author: "Project Minimalist Design"
-hue: [0-360]
-aux_hue: [0-360]  # Default: (hue + 180) mod 360
-
-Auxiliary Hue Calculation:
-Default: aux_hue = (primary_hue + 180) mod 360
-Example: hue 345° → aux_hue = (345 + 180) mod 360 = 165°
-Example: hue 260° → aux_hue = (260 + 180) mod 360 = 80°
-
-PMD HD Specification Logic:
-- base03 baked at 80% alpha
-- base04 maps to 72x tier
-- Accent hue offsets: see variables.txt
-- Aux hue: (root + 180°) mod 360
-
-Hue Rotation System:
-Accent colors use fixed hue offsets from the root hue:
-- base09: +290° (Constants)
-- base0C: +140° (Support)
-- base0D: +30° (Functions)
-- base0E: -30° (Keywords)
-
-Color Definitions:
-base00-base07: Grayscale and neutral tones
-base08-base0F: Accent and semantic colors
-
-Each palette maps to PMD's lightness-based system:
-100x, 88x, 80x, 72x, 8x, 4x, 0x
-
-Multiple opacity variants are specified for each base color.
-Auxiliary hues provide complementary contrast (+180° typically).
+Export Format:
+  scheme: "PMD [Hue] [Variant]"  (e.g., "PMD 260 Dark")
+  author: "Project Minimalist Design"
+  base00–base0F: hex colour values (#RRGGBB, no prefix)

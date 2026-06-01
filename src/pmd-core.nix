@@ -80,13 +80,17 @@ let
     c = bg.c * (1.0 - alpha) + fg.c * alpha;
   };
 
+  stack =
+    base: tint: opacity:
+    composite base tint opacity;
+
   bake =
     pmd: fg: alpha:
     composite pmd."0x" fg alpha;
 
   computeDerived = pmd: {
-    surface = composite pmd."8x" pmd."80x" 0.16;
-    muted = bake pmd pmd."80x" 0.80;
+    surface = composite pmd."8x" pmd."80x" 0.08;
+    muted = composite pmd."8x" pmd."80x" 0.48;
   };
 
   mkBase16Slots =
@@ -94,7 +98,8 @@ let
     let
       rot = base: deg: lib.mod (base + deg + 360) 360;
       isLight = pmd."4x".l > 0.5;
-      accentL = if isLight then 0.45 else pmd."72x".l;
+      accentL = pmd."72x".l;
+      accentC = if isLight then 0.1 else pmd."72x".c;
     in
     {
       base00 = {
@@ -110,7 +115,7 @@ let
         h = root;
       };
       base03 = {
-        inherit (bake pmd pmd."80x" 0.80) l c;
+        inherit (derived.muted) l c;
         h = root;
       };
 
@@ -137,7 +142,7 @@ let
       };
       base09 = {
         l = accentL;
-        inherit (pmd."72x") c;
+        c = accentC;
         h = rot root 290;
       };
       base0A = {
@@ -146,7 +151,7 @@ let
       };
       base0B = {
         l = accentL;
-        inherit (pmd."72x") c;
+        c = accentC;
         h = root;
       };
       base0C = {
@@ -155,17 +160,17 @@ let
       };
       base0D = {
         l = accentL;
-        inherit (pmd."72x") c;
+        c = accentC;
         h = rot root 30;
       };
       base0E = {
         l = accentL;
-        inherit (pmd."72x") c;
+        c = accentC;
         h = rot root (-30);
       };
 
       base0F = {
-        inherit (bake pmd pmd."80x" 0.80) l c;
+        inherit (derived.muted) l c;
         h = root;
       };
     };
@@ -204,6 +209,7 @@ in
     dark
     light
     composite
+    stack
     bake
     computeDerived
     mkBase16Slots

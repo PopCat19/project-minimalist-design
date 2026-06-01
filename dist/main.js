@@ -23,6 +23,40 @@ function oklchToRgb(l, c, h) {
 function rgbToHex({ r, g, b }) {
   return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
 }
+function isInGamut(l, c, h) {
+  const hRad = h * Math.PI / 180;
+  const a = c * Math.cos(hRad);
+  const b = c * Math.sin(hRad);
+  const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = l - 0.0894841775 * a - 1.291485548 * b;
+  const lCubed = l_ * l_ * l_;
+  const mCubed = m_ * m_ * m_;
+  const sCubed = s_ * s_ * s_;
+  const rLin = 4.0767416621 * lCubed - 3.3077115913 * mCubed + 0.2309699292 * sCubed;
+  const gLin = -1.2684380046 * lCubed + 2.6097574011 * mCubed - 0.3413193965 * sCubed;
+  const bLin = -0.0041960863 * lCubed - 0.7034186147 * mCubed + 1.707614701 * sCubed;
+  return rLin >= -0.000000001 && rLin <= 1 + 0.000000001 && gLin >= -0.000000001 && gLin <= 1 + 0.000000001 && bLin >= -0.000000001 && bLin <= 1 + 0.000000001;
+}
+function maxChroma(l, h) {
+  let lo = 0;
+  let hi = 0.4;
+  for (let i = 0;i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (isInGamut(l, mid, h))
+      lo = mid;
+    else
+      hi = mid;
+  }
+  return lo;
+}
+function clampChroma(l, c, h) {
+  const max = maxChroma(l, h);
+  return Math.min(c, max);
+}
+function safeOklchToRgb(l, c, h) {
+  return oklchToRgb(l, clampChroma(l, c, h), h);
+}
 function getContrastColor(r, g, b) {
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.5 ? "#000000" : "#FFFFFF";
@@ -52,13 +86,10 @@ function composite(bg, fg, alpha) {
     c: bg.c * (1 - alpha) + fg.c * alpha
   };
 }
-function bake(pmd, fg, alpha) {
-  return composite(pmd["0x"], fg, alpha);
-}
 function getComputed(pmd) {
   return {
-    surface: composite(pmd["8x"], pmd["80x"], 0.16),
-    muted: bake(pmd, pmd["80x"], 0.8)
+    surface: composite(pmd["8x"], pmd["80x"], 0.08),
+    muted: composite(pmd["8x"], pmd["80x"], 0.48)
   };
 }
 var HUE_MAX = 360;
@@ -84,10 +115,10 @@ function getBase16Defs(pmd, computed) {
     bg: [
       { id: "base00", pmd: "4x", desc: "Background", ...pmd["4x"] },
       { id: "base01", pmd: "8x", desc: "Base Container", ...pmd["8x"] },
-      { id: "base02", pmd: "8x+80x@16%", desc: "Surface", ...computed.surface },
+      { id: "base02", pmd: "80×8%", desc: "Surface", ...computed.surface },
       {
         id: "base03",
-        pmd: "80x@80%",
+        pmd: "80×48%",
         desc: "Muted",
         l: computed.muted.l,
         c: computed.muted.c
@@ -155,7 +186,7 @@ function getBase16Defs(pmd, computed) {
       },
       {
         id: "base0F",
-        pmd: "72x@80%",
+        pmd: "80×48%",
         l: computed.muted.l,
         c: computed.muted.c,
         desc: "Meta"
@@ -163,13 +194,15 @@ function getBase16Defs(pmd, computed) {
     ]
   };
 }
-function generatePalette(hue, pmd, computed, isDark, isHueLocked, lockedHueValue) {
+function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
   const defs = getBase16Defs(pmd, computed);
   const accentHue = isHueLocked ? lockedHueValue : hue;
-  const accentL = !isDark ? 0.45 : pmd["72x"].l;
+  const isLight = pmd["4x"].l > 0.5;
+  const accentL = pmd["72x"].l;
+  const accentC = isLight ? 0.1 : pmd["72x"].c;
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {
-    const rgb = oklchToRgb(def.l, def.c, hue);
+    const rgb = safeOklchToRgb(def.l, def.c, hue);
     colors[def.id] = {
       ...def,
       rgb,
@@ -186,14 +219,16 @@ function generatePalette(hue, pmd, computed, isDark, isHueLocked, lockedHueValue
     } else {
       h = accentHue;
     }
-    const l = def.id === "base0F" || def.pmd === "88x" || def.pmd === "80x" || def.pmd === "80x+140" ? def.l : accentL;
-    const rgb = oklchToRgb(l, def.c, h);
+    const useAccent = !(def.id === "base0F" || def.pmd === "88x" || def.pmd === "80x" || def.pmd === "80x+140");
+    const l = useAccent ? accentL : def.l;
+    const c = useAccent ? accentC : def.c;
+    const rgb = safeOklchToRgb(l, c, h);
     colors[def.id] = {
       ...def,
       rgb,
       hex: rgbToHex(rgb),
       hue: h,
-      oklch: formatOklch(l, def.c, h)
+      oklch: formatOklch(l, c, h)
     };
   });
   return colors;
@@ -217,7 +252,7 @@ function renderPresets(containerId, isDark, setHueCallback) {
   const pmd = isDark ? PMD_DARK : PMD_LIGHT;
   const theme = pmd["72x"];
   container.innerHTML = presets.map((preset) => {
-    const rgb = oklchToRgb(theme.l, theme.c, preset.hue);
+    const rgb = safeOklchToRgb(theme.l, theme.c, preset.hue);
     const hex = rgbToHex(rgb);
     return `
             <button class="preset"
@@ -240,7 +275,7 @@ function updateSliderGradient(sliderId, isDark) {
   const theme = (isDark ? PMD_DARK : PMD_LIGHT)["72x"];
   const stops = [];
   for (let i = 0;i <= HUE_MAX; i += GRADIENT_STEP) {
-    const rgb = oklchToRgb(theme.l, theme.c, i);
+    const rgb = safeOklchToRgb(theme.l, theme.c, i);
     stops.push(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
   }
   slider.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
@@ -392,6 +427,126 @@ function renderColorGrid(containerId, defs, colors) {
     return renderColorCard(color, def.desc, def.pmd);
   }).join("");
 }
+function renderFoundationGrid(containerId, pmd, hue) {
+  const container = document.getElementById(containerId);
+  if (!container)
+    return;
+  const slotOrder = ["100x", "88x", "80x", "72x", "8x", "4x", "0x"];
+  const roles = {
+    "100x": "max contrast",
+    "88x": "primary",
+    "80x": "secondary",
+    "72x": "accent",
+    "8x": "base surface",
+    "4x": "deep bg",
+    "0x": "canvas"
+  };
+  container.innerHTML = slotOrder.map((key) => {
+    const slot = pmd[key];
+    if (!slot)
+      return "";
+    const rgb = oklchToRgb(slot.l, slot.c, hue);
+    const hex = rgbToHex(rgb);
+    const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
+    return `
+        <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})')">
+            <div class="color-swatch" style="background: ${hex}; color: ${txt}">
+                <div class="swatch-hex">${hex}</div>
+                <div class="swatch-oklch">oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})</div>
+            </div>
+            <div class="color-info">
+                <div class="color-name">${key}</div>
+                <div class="color-desc">${roles[key] || ""}</div>
+            </div>
+        </div>`;
+  }).join("");
+}
+function renderStackGrid(containerId, pmd, hue) {
+  const container = document.getElementById(containerId);
+  if (!container)
+    return;
+  const defs = [
+    {
+      label: "8×40%",
+      base: "0x",
+      tint: "8x",
+      opacity: 0.4,
+      role: "flyout container (w/ blur)"
+    },
+    {
+      label: "8×80%",
+      base: "0x",
+      tint: "8x",
+      opacity: 0.8,
+      role: "deep surface"
+    },
+    {
+      label: "80×8%",
+      base: "8x",
+      tint: "80x",
+      opacity: 0.08,
+      role: "interactable hint"
+    },
+    {
+      label: "80×48%",
+      base: "8x",
+      tint: "80x",
+      opacity: 0.48,
+      role: "muted / inactive track"
+    },
+    {
+      label: "88×24%",
+      base: "8x",
+      tint: "88x",
+      opacity: 0.24,
+      role: "disabled foreground"
+    },
+    {
+      label: "64×80%",
+      base: "8x",
+      tint: "64x",
+      opacity: 0.8,
+      role: "subdued accent"
+    },
+    {
+      label: "88×12",
+      base: "88x",
+      tint: "88x",
+      opacity: 1,
+      offset: 12,
+      role: "priority alert (+12°)"
+    },
+    {
+      label: "80×8%+12",
+      base: "8x",
+      tint: "80x",
+      opacity: 0.08,
+      offset: 12,
+      role: "subtle alert surface"
+    }
+  ];
+  container.innerHTML = defs.map((def) => {
+    const baseSlot = pmd[def.base];
+    const tintSlot = pmd[def.tint];
+    if (!baseSlot || !tintSlot)
+      return "";
+    const effHue = def.offset ? (hue + def.offset) % 360 : hue;
+    const rgb = oklchToRgb(baseSlot.l * (1 - def.opacity) + tintSlot.l * def.opacity, baseSlot.c * (1 - def.opacity) + tintSlot.c * def.opacity, effHue);
+    const hex = rgbToHex(rgb);
+    const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
+    return `
+        <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'composite(${def.base}, ${def.tint}, ${def.opacity.toFixed(2)})')">
+            <div class="color-swatch" style="background: ${hex}; color: ${txt}">
+                <div class="swatch-hex">${hex}</div>
+                <div class="swatch-oklch">${def.label}</div>
+            </div>
+            <div class="color-info">
+                <div class="color-name">${def.label}</div>
+                <div class="color-desc">${def.role}</div>
+            </div>
+        </div>`;
+  }).join("");
+}
 function renderCodePreview(colors, currentHue) {
   const preview = document.getElementById("codePreview");
   if (!preview)
@@ -413,6 +568,87 @@ function renderCodePreview(colors, currentHue) {
             }
         </div>
     `;
+}
+function renderUIPreview(containerId, _colors, pmd, hue) {
+  const container = document.getElementById(containerId);
+  if (!container)
+    return;
+  const hex = (key, hOff) => {
+    const s = pmd[key];
+    if (!s)
+      return "#000";
+    const rgb = oklchToRgb(s.l, s.c, hOff ? (hue + hOff) % 360 : hue);
+    return rgbToHex(rgb);
+  };
+  const stackHex = (baseKey, tintKey, alpha, hOff) => {
+    const b = pmd[baseKey];
+    const t = pmd[tintKey];
+    if (!b || !t)
+      return "#000";
+    const rgb = oklchToRgb(b.l * (1 - alpha) + t.l * alpha, b.c * (1 - alpha) + t.c * alpha, hOff ? (hue + hOff) % 360 : hue);
+    return rgbToHex(rgb);
+  };
+  const txtOn = (h) => {
+    const m = h.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i);
+    if (!m)
+      return "#fff";
+    return getContrastColor(parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16));
+  };
+  const _c100 = hex("100x");
+  const c88 = hex("88x");
+  const c80 = hex("80x");
+  const c72 = hex("72x");
+  const c8x = hex("8x");
+  const c4x = hex("4x");
+  const _c0x = hex("0x");
+  const surfWidget = stackHex("8x", "80x", 0.08);
+  const surfMuted = stackHex("8x", "80x", 0.48);
+  const txtInactive = `${c88}3D`;
+  const alertBg = hex("88x", 12);
+  const alertBorder = `${c88}FF`;
+  const F = "font-family:Fredoka,system-ui,sans-serif";
+  const T12 = "font-size:12px;line-height:15px";
+  const T10 = "font-size:10px;line-height:12px";
+  container.innerHTML = `
+    <div style="background:${c4x};border-radius:1rem;padding:12px;display:flex;flex-direction:column;gap:8px;${F}">
+<div style="display:flex;gap:8px">
+        <div style="flex:1;background:${c8x};border-radius:1rem;padding:12px">
+          <div style="color:${c88};font-weight:600;${T12};margin-bottom:4px">Header · 88x 600</div>
+          <div style="color:${c72};font-weight:500;${T12};margin-bottom:10px">Subtext · 72x 500</div>
+          <div style="display:flex;gap:4px">
+            <div style="padding:4px 8px;border-radius:1rem;background:${c88};color:${txtOn(c88)};font-weight:600;${T12}">88x active</div>
+            <div style="padding:4px 8px;border-radius:1rem;background:${surfWidget};color:${txtInactive};font-weight:500;${T12}">88×24%</div>
+            <div style="padding:4px 8px;border-radius:1rem;background:${surfWidget};color:${c80};font-weight:500;${T12}">80×8%</div>
+          </div>
+        </div>
+        <div style="flex:1;background:${c8x};border-radius:1rem;padding:12px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:${c88};font-weight:600;${T12}">0:56</span>
+            <span style="color:${c80};font-weight:500;${T12};text-align:center;overflow:hidden;white-space:nowrap">Zen Browser</span>
+            <span style="color:${surfMuted};font-weight:500;${T12}">4:08</span>
+          </div>
+          <div style="display:flex;align-items:center;height:24px;gap:4px">
+            <div style="width:48px;height:12px;background:${c88};border-radius:16px 2px 2px 16px;flex-shrink:0"></div>
+            <div style="width:4px;height:100%;background:${c88};border-radius:16px;flex-shrink:0"></div>
+            <div style="flex:1;height:12px;background:${surfMuted};border-radius:2px 16px 16px 2px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px">
+              <div style="width:4px;height:4px;background:${c80};border-radius:16px;flex-shrink:0"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:4px">
+            <div style="flex:1;padding:4px 8px;border-radius:1rem;background:${c88};color:${txtOn(c88)};text-align:center;font-weight:600;${T12}">88x active</div>
+            <div style="flex:1;padding:4px 8px;border-radius:1rem;background:${surfWidget};color:${c80};text-align:center;font-weight:500;${T12}">80×8% def</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;background:${c8x};border-radius:1rem;padding:8px 12px;display:flex;align-items:center;gap:6px">
+          <span style="color:${surfMuted};font-weight:500;${T12}">Timestamp</span>
+          <span style="color:${surfMuted};font-weight:500;${T10}">14:32</span>
+          <span style="color:${surfMuted};font-weight:500;${T10}">· 80x 48%</span>
+        </div>
+        <div style="background:${alertBg};border:2px solid ${alertBorder};border-radius:1rem;padding:8px 12px;color:${txtOn(alertBg)};font-weight:600;${T12}">88×12 priority</div>
+      </div>
+    </div>`;
 }
 
 // src/ts/ui/export.ts
@@ -531,8 +767,11 @@ function renderColors() {
   const { pmd: pmdVars, computed } = getPMD(isDark);
   updateSliderGradient("hueSlider", isDark);
   base16Defs = getBase16Defs(pmdVars, computed);
-  const colors = generatePalette(currentHue, pmdVars, computed, isDark, isHueLocked, lockedHueValue);
+  const colors = generatePalette(currentHue, pmdVars, computed, isHueLocked, lockedHueValue);
   applyThemeToUI(colors);
+  renderFoundationGrid("foundationGrid", pmdVars, currentHue);
+  renderStackGrid("stackGrid", pmdVars, currentHue);
+  renderUIPreview("uiPreview", colors, pmdVars, currentHue);
   renderColorGrid("bgColors", base16Defs.bg, colors);
   renderColorGrid("fgColors", base16Defs.fg, colors);
   renderColorGrid("accentColors", base16Defs.accent, colors);
@@ -606,7 +845,7 @@ function initEventListeners() {
 function getColors() {
   const isDark = currentScheme === "dark";
   const { pmd: pmdVars, computed } = getPMD(isDark);
-  return generatePalette(currentHue, pmdVars, computed, isDark, isHueLocked, lockedHueValue);
+  return generatePalette(currentHue, pmdVars, computed, isHueLocked, lockedHueValue);
 }
 function init() {
   window.handleColorClick = handleColorClick;

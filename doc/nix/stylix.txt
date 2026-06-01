@@ -1,13 +1,13 @@
 ===== STYLIX INTEGRATION =====
 
-PMD can integrate with stylix for system-wide theming:
+PMD can feed a base16 YAML palette into Stylix for system-wide
+theming of terminal emulators, text editors, GTK/Qt apps, and
+desktop environment components.
 
-Status: Remaining task - Implement system-wide Stylix integration templates
+Status: Template exists (src/base16-export.nix). Full Stylix
+auto-application pipeline is not yet implemented.
 
-When implemented, Stylix will apply PMD themes to:
-   - Terminal emulators
-   - Text editors (vim, emacs, etc.)
-   - Desktop environment components
-   - GTK/Qt applications
-
-Example configuration coming soon.
+When integrated, the workflow is:
+  1. PMD generates a base16 YAML file via mkScheme
+  2. Stylix consumes the YAML as its colour source
+  3. All Stylix-managed apps receive PMD colours

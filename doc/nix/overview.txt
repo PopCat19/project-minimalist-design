@@ -1,11 +1,17 @@
 ===== NIX INTEGRATION OVERVIEW =====
 
 PMD provides Nix integration for NixOS through:
-1. Flake-based configuration
-2. Base16 export derivations
-3. Reproducible development shells
+  1. Flake-based configuration
+  2. Base16 export derivations
+  3. Reproducible development shells
 
-Build: `nix build` generates dark and light themes in share/pmd-base16/.
+Core module: src/pmd-core.nix
+  Exports dark/light variable sets, composite/stack/bake
+  functions, mkBase16Slots, mkWallpaper, and mkScheme.
 
-This enables reproducible theme generation and system-wide integration
-through NixOS configuration.
+Build: nix build generates dark and light themes as base16
+  YAML files and PNG wallpapers in share/pmd-base16/.
+
+The Nix implementation mirrors the TypeScript code in
+  src/ts/pmd/ — both use identical foundation slot values
+  and compositing logic.

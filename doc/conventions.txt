@@ -1,19 +1,28 @@
 ===== FRAME CONVENTIONS =====
 
-Standard frame specifications for all schemes:
+Border-Radius:
+  16px (1rem) — Standard. Cards, standalone buttons, panels.
+  8px        — Compact. Small cards, middle items in a group.
+  40px       — Pill. Consolidated summary items.
 
-Border: 0.125rem (2px) constant width
-Radius: 1rem (16px) constant radius
-Spacing: 0.5rem (8px) or 0.25rem (4px) internal padding
+Borders:
+  Never used on standalone interactive elements. Only two cases:
+    1. Priority alerts: 2px solid, alert-column 88x at 100%
+    2. Control clusters: 2px solid, 80×8%
 
-State Colors:
-- Boost: 88x+12 (complementary highlight)
-- Active: 88x (enabled primary state)
-- Selection/Hover Border: 88x
-- Occupied: 88x / base07 Border highlight
-- Disabled: 88x at 24% opacity
-- Surface: 8x + 80x at 16% opacity (composited stack)
-- Base: 4x (solid background)
+No Shadows, No Gradients:
+  Depth is communicated through lightness tier alone.
 
-For grouped components, use asymmetric radius (0.5rem on relative sides)
-to create visual connection between adjacent elements.
+Widget Surfaces:
+  Built as 8x at 100% layered with 80×8% tint. This is the
+  canonical widget background: composite(8x, 80x, 0.08).
+
+Grouped Component Radii:
+  Adjacent elements in a group use asymmetric radii to signal
+  position without borders or dividers:
+    - First:   16px followed by 8px on the shared side
+    - Middle:  8px all around
+    - Last:    8px followed by 16px on the shared side
+    - Standalone: 16px all around
+  This applies to button groups, bar widget groups, and welded
+  panels alike.

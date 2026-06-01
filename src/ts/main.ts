@@ -23,7 +23,10 @@ import {
 	handleColorClick,
 	renderCodePreview,
 	renderColorGrid,
+	renderFoundationGrid,
 	renderPresets,
+	renderStackGrid,
+	renderUIPreview,
 	toggleDocMenu,
 	toggleDocs,
 	updateSliderGradient,
@@ -125,12 +128,15 @@ function renderColors(): void {
 		currentHue,
 		pmdVars,
 		computed,
-		isDark,
 		isHueLocked,
 		lockedHueValue,
 	);
 
 	applyThemeToUI(colors);
+
+	renderFoundationGrid("foundationGrid", pmdVars, currentHue);
+	renderStackGrid("stackGrid", pmdVars, currentHue);
+	renderUIPreview("uiPreview", colors, pmdVars, currentHue);
 
 	renderColorGrid("bgColors", base16Defs.bg, colors);
 	renderColorGrid("fgColors", base16Defs.fg, colors);
@@ -220,7 +226,6 @@ function getColors(): Base16Palette {
 		currentHue,
 		pmdVars,
 		computed,
-		isDark,
 		isHueLocked,
 		lockedHueValue,
 	);

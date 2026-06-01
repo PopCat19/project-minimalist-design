@@ -1,11 +1,27 @@
 ===== SCALE SYSTEM =====
 
-All measurements use rem units (base-16: 16px = 1rem)
+All measurements use pixel values (base-16: 16px = 1rem in CSS output).
 
-Common Scales:
-- 0.125rem (2px) - Standard border width
-- 0.25rem (4px)  - Micro spacing
-- 0.5rem (8px)   - Standard spacing
-- 1rem (16px)    - Base unit / Frame Radius
-- 1.5rem (24px)  - Header spacing / Icon size
-- 2rem (32px)    - Prominent sections
+Borders:
+  2px — Standard. Priority alerts, control clusters.
+
+Gaps:
+  4px  — Standard gap between sibling elements.
+  8px  — Content group separation.
+  10px — Dropdown chevron inner spacing.
+
+Padding:
+  4px block / 8px inline  — Buttons, bar widgets.
+  8px all around          — Cards, notification panels.
+  12px all around         — Flyout inner cards, player panels.
+
+Negative Gaps:
+  -8px  — Label stacked above dots in compact cards.
+  -12px — Two-line drag handle indicator dots.
+  For text-only vertical stacking. Never on interactive elements.
+
+Icon Sizes:
+  24px — Tab bar icons, media playback controls.
+  20px — Dropdown chevrons, playlist controls.
+  16px — Notification buttons, widget icons, action buttons.
+  12px — Overlay icons on filled surfaces (drop one step).

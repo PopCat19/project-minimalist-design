@@ -1,9 +1,49 @@
 ===== EFFECTS SYSTEM =====
 
-Backdrop Blur:
-- Standard: 24% opacity
-- Usage: Translucent surfaces at 8x 40%
+PMD communicates depth, state, and structure without decorative
+effects. Every visual property has a functional role.
 
-Shadows/Gradients:
-- Avoid entirely per minimalist guidelines.
-- Depth is communicated via Lightness and Borders only.
+Backdrop Blur:
+  Apply to 8×40% (flyout) surfaces only. Blur amount: 12–24px.
+  Solid (8x 100%) surfaces never blur. The blur creates a
+  sense of elevation without shadows.
+
+No Shadows, No Gradients:
+  Depth is communicated through lightness tier alone. An 8x
+  card on a 4x floor reads as elevated purely from the L
+  difference. Adding shadows or gradients would be redundant
+  and would conflict with the tier system.
+
+Border-Radius — Three Categories:
+  16px (1rem) — default. Cards, buttons, standalone elements.
+  8px        — compact. Small cards, middle items in a group.
+  40px       — pill. Consolidated summary items.
+  Never mix radius values on the same element.
+
+Borders — Only Two Cases:
+  1. Priority alerts: 2px solid, alert-column 88x at 100%
+  2. Control clusters (pagination, source switch, media
+     controls): 2px solid, 80×8%
+  Standalone interactive elements (reply buttons, copy
+  buttons, toggles) never use borders.
+
+Surface Layering:
+  Widget surfaces (bars, cards, button containers) are built
+  as 8x at 100% layered with an 80×8% tint. This is the
+  canonical widget background — the visual equivalent of
+  composite(8x, 80x, 0.08).
+
+  Media player cards add a third layer: album art is placed
+  behind the 8x surface with the 8x layer at 80% opacity
+  (instead of 100%), allowing the artwork to show through
+  while keeping text readable.
+
+Filled Track Indicators:
+  Gauges and progress bars use a three-layer construction:
+    Track:      88×24%, 16px radius (full-width container)
+    Fill:       88x solid, 8px radius (inner, clipped)
+    Label:      100x text at weight 600 on the fill
+  Text on a filled track uses the opposite endpoint colour
+  (100x on 88x fill in dark mode) to guarantee contrast
+  without introducing a new tier. Overlay icons on filled
+  surfaces drop one size step (16px → 12px).

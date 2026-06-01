@@ -1,17 +1,21 @@
 ===== NIX CONFIGURATION =====
 
-Using PMD in NixOS Configuration:
+Using PMD in a Nix flake:
 
-1. Add flake input to your configuration:
-   inputs.pmd.url = "github:yourusername/pmd";
+  1. Add as a flake input:
+       inputs.pmd.url = "github:PopCat19/project-minimalist-design";
 
-2. Import palette and apply:
-   pmd.packages.${system}.default
+  2. Access the scheme builder:
+       pmd.lib.mkScheme { hue = 260; variant = "dark"; }
 
-3. Reference colors in your configuration:
-   Use generated base16 themes
+  3. Generate base16 YAML:
+       nix build .#base16-export
 
-4. Customize hue and chroma:
-   Modify palette YAML files and rebuild
+  4. Access variables directly:
+       pmd.lib.getVariables "dark"
 
-See doc/nix/stylix.txt for stylix integration details.
+The mkScheme function returns:
+  { hue, variant, auxHue, variables, computed, base16 }
+
+Where variables and computed contain the foundation slots
+and derived surface/muted values respectively.

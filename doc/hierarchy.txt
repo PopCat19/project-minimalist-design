@@ -1,48 +1,55 @@
 ===== HIERARCHY THROUGH VISIBILITY =====
 
-## Rule
+PMD establishes visual hierarchy through lightness alone. No
+shadows, gradients, or decorative elements — every surface
+communicates its importance via its tier.
 
-Each element class owns one lightness tier. Tier name defines reading
-priority — 88x is always seen first, regardless of its L value in the
-active variant. Opacity modulates state within the owned tier. No class
-borrows another's tier.
+Each element class owns one lightness tier. The tier name
+defines reading priority: 88x is always seen first, regardless
+of whether it appears lighter or darker in the active scheme.
+Opacity modulates state within the owned tier.
 
-Exception: active inversion. When an element is drawn on an 88x surface,
-on-surface elements use 8x (the floor). The tier relationship flips
-locally at that boundary only.
+Reading Priority (highest → lowest):
+  88x → 80x → 72x → 8x → 4x
 
-PMD establishes hierarchy through visibility properties rather than 
-decorative elements:
-
-## Reading Priority (highest → lowest)
-
-88x → 80x → 72x → 8x → 4x
-
-Tier names are stable across variants. The variable system remaps L values
-per variant — 88x is brightest in dark, darkest in light. Priority is
-invariant; L value is not.
+Tier names are stable across dark and light variants. The
+variable system remaps L values per variant — 88x is brightest
+in dark mode, darkest in light mode. Priority is invariant;
+absolute L value is not.
 
 ## Ownership Table
 
-Element Class       Tier   Opacity   State
-──────────────────────────────────────────
-Icon, Header        88x    100%      Active
-Icon, Header        88x    24%       Inactive / Disabled
-Body text           80x    100%      Default
-Body text           80x    48%       Collapsed / Secondary
-Timestamp, Meta     80x    48%       Only value — never full opacity
-Subtext, Link       72x    100%      Default
-Surface             8x     100%      Solid card / panel bg
-Surface overlay     8x     16%       Composited with 80x (base02)
-Background          4x     —         Floor, never foreground
+Element             Tier     Opacity   State
+─────────────────────────────────────────────
+Heading             88x      100%      Active / Prominent
+Heading (disabled)  88x      24%       Inactive / Disabled
+Active fill         88x      100%      Selected toggle / tab
+Body text           80x      100%      Default labels, body
+Source name         80x      100%      Small secondary heading
+Timestamp, Meta     80x      48%       Muted — never full opacity
+Subtext, Link       72x      100%      Default
+Unit affix          80x      48%       Annotation symbol, 8px / 700
+Surface hint        80×8%     —         Interactive bg (buttons)
+Surface             8x       100%      Solid card / panel bg
+Flyout surface      8×40%     —         Translucent over 0x
+Background          4x       —         Floor, never foreground
 
-## Hierarchy Properties
+## Alert Column (Hue-Shifted Palette)
 
-Lightness: Tier ownership (see table above)
-Opacity:   State within tier (100% active → 24% disabled)
-Weight:    Typographic emphasis (Bold > Semibold > Medium)
-Spacing:   Grouping and importance (larger = more prominent)
-Radius:    1rem default for all frames
+Priority alerts and active-device indicators use a separate
+hue column. The same tier-to-opacity rules apply, preserving
+the hierarchy across hue boundaries:
 
-Icons own 88x for the same reason headers do: immediate recognition
-precedes reading. Ownership is by element class, not component context.
+  Tier        Base        Alert       Usage
+  ──────────  ──────────  ──────────  ──────────────────────
+  88×12       88x 100%    88x 100%    Border, CTA bg, title,
+                                        notification count,
+                                        workspace active no.
+  80×12       80x 100%    80x 100%    Body text
+  80×12 48%   80x 48%     80x 48%     Timestamp
+  80×12 8%    80x 8%      80x 8%      Button bg
+
+  The alert column signals "needs attention" — notification
+  counts and workspace-active indicators share this hue.
+  It is the only mechanism for attention signalling; size
+  and weight changes are never used for this purpose.

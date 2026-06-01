@@ -6,4 +6,12 @@
 // - Re-exports HSL and OKLCH conversion functions
 export { hslToRgb } from "./hsl";
 export type { RGB } from "./oklch";
-export { getContrastColor, oklchToRgb, rgbToHex } from "./oklch";
+export {
+	clampChroma,
+	getContrastColor,
+	isInGamut,
+	maxChroma,
+	oklchToRgb,
+	rgbToHex,
+	safeOklchToRgb,
+} from "./oklch";

@@ -1,11 +1,12 @@
 // pmd-variables.ts
 //
-// Purpose: Defines PMD color system variables and composition helpers
+// Purpose: PMD foundation color slots and alpha compositing
 //
 // This module:
-// - Provides dark and light PMD variable presets
-// - Implements color compositing and baking functions
-// - Calculates auxiliary hue offsets
+// - Defines the -x foundation palette (hand-picked, not derived)
+// - Provides composite() / stack() for layering surfaces at any opacity
+// - Variables follow the naming convention: -x × opacity% [+hueOffset]
+
 export interface PMDVariable {
 	l: number;
 	c: number;
@@ -15,23 +16,23 @@ export interface PMDVariable {
 export type PMDVariables = Record<string, PMDVariable>;
 
 export const PMD_DARK: PMDVariables = {
-	"100x": { l: 1.0, c: 0 },
+	"100x": { l: 1.0, c: 0.0 },
 	"88x": { l: 0.88, c: 0.056 },
 	"80x": { l: 0.8, c: 0.1 },
 	"72x": { l: 0.72, c: 0.122 },
 	"8x": { l: 0.2, c: 0.032 },
 	"4x": { l: 0.16, c: 0.022 },
-	"0x": { l: 0.0, c: 0 },
+	"0x": { l: 0.0, c: 0.0 },
 };
 
 export const PMD_LIGHT: PMDVariables = {
-	"100x": { l: 0.0, c: 0 },
+	"100x": { l: 0.0, c: 0.0 },
 	"88x": { l: 0.28, c: 0.032 },
 	"80x": { l: 0.2, c: 0.032 },
 	"72x": { l: 0.32, c: 0.052 },
 	"8x": { l: 0.88, c: 0.056 },
 	"4x": { l: 0.92, c: 0.044 },
-	"0x": { l: 1.0, c: 0 },
+	"0x": { l: 1.0, c: 0.0 },
 };
 
 export function composite(
@@ -43,6 +44,19 @@ export function composite(
 		l: bg.l * (1 - alpha) + fg.l * alpha,
 		c: bg.c * (1 - alpha) + fg.c * alpha,
 	};
+}
+
+export function stack(
+	base: PMDVariable,
+	tint: PMDVariable,
+	opacity: number,
+	hueOffset?: number,
+): PMDVariable {
+	const result = composite(base, tint, opacity);
+	if (hueOffset !== undefined && tint.h !== undefined) {
+		result.h = (tint.h + hueOffset + 360) % 360;
+	}
+	return result;
 }
 
 export function bake(
@@ -58,8 +72,8 @@ export function getComputed(pmd: PMDVariables): {
 	muted: PMDVariable;
 } {
 	return {
-		surface: composite(pmd["8x"], pmd["80x"], 0.16),
-		muted: bake(pmd, pmd["80x"], 0.8),
+		surface: composite(pmd["8x"], pmd["80x"], 0.08),
+		muted: composite(pmd["8x"], pmd["80x"], 0.48),
 	};
 }
 
