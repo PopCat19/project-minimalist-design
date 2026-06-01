@@ -400,32 +400,46 @@ function downloadFile(content, filename, type) {
   a.click();
   URL.revokeObjectURL(url);
 }
-function renderColorCard(color, desc, pmd) {
-  const textColor = getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b);
-  return `
-        <div class="color-card" onclick="window.handleColorClick(event, '${color.hex}', '${color.oklch}')">
-            <div class="color-swatch" style="background: ${color.hex}; color: ${textColor}">
-                <div class="swatch-hex">${color.hex}</div>
-                <div class="swatch-oklch">${color.oklch}</div>
-            </div>
-            <div class="color-info">
-                <div class="color-name">${color.id}</div>
-                <div class="color-desc">${desc}</div>
-                <div class="color-values">
-                    <div class="color-hex">${pmd}</div>
-                </div>
-            </div>
-        </div>
-    `;
-}
 function renderColorGrid(containerId, defs, colors) {
   const container = document.getElementById(containerId);
   if (!container)
     return;
-  container.innerHTML = defs.map((def) => {
+  const root = document.documentElement;
+  if (!container.dataset.ready) {
+    container.innerHTML = defs.map((def) => `
+        <div class="color-card" data-b16="${def.id}">
+            <div class="color-swatch" style="background: var(--b16-${def.id}); color: var(--b16c-${def.id})">
+                <div class="swatch-hex" data-b16hex="${def.id}"></div>
+                <div class="swatch-oklch">${def.pmd}</div>
+            </div>
+            <div class="color-info">
+                <div class="color-name">${def.id}</div>
+                <div class="color-desc">${def.desc}</div>
+            </div>
+        </div>`).join("");
+    container.querySelectorAll(".color-card").forEach((card) => {
+      card.addEventListener("click", (e) => {
+        const id = card.dataset.b16 || "";
+        const c = colors[id];
+        if (c)
+          window.handleColorClick(e, c.hex, c.oklch);
+      });
+    });
+    container.dataset.ready = "1";
+  }
+  defs.forEach((def) => {
     const color = colors[def.id];
-    return renderColorCard(color, def.desc, def.pmd);
-  }).join("");
+    if (!color)
+      return;
+    root.style.setProperty(`--b16-${def.id}`, color.hex);
+    root.style.setProperty(`--b16c-${def.id}`, getContrastColor(color.rgb.r, color.rgb.g, color.rgb.b));
+    const card = container.querySelector(`[data-b16="${def.id}"]`);
+    if (card) {
+      const hexEl = card.querySelector(`[data-b16hex="${def.id}"]`);
+      if (hexEl)
+        hexEl.textContent = color.hex;
+    }
+  });
 }
 function renderFoundationGrid(containerId, pmd, hue) {
   const container = document.getElementById(containerId);
@@ -441,25 +455,57 @@ function renderFoundationGrid(containerId, pmd, hue) {
     "4x": "deep bg",
     "0x": "canvas"
   };
-  container.innerHTML = slotOrder.map((key) => {
-    const slot = pmd[key];
-    if (!slot)
-      return "";
-    const rgb = oklchToRgb(slot.l, slot.c, hue);
-    const hex = rgbToHex(rgb);
-    const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
-    return `
-        <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})')">
-            <div class="color-swatch" style="background: ${hex}; color: ${txt}">
-                <div class="swatch-hex">${hex}</div>
-                <div class="swatch-oklch">oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})</div>
+  const root = document.documentElement;
+  if (!container.dataset.ready) {
+    container.innerHTML = slotOrder.map((key) => {
+      const slot = pmd[key];
+      if (!slot)
+        return "";
+      return `
+        <div class="color-card" data-slot="${key}">
+            <div class="color-swatch" style="background: var(--fs-${key}); color: var(--fsc-${key})">
+                <div class="swatch-hex" data-hex="${key}"></div>
+                <div class="swatch-oklch" data-oklch="${key}"></div>
             </div>
             <div class="color-info">
                 <div class="color-name">${key}</div>
                 <div class="color-desc">${roles[key] || ""}</div>
             </div>
         </div>`;
-  }).join("");
+    }).join("");
+    container.querySelectorAll(".color-card").forEach((card) => {
+      card.addEventListener("click", (e) => {
+        const _k = card.dataset.slot || "";
+        const el = card.querySelector(".swatch-oklch");
+        const hexEl = card.querySelector(".swatch-hex");
+        const hex = getComputedStyle(hexEl).color;
+        const oklch = el?.dataset.oklch || "";
+        window.handleColorClick(e, hex, oklch);
+      });
+    });
+    container.dataset.ready = "1";
+  }
+  slotOrder.forEach((key) => {
+    const slot = pmd[key];
+    if (!slot)
+      return;
+    const rgb = oklchToRgb(slot.l, slot.c, hue);
+    const hex = rgbToHex(rgb);
+    const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
+    root.style.setProperty(`--fs-${key}`, hex);
+    root.style.setProperty(`--fsc-${key}`, txt);
+    const card = container.querySelector(`[data-slot="${key}"]`);
+    if (card) {
+      const hexEl = card.querySelector(`[data-hex="${key}"]`);
+      const oklchEl = card.querySelector(`[data-oklch="${key}"]`);
+      if (hexEl)
+        hexEl.textContent = hex;
+      if (oklchEl) {
+        oklchEl.textContent = `oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})`;
+        oklchEl.dataset.oklch = `oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})`;
+      }
+    }
+  });
 }
 function renderStackGrid(containerId, pmd, hue) {
   const container = document.getElementById(containerId);
@@ -519,21 +565,13 @@ function renderStackGrid(containerId, pmd, hue) {
       role: "subtle alert surface"
     }
   ];
-  container.innerHTML = defs.map((def) => {
-    const baseSlot = pmd[def.base];
-    const tintSlot = pmd[def.tint];
-    if (!baseSlot || !tintSlot)
-      return "";
-    const effHue = def.offset ? (hue + def.offset) % 360 : hue;
-    const baked = oklchToRgb(baseSlot.l * (1 - def.opacity) + tintSlot.l * def.opacity, baseSlot.c * (1 - def.opacity) + tintSlot.c * def.opacity, effHue);
-    const hex = rgbToHex(baked);
-    const txt = getContrastColor(baked.r, baked.g, baked.b);
-    const tint = oklchToRgb(tintSlot.l, tintSlot.c, effHue);
-    const rgba = `rgba(${tint.r}, ${tint.g}, ${tint.b}, ${def.opacity.toFixed(2)})`;
-    return `
-        <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'composite(${def.base}, ${def.tint}, ${def.opacity.toFixed(2)})')">
-            <div class="color-swatch stack-swatch${def.hasBlur ? " blur" : ""}" style="--swatch: ${rgba}; color: ${txt}">
-                <div class="swatch-hex">${hex}</div>
+  const root = document.documentElement;
+  if (!container.dataset.ready) {
+    container.innerHTML = defs.map((def, i) => {
+      return `
+        <div class="color-card" data-stack="${i}">
+            <div class="color-swatch stack-swatch${def.hasBlur ? " blur" : ""}" style="--swatch: var(--ss-${i}); color: var(--ssc-${i})">
+                <div class="swatch-hex" data-shex="${i}"></div>
                 <div class="swatch-oklch">${def.label}</div>
             </div>
             <div class="color-info">
@@ -541,34 +579,89 @@ function renderStackGrid(containerId, pmd, hue) {
                 <div class="color-desc">${def.role}</div>
             </div>
         </div>`;
-  }).join("");
+    }).join("");
+    container.querySelectorAll(".color-card").forEach((card) => {
+      card.addEventListener("click", (e) => {
+        const hexEl = card.querySelector("[data-shex]");
+        const hex = hexEl?.textContent || "";
+        const _lbl = card.querySelector(".color-name")?.textContent || "";
+        const _oklchEl = card.querySelector(".swatch-oklch");
+        window.handleColorClick(e, hex, `composite(${defs[parseInt(card.dataset.stack || "0", 10)].base}, ${defs[parseInt(card.dataset.stack || "0", 10)].tint}, ...)`);
+      });
+    });
+    container.dataset.ready = "1";
+  }
+  defs.forEach((def, i) => {
+    const baseSlot = pmd[def.base];
+    const tintSlot = pmd[def.tint];
+    if (!baseSlot || !tintSlot)
+      return;
+    const effHue = def.offset ? (hue + def.offset) % 360 : hue;
+    const baked = oklchToRgb(baseSlot.l * (1 - def.opacity) + tintSlot.l * def.opacity, baseSlot.c * (1 - def.opacity) + tintSlot.c * def.opacity, effHue);
+    const hex = rgbToHex(baked);
+    const txt = getContrastColor(baked.r, baked.g, baked.b);
+    const tint = oklchToRgb(tintSlot.l, tintSlot.c, effHue);
+    const rgba = `rgba(${tint.r}, ${tint.g}, ${tint.b}, ${def.opacity.toFixed(2)})`;
+    root.style.setProperty(`--ss-${i}`, rgba);
+    root.style.setProperty(`--ssc-${i}`, txt);
+    const card = container.querySelector(`[data-stack="${i}"]`);
+    if (card) {
+      const hexEl = card.querySelector(`[data-shex="${i}"]`);
+      if (hexEl)
+        hexEl.textContent = hex;
+    }
+  });
 }
 function renderCodePreview(colors, currentHue) {
   const preview = document.getElementById("codePreview");
   if (!preview)
     return;
-  preview.innerHTML = `
-        <div class="preview-content" style="background: ${colors.base00.hex}; color: ${colors.base05.hex};">
-            <span style="color: ${colors.base03.hex};">// PMD Base16 · ${currentHue}° · ${colors.base00.hex === "#120c17" ? "dark" : "light"}</span><br><br>
-            <span style="color: ${colors.base0E.hex};">use</span> <span style="color: ${colors.base0C.hex};">std::collections</span>::<span style="color: ${colors.base0A.hex};">HashMap</span>;<br><br>
-            <span style="color: ${colors.base03.hex};">/// Palette entry with OKLCH source and baked hex output.</span><br>
-            <span style="color: ${colors.base0E.hex};">pub struct</span> <span style="color: ${colors.base0A.hex};">Palette</span> {<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> id: <span style="color: ${colors.base0A.hex};">String</span>,<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> hex: <span style="color: ${colors.base0A.hex};">String</span>,<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> hue: <span style="color: ${colors.base0A.hex};">u16</span>,<br>
+  const root = document.documentElement;
+  if (!preview.dataset.ready) {
+    preview.innerHTML = `
+        <div class="preview-content" style="background: var(--cp-bg); color: var(--cp-fg);">
+            <span style="color: var(--cp-muted);">// PMD Base16 · <span data-cp-hue></span>° · <span data-cp-scheme></span></span><br><br>
+            <span style="color: var(--cp-kw);">use</span> <span style="color: var(--cp-support);">std::collections</span>::<span style="color: var(--cp-type);">HashMap</span>;<br><br>
+            <span style="color: var(--cp-muted);">/// Palette entry with OKLCH source and baked hex output.</span><br>
+            <span style="color: var(--cp-kw);">pub struct</span> <span style="color: var(--cp-type);">Palette</span> {<br>
+            &nbsp;&nbsp;<span style="color: var(--cp-kw);">pub</span> id: <span style="color: var(--cp-type);">String</span>,<br>
+            &nbsp;&nbsp;<span style="color: var(--cp-kw);">pub</span> hex: <span style="color: var(--cp-type);">String</span>,<br>
+            &nbsp;&nbsp;<span style="color: var(--cp-kw);">pub</span> hue: <span style="color: var(--cp-type);">u16</span>,<br>
             }<br><br>
-            <span style="color: ${colors.base0E.hex};">impl</span> <span style="color: ${colors.base0A.hex};">Palette</span> {<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub fn</span> <span style="color: ${colors.base0D.hex};">generate</span>(hue: <span style="color: ${colors.base0A.hex};">u16</span>) -> <span style="color: ${colors.base0A.hex};">Self</span> {<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base09.hex};">shift</span> = (<span style="color: ${colors.base08.hex};">hue</span> + <span style="color: ${colors.base09.hex};">180</span>) % <span style="color: ${colors.base09.hex};">360</span>;<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">bg</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.16</span>, <span style="color: ${colors.base09.hex};">0.022</span>, hue);<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">fg</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.80</span>, <span style="color: ${colors.base09.hex};">0.100</span>, hue);<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">alert</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.88</span>, <span style="color: ${colors.base09.hex};">0.056</span>, hue + <span style="color: ${colors.base09.hex};">12</span>);<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base03.hex};">// return baked hex for base16 export</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0A.hex};">Palette</span> { id: <span style="color: ${colors.base0B.hex};">"pmd"</span>.<span style="color: ${colors.base0D.hex};">into</span>(), hex: <span style="color: ${colors.base0B.hex};">"${colors.base0D.hex}"</span>.<span style="color: ${colors.base0D.hex};">into</span>() }<br>
+            <span style="color: var(--cp-kw);">impl</span> <span style="color: var(--cp-type);">Palette</span> {<br>
+            &nbsp;&nbsp;<span style="color: var(--cp-kw);">pub fn</span> <span style="color: var(--cp-fn);">generate</span>(hue: <span style="color: var(--cp-type);">u16</span>) -> <span style="color: var(--cp-type);">Self</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-kw);">let</span> <span style="color: var(--cp-var);">shift</span> = (<span style="color: var(--cp-var);">hue</span> + <span style="color: var(--cp-const);">180</span>) % <span style="color: var(--cp-const);">360</span>;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-kw);">let</span> <span style="color: var(--cp-var);">bg</span> = <span style="color: var(--cp-fn);">oklch</span>(<span style="color: var(--cp-const);">0.16</span>, <span style="color: var(--cp-const);">0.022</span>, hue);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-kw);">let</span> <span style="color: var(--cp-var);">fg</span> = <span style="color: var(--cp-fn);">oklch</span>(<span style="color: var(--cp-const);">0.80</span>, <span style="color: var(--cp-const);">0.100</span>, hue);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-kw);">let</span> <span style="color: var(--cp-var);">alert</span> = <span style="color: var(--cp-fn);">oklch</span>(<span style="color: var(--cp-const);">0.88</span>, <span style="color: var(--cp-const);">0.056</span>, hue + <span style="color: var(--cp-const);">12</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-muted);">// return baked hex for base16 export</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--cp-type);">Palette</span> { id: <span style="color: var(--cp-str);">"pmd"</span>.<span style="color: var(--cp-fn);">into</span>(), hex: <span style="color: var(--cp-str);">"<span data-cp-accent></span>"</span>.<span style="color: var(--cp-fn);">into</span>() }<br>
             &nbsp;&nbsp;}<br>
             }<br>
         </div>
     `;
+    preview.dataset.ready = "1";
+  }
+  const schemeLabel = colors.base00.hex === "#120c17" ? "dark" : "light";
+  root.style.setProperty("--cp-bg", colors.base00.hex);
+  root.style.setProperty("--cp-fg", colors.base05.hex);
+  root.style.setProperty("--cp-muted", colors.base03.hex);
+  root.style.setProperty("--cp-kw", colors.base0E.hex);
+  root.style.setProperty("--cp-fn", colors.base0D.hex);
+  root.style.setProperty("--cp-type", colors.base0A.hex);
+  root.style.setProperty("--cp-const", colors.base09.hex);
+  root.style.setProperty("--cp-str", colors.base0B.hex);
+  root.style.setProperty("--cp-support", colors.base0C.hex);
+  root.style.setProperty("--cp-var", colors.base08.hex);
+  const hueEl = preview.querySelector("[data-cp-hue]");
+  const schemeEl = preview.querySelector("[data-cp-scheme]");
+  const accentEl = preview.querySelector("[data-cp-accent]");
+  if (hueEl)
+    hueEl.textContent = String(currentHue);
+  if (schemeEl)
+    schemeEl.textContent = schemeLabel;
+  if (accentEl)
+    accentEl.textContent = colors.base0D.hex;
 }
 function renderUIPreview(containerId, _colors, pmd, hue) {
   const container = document.getElementById(containerId);
@@ -607,46 +700,65 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
   const txtInactive = `${c88}3D`;
   const alertBg = hex("88x", 12);
   const alertBorder = `${c88}FF`;
-  container.innerHTML = `
-    <div class="ui-pv ui-pv-panel" style="background:${c4x}">
+  if (!container.dataset.ready) {
+    container.innerHTML = `
+    <div class="ui-pv ui-pv-panel" style="background:var(--pv-bg)">
       <div class="ui-pv-row">
-        <div class="ui-pv-card" style="background:${c8x}">
-          <div class="ui-pv-title ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
-          <div class="ui-pv-body ui-pv-mb-xs" style="color:${c72}">Subtext · 72x 500</div>
+        <div class="ui-pv-card" style="background:var(--pv-card)">
+          <div class="ui-pv-title ui-pv-mb-xxs" style="color:var(--pv-h)">Header · 88x 600</div>
+          <div class="ui-pv-body ui-pv-mb-xs" style="color:var(--pv-sub)">Subtext · 72x 500</div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
-            <div class="ui-pv-btn" style="background:${surfWidget};color:${txtInactive};font-weight:500">88×24%</div>
-            <div class="ui-pv-btn" style="background:${surfWidget};color:${c80};font-weight:500">80×8%</div>
+            <div class="ui-pv-btn" style="background:var(--pv-active);color:var(--pv-on-active);font-weight:500">88x active</div>
+            <div class="ui-pv-btn" style="background:var(--pv-surf);color:var(--pv-inactive);font-weight:500">88×24%</div>
+            <div class="ui-pv-btn" style="background:var(--pv-surf);color:var(--pv-body);font-weight:500">80×8%</div>
           </div>
         </div>
-        <div class="ui-pv-card ui-pv-col" style="background:${c8x}">
+        <div class="ui-pv-card ui-pv-col" style="background:var(--pv-card)">
           <div class="ui-pv-btwn">
-            <span class="ui-pv-head" style="color:${c88}">0:56</span>
-            <span class="ui-pv-body ui-pv-center" style="color:${c80}">Zen Browser</span>
-            <span class="ui-pv-body" style="color:${surfMuted}">4:08</span>
+            <span class="ui-pv-head" style="color:var(--pv-h)">0:56</span>
+            <span class="ui-pv-body ui-pv-center" style="color:var(--pv-body)">Zen Browser</span>
+            <span class="ui-pv-body" style="color:var(--pv-muted)">4:08</span>
           </div>
           <div class="ui-pv-slider">
-            <div class="ui-pv-sfill" style="background:${c88}"></div>
-            <div class="ui-pv-sknob" style="background:${c88}"></div>
-            <div class="ui-pv-strack" style="background:${surfMuted}">
-              <div class="ui-pv-sdot" style="background:${c80}"></div>
+            <div class="ui-pv-sfill" style="background:var(--pv-active)"></div>
+            <div class="ui-pv-sknob" style="background:var(--pv-active)"></div>
+            <div class="ui-pv-strack" style="background:var(--pv-muted)">
+              <div class="ui-pv-sdot" style="background:var(--pv-body)"></div>
             </div>
           </div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
-            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500">80×8% def</div>
+            <div class="ui-pv-btn" style="flex:1;background:var(--pv-active);color:var(--pv-on-active);font-weight:500">88x active</div>
+            <div class="ui-pv-btn" style="flex:1;background:var(--pv-surf);color:var(--pv-body);font-weight:500">80×8% def</div>
           </div>
         </div>
       </div>
       <div class="ui-pv-row">
-        <div class="ui-pv-gap-sm ui-pv-card" style="background:${c8x};padding:0.5rem 0.75rem">
-          <span class="ui-pv-body" style="color:${surfMuted}">Timestamp</span>
-          <span class="ui-pv-meta" style="color:${surfMuted}">14:32</span>
-          <span class="ui-pv-meta" style="color:${surfMuted}">· 80x 48%</span>
+        <div class="ui-pv-gap-sm ui-pv-card" style="background:var(--pv-card);padding:0.5rem 0.75rem">
+          <span class="ui-pv-body" style="color:var(--pv-muted)">Timestamp</span>
+          <span class="ui-pv-meta" style="color:var(--pv-muted)">14:32</span>
+          <span class="ui-pv-meta" style="color:var(--pv-muted)">· 80x 48%</span>
         </div>
-        <div class="ui-pv-alert ui-pv-head" style="background:${alertBg};border:2px solid ${alertBorder};color:${txtOn(alertBg)}">88×12 priority</div>
+        <div class="ui-pv-alert ui-pv-head" style="background:var(--pv-alert-bg);border:2px solid var(--pv-alert-border);color:var(--pv-on-alert)">88×12 priority</div>
       </div>
     </div>`;
+    container.dataset.ready = "1";
+  }
+  const pv = container.firstElementChild;
+  if (!pv)
+    return;
+  pv.style.setProperty("--pv-bg", c4x);
+  pv.style.setProperty("--pv-card", c8x);
+  pv.style.setProperty("--pv-h", c88);
+  pv.style.setProperty("--pv-sub", c72);
+  pv.style.setProperty("--pv-body", c80);
+  pv.style.setProperty("--pv-muted", surfMuted);
+  pv.style.setProperty("--pv-surf", surfWidget);
+  pv.style.setProperty("--pv-active", c88);
+  pv.style.setProperty("--pv-on-active", txtOn(c88));
+  pv.style.setProperty("--pv-inactive", txtInactive);
+  pv.style.setProperty("--pv-alert-bg", alertBg);
+  pv.style.setProperty("--pv-alert-border", alertBorder);
+  pv.style.setProperty("--pv-on-alert", txtOn(alertBg));
 }
 
 // src/ts/ui/export.ts
