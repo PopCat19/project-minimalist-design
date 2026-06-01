@@ -16,7 +16,7 @@ No Shadows, No Gradients:
 Hover Feedback:
   Use a `--hout` custom property for hover outlines. Default
   value is 80x (body-text tier). Active/CTA elements (88x
-  fill) override to 72x — the opposite tier always contrasts
+  fill) override to 8x — the opposite tier always contrasts
   regardless of scheme. All hover rules reference `var(--hout)`,
   not per-component hardcodes.
 
