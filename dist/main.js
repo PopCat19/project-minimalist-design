@@ -714,12 +714,12 @@ function toggleSidebar() {
   const overlay = document.getElementById("sidebarOverlay");
   const isOpen = sidebar?.classList.toggle("open");
   overlay?.classList.toggle("show", isOpen ?? false);
-  document.body.classList.toggle("no-scroll", isOpen ?? false);
+  document.body.classList.toggle("overlay-open", isOpen ?? false);
 }
 function toggleExportSheet() {
   const sheet = document.getElementById("exportSheet");
   const isOpen = sheet?.classList.toggle("show");
-  document.body.classList.toggle("no-scroll", isOpen ?? false);
+  document.body.classList.toggle("overlay-open", isOpen ?? false);
 }
 var sheetStartY = 0;
 var sheetCurrentY = 0;
@@ -745,7 +745,7 @@ function initSheetGesture() {
     sheet.style.transform = "";
     if (diff > SHEET_CLOSE_THRESHOLD) {
       sheet.classList.remove("show");
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("overlay-open");
     }
     sheetStartY = 0;
     sheetCurrentY = 0;
