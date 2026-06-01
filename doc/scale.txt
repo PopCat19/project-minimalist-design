@@ -11,7 +11,7 @@ Borders:
   2px — Standard. Priority alerts, control clusters.
 
 Outlines (inner, -offset):
-  2px — Default. Hover (100x), focus-visible (80×48%).
+  2px — Default. Hover (80x), focus-visible (80×48%).
   Inputs default to 80×48% (matches slider inactive track),
   override to 100x on focus. Inner via outline-offset: -2px.
 

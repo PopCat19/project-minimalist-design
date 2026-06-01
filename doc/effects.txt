@@ -14,6 +14,14 @@ No Shadows, No Gradients:
   difference. Adding shadows or gradients would be redundant
   and would conflict with the tier system.
 
+Transition Timing:
+  Default: 150ms for all interactive feedback (hover, focus,
+  click-down). Hue rotation: 1000ms on themed surfaces for
+  smooth palette shifts. Use the `--ease` token (cubic-bezier
+  0.4, 0, 0.2, 1) globally. Hover outlines must have a
+  permanent transparent outline so the colour can transition;
+  only `outline-color` changes on :hover.
+
 Hover and Focus Feedback:
   Hover uses an 80x inner outline (2px, outline-offset: -2px)
   — the highest tier is always distinguishable. Keyboard
@@ -43,6 +51,10 @@ Surface Layering:
   as 8x at 100% layered with an 80×8% tint. This is the
   canonical widget background — the visual equivalent of
   composite(8x, 80x, 0.08).
+
+  Checkerboard previews for alpha surfaces use a mask-image
+  over a background-color so the tile colour can transition
+  smoothly during hue rotation.
 
   Media player cards add a third layer: album art is placed
   behind the 8x surface with the 8x layer at 80% opacity

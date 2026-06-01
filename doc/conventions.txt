@@ -13,6 +13,13 @@ Borders:
 No Shadows, No Gradients:
   Depth is communicated through lightness tier alone.
 
+CSS Tokens:
+  `--r`      1rem (16px) standard border-radius.
+  `--fs`     0.75rem (12px) body font-size.
+  `--hout`   Hover outline colour. Default 80x (base05).
+             CTA active states override to 80×8% (base02).
+  `--ease`   cubic-bezier(0.4, 0, 0.2, 1) global timing.
+
 Hover Feedback:
   Use a `--hout` custom property for hover outlines. Default
   value is 80x (body-text tier). Active/CTA elements (88x
@@ -31,6 +38,8 @@ Active Fill Text:
 Widget Surfaces:
   Built as 8x at 100% layered with 80×8% tint. This is the
   canonical widget background: composite(8x, 80x, 0.08).
+  Every clickable element must have a surface background —
+  never transparent on a bare parent.
 
 Grouped Component Radii:
   Adjacent elements in a group use asymmetric radii to signal
