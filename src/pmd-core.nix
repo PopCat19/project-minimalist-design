@@ -99,7 +99,7 @@ let
       rot = base: deg: lib.mod (base + deg + 360) 360;
       isLight = pmd."4x".l > 0.5;
       accentL = pmd."72x".l;
-      accentC = if isLight then 0.1 else pmd."72x".c;
+      accentC = if isLight then 0.122 else pmd."72x".c;
     in
     {
       base00 = {

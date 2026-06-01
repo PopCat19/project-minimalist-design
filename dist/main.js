@@ -199,7 +199,7 @@ function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
   const accentHue = isHueLocked ? lockedHueValue : hue;
   const isLight = pmd["4x"].l > 0.5;
   const accentL = pmd["72x"].l;
-  const accentC = isLight ? 0.1 : pmd["72x"].c;
+  const accentC = isLight ? 0.122 : pmd["72x"].c;
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {
     const rgb = safeOklchToRgb(def.l, def.c, hue);

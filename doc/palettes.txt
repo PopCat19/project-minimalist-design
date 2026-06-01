@@ -23,9 +23,10 @@ Mapping Table:
   base0F  80×48%        Deprecated / meta (baked)
 
   In light themes, accent slots (base09, base0B, base0D, base0E)
-  use 72x luminance (0.32) with bumped chroma (0.1) to maintain
-  visibility — the PMD light 72x chroma (0.052) is intentionally
-  low for subtext readability but too subtle for code accents.
+  use 72x luminance (0.32) with dark-mode chroma (0.122) to
+  match the distinguishability of dark-mode accents. The PMD
+  light 72x chroma (0.052) is intentional for subtext but too
+  subtle for code accents. Gamut clamping handles edge hues.
 
 Export Format:
   scheme: "PMD [Hue] [Variant]"  (e.g., "PMD 260 Dark")

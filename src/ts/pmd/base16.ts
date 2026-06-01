@@ -145,7 +145,7 @@ export function generatePalette(
 	const accentHue = isHueLocked ? lockedHueValue : hue;
 	const isLight = pmd["4x"].l > 0.5;
 	const accentL = pmd["72x"].l;
-	const accentC = isLight ? 0.1 : pmd["72x"].c;
+	const accentC = isLight ? 0.122 : pmd["72x"].c;
 	const colors: Base16Palette = {};
 
 	[...defs.bg, ...defs.fg].forEach((def) => {
