@@ -29,7 +29,6 @@ import {
 	renderUIPreview,
 	toggleDocMenu,
 	toggleDocs,
-	updateSliderGradient,
 } from "./ui";
 
 declare global {
@@ -110,10 +109,10 @@ function initSheetGesture(): void {
 
 function setHue(hue: number): void {
 	currentHue = parseInt(String(hue), 10);
-	const slider = document.getElementById("hueSlider") as HTMLInputElement;
 	const input = document.getElementById("hueInput") as HTMLInputElement;
-	if (slider) slider.value = String(hue);
-	if (input) input.value = String(hue);
+	if (input) input.value = String(currentHue);
+	const fill = document.getElementById("hueSliderFill");
+	if (fill) fill.style.width = `${(currentHue / HUE_MAX) * 100}%`;
 	renderColors();
 	renderPresets("presets", currentScheme === "dark", setHue);
 }
@@ -121,7 +120,6 @@ function setHue(hue: number): void {
 function renderColors(): void {
 	const isDark = currentScheme === "dark";
 	const { pmd: pmdVars, computed } = getPMD(isDark);
-	updateSliderGradient("hueSlider", isDark);
 	base16Defs = getBase16Defs(pmdVars, computed);
 
 	const colors = generatePalette(
@@ -177,10 +175,34 @@ function initEventListeners(): void {
 		}
 	});
 
-	const hueSlider = document.getElementById("hueSlider") as HTMLInputElement;
+	const hueSlider = document.getElementById("hueSlider");
 	if (hueSlider) {
-		hueSlider.addEventListener("input", (e) => {
-			setHue(parseInt((e.target as HTMLInputElement).value, 10));
+		const updateFromEvent = (clientX: number) => {
+			const rect = hueSlider.getBoundingClientRect();
+			const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+			setHue(Math.round(pct * HUE_MAX));
+		};
+
+		hueSlider.addEventListener("mousedown", (e) => {
+			updateFromEvent(e.clientX);
+			const onMove = (ev: MouseEvent) => updateFromEvent(ev.clientX);
+			const onUp = () => {
+				document.removeEventListener("mousemove", onMove);
+				document.removeEventListener("mouseup", onUp);
+			};
+			document.addEventListener("mousemove", onMove);
+			document.addEventListener("mouseup", onUp);
+		});
+
+		hueSlider.addEventListener("touchstart", (e) => {
+			updateFromEvent(e.touches[0].clientX);
+			const onMove = (ev: TouchEvent) => updateFromEvent(ev.touches[0].clientX);
+			const onUp = () => {
+				document.removeEventListener("touchmove", onMove);
+				document.removeEventListener("touchend", onUp);
+			};
+			document.addEventListener("touchmove", onMove);
+			document.addEventListener("touchend", onUp);
 		});
 	}
 
@@ -252,7 +274,6 @@ function init(): void {
 	initEventListeners();
 	initSheetGesture();
 
-	updateSliderGradient("hueSlider", currentScheme === "dark");
 	setHue(30);
 }
 
