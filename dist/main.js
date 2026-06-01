@@ -861,7 +861,11 @@ function setHue(hue) {
     input.value = String(currentHue);
   const fill = document.getElementById("hueSliderFill");
   if (fill)
-    fill.style.width = `${currentHue / HUE_MAX * 100}%`;
+    fill.style.flex = `${currentHue / HUE_MAX * 100} 1 0%`;
+  const slider = document.getElementById("hueSlider");
+  const track = slider?.querySelector(".hue-slider-track");
+  if (track)
+    track.style.flex = `${(1 - currentHue / HUE_MAX) * 100} 1 0%`;
   renderColors();
   renderPresets("presets", currentScheme === "dark", setHue);
 }
