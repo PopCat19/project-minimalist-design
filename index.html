@@ -36,6 +36,16 @@
                 opacity 1000ms var(--ease);
   }
 
+  /* Hover outlines: instant on interactive elements */
+  .preset, .scheme-btn, .lock-btn, .export-btn, .doc-nav-btn, .menu-btn,
+  .color-card::after, .hue-input, :focus-visible, .fab, .export-sheet-close,
+  .export-sheet-btn {
+    transition: background 1000ms var(--ease), background-image 1000ms var(--ease),
+                color 1000ms var(--ease),
+                border-color 0ms, outline-color 0ms, outline 0ms,
+                transform 500ms var(--ease), opacity 1000ms var(--ease);
+  }
+
   /* ── Semantic layer variables ── */
   :root {
     --r: 1rem;
