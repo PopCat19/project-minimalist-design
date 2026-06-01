@@ -226,7 +226,7 @@ export function renderStackGrid(
 			const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
 			return `
         <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'composite(${def.base}, ${def.tint}, ${def.opacity.toFixed(2)})')">
-            <div class="color-swatch" style="background: ${hex}; color: ${txt}">
+            <div class="color-swatch stack-swatch" style="--swatch: ${hex}; color: ${txt}">
                 <div class="swatch-hex">${hex}</div>
                 <div class="swatch-oklch">${def.label}</div>
             </div>
