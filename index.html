@@ -227,7 +227,7 @@
     color: var(--base01);
   }
   .scheme-btn:active, .lock-btn:active { transform: scale(0.96); }
-  .scheme-btn:hover, .lock-btn:hover { outline: 2px solid var(--base07); outline-offset: -2px; }
+  .scheme-btn:hover, .lock-btn:hover { outline: 2px solid currentColor; outline-offset: -2px; }
 
   /* ── Export buttons ── */
   .export-sidebar {
@@ -284,10 +284,19 @@
     border-radius: 1.0rem;
     overflow: hidden;
     cursor: pointer;
+    position: relative;
     transition: transform 0.12s;
   }
-  .color-card:hover  { outline: 2px solid var(--base07); outline-offset: -2px; }
-  .color-card:active { transform: translateY(0) scale(0.98); }
+  .color-card:hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--base07);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .color-card:active { transform: scale(0.98); }
 
   .color-swatch {
     height: 3.5rem;
