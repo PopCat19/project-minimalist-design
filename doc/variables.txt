@@ -7,7 +7,7 @@ Foundation Slots (hand-picked OKLCH {l, c} per variant):
   100x   1.00 / 0.000      0.00 / 0.000      Absolute endpoints
   88x    0.88 / 0.056      0.28 / 0.032      Primary / headings
   80x    0.80 / 0.100      0.20 / 0.032      Secondary / body
-  72x    0.72 / 0.122      0.32 / 0.052      Accent / subtext
+  64x    0.64 / 0.111      0.36 / 0.058      Accent / subtext
   8x     0.20 / 0.032      0.88 / 0.056      Base surface
   4x     0.16 / 0.022      0.92 / 0.044      Deep background
   0x     0.00 / 0.000      1.00 / 0.000      Canvas extreme

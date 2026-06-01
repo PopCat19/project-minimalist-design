@@ -43,7 +43,7 @@ Active vs Inactive Device:
 Workspace Cards (Grid of States):
   Three states communicate workspace occupancy:
     - Current:  8x solid        + 2px 88x border   + 88x label
-    - Occupied: 8x solid        + 2px 72x border   + 72x label
+    - Occupied: 8x solid        + 2px 64x border   + 64x label
     - Empty:    8x at 80%       + 2px 88×24% border + 88×24% label
   All labels at weight 600. Compact 8px radius, 120×68px
   card size. Grab dots ("...." × 2) at 88×24% with -12px

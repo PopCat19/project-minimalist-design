@@ -36,7 +36,7 @@ export function renderPresets(
 	if (!container) return;
 
 	const pmd = isDark ? PMD_DARK : PMD_LIGHT;
-	const theme = pmd["72x"];
+	const theme = pmd["64x"];
 	const root = document.documentElement;
 
 	if (!container.dataset.ready) {

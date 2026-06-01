@@ -21,7 +21,7 @@ levels. Each has a hand-picked canonical value at the reference hue:
   100x    max contrast          1.00 / 0.000    0.00 / 0.000
   88x     primary / headings    0.88 / 0.056    0.28 / 0.032
   80x     secondary / body      0.80 / 0.100    0.20 / 0.032
-  72x     accent / subtext      0.72 / 0.122    0.32 / 0.052
+  64x     accent / subtext      0.64 / 0.111    0.36 / 0.058
   8x      base surface          0.20 / 0.032    0.88 / 0.056
   4x      deep background       0.16 / 0.022    0.92 / 0.044
   0x      canvas extreme        0.00 / 0.000    1.00 / 0.000
@@ -34,7 +34,7 @@ Derived Stack Expressions:
   88×12  = 88x at hue column 12      priority alert
 
 Reading Priority (highest → lowest):
-  88x → 80x → 72x → 8x → 4x
+  88x → 80x → 64x → 8x → 4x
 
 Core Rules:
 - No shadows, no gradients — depth via lightness only

@@ -64,7 +64,7 @@ export function getBase16Defs(
 			},
 		],
 		fg: [
-			{ id: "base04", pmd: "72x", desc: "Subtext", ...pmd["72x"] },
+			{ id: "base04", pmd: "64x", desc: "Subtext", ...pmd["64x"] },
 			{ id: "base05", pmd: "80x", desc: "Body Text", ...pmd["80x"] },
 			{ id: "base06", pmd: "88x", desc: "Headers", ...pmd["88x"] },
 			{ id: "base07", pmd: "100x", desc: "Max Contrast", ...pmd["100x"] },
@@ -79,9 +79,9 @@ export function getBase16Defs(
 			},
 			{
 				id: "base09",
-				pmd: "72x+290",
-				l: pmd["72x"].l,
-				c: pmd["72x"].c,
+				pmd: "64x+290",
+				l: pmd["64x"].l,
+				c: pmd["64x"].c,
 				offset: 290,
 				desc: "Constants",
 			},
@@ -94,9 +94,9 @@ export function getBase16Defs(
 			},
 			{
 				id: "base0B",
-				pmd: "72x",
-				l: pmd["72x"].l,
-				c: pmd["72x"].c,
+				pmd: "64x",
+				l: pmd["64x"].l,
+				c: pmd["64x"].c,
 				desc: "Strings",
 			},
 			{
@@ -117,9 +117,9 @@ export function getBase16Defs(
 			},
 			{
 				id: "base0E",
-				pmd: "72x-30",
-				l: pmd["72x"].l,
-				c: pmd["72x"].c,
+				pmd: "64x-30",
+				l: pmd["64x"].l,
+				c: pmd["64x"].c,
 				offset: -30,
 				desc: "Keywords",
 			},
@@ -144,8 +144,8 @@ export function generatePalette(
 	const defs = getBase16Defs(pmd, computed);
 	const accentHue = isHueLocked ? lockedHueValue : hue;
 	const isLight = pmd["4x"].l > 0.5;
-	const accentL = pmd["72x"].l;
-	const accentC = isLight ? 0.122 : pmd["72x"].c;
+	const accentL = pmd["64x"].l;
+	const accentC = isLight ? 0.122 : pmd["64x"].c;
 	const colors: Base16Palette = {};
 
 	[...defs.bg, ...defs.fg].forEach((def) => {

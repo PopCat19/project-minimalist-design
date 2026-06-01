@@ -18,9 +18,9 @@ Colour Pipeline:
   3. 8-bit hex encoding: #RRGGBB
 
 Accent Lightness Override (Light Themes):
-  Accent slots (base09, base0B, base0D, base0E) use PMD 72x
+  Accent slots (base09, base0B, base0D, base0E) use PMD 64x
   luminance with dark-mode chroma (0.122) in light themes.
-  The PMD light 72x chroma (0.052) is deliberate for subtext
+  The PMD light 64x chroma (0.052) is deliberate for subtext
   but insufficient for distinguishable code accents. Dark
-  mode uses native 72x chroma (0.122) without adjustment.
+  mode uses native 64x chroma (0.122) without adjustment.
   Gamut clamping via safeOklchToRgb handles edge hues.

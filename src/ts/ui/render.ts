@@ -140,12 +140,12 @@ export function renderFoundationGrid(
 	const container = document.getElementById(containerId);
 	if (!container) return;
 
-	const slotOrder = ["100x", "88x", "80x", "72x", "8x", "4x", "0x"];
+	const slotOrder = ["100x", "88x", "80x", "64x", "8x", "4x", "0x"];
 	const roles: Record<string, string> = {
 		"100x": "max contrast",
 		"88x": "primary",
 		"80x": "secondary",
-		"72x": "accent",
+		"64x": "accent",
 		"8x": "base surface",
 		"4x": "deep bg",
 		"0x": "canvas",
@@ -446,7 +446,7 @@ export function renderUIPreview(
 	const _c100 = hex("100x");
 	const c88 = hex("88x");
 	const c80 = hex("80x");
-	const c72 = hex("72x");
+	const c64 = hex("64x");
 	const c8x = hex("8x");
 	const c4x = hex("4x");
 	const _c0x = hex("0x");
@@ -463,7 +463,7 @@ export function renderUIPreview(
       <div class="ui-pv-row">
         <div class="ui-pv-card" style="background:var(--pv-card)">
           <div class="ui-pv-title ui-pv-mb-xxs" style="color:var(--pv-h)">Header · 88x 600</div>
-          <div class="ui-pv-body ui-pv-mb-xs" style="color:var(--pv-sub)">Subtext · 72x 500</div>
+          <div class="ui-pv-body ui-pv-mb-xs" style="color:var(--pv-sub)">Subtext · 64x 500</div>
           <div class="ui-pv-gap-xs">
             <div class="ui-pv-btn" style="background:var(--pv-active);color:var(--pv-on-active);font-weight:500">88x active</div>
             <div class="ui-pv-btn" style="background:var(--pv-surf);color:var(--pv-inactive);font-weight:500">88×24%</div>
@@ -507,7 +507,7 @@ export function renderUIPreview(
 	pv.style.setProperty("--pv-bg", c4x);
 	pv.style.setProperty("--pv-card", c8x);
 	pv.style.setProperty("--pv-h", c88);
-	pv.style.setProperty("--pv-sub", c72);
+	pv.style.setProperty("--pv-sub", c64);
 	pv.style.setProperty("--pv-body", c80);
 	pv.style.setProperty("--pv-muted", surfMuted);
 	pv.style.setProperty("--pv-surf", surfWidget);

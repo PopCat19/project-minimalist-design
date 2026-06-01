@@ -66,7 +66,7 @@ var PMD_DARK = {
   "100x": { l: 1, c: 0 },
   "88x": { l: 0.88, c: 0.056 },
   "80x": { l: 0.8, c: 0.1 },
-  "72x": { l: 0.72, c: 0.122 },
+  "64x": { l: 0.64, c: 0.111 },
   "8x": { l: 0.2, c: 0.032 },
   "4x": { l: 0.16, c: 0.022 },
   "0x": { l: 0, c: 0 }
@@ -75,7 +75,7 @@ var PMD_LIGHT = {
   "100x": { l: 0, c: 0 },
   "88x": { l: 0.28, c: 0.032 },
   "80x": { l: 0.2, c: 0.032 },
-  "72x": { l: 0.32, c: 0.052 },
+  "64x": { l: 0.36, c: 0.058 },
   "8x": { l: 0.88, c: 0.056 },
   "4x": { l: 0.92, c: 0.044 },
   "0x": { l: 1, c: 0 }
@@ -125,7 +125,7 @@ function getBase16Defs(pmd, computed) {
       }
     ],
     fg: [
-      { id: "base04", pmd: "72x", desc: "Subtext", ...pmd["72x"] },
+      { id: "base04", pmd: "64x", desc: "Subtext", ...pmd["64x"] },
       { id: "base05", pmd: "80x", desc: "Body Text", ...pmd["80x"] },
       { id: "base06", pmd: "88x", desc: "Headers", ...pmd["88x"] },
       { id: "base07", pmd: "100x", desc: "Max Contrast", ...pmd["100x"] }
@@ -140,9 +140,9 @@ function getBase16Defs(pmd, computed) {
       },
       {
         id: "base09",
-        pmd: "72x+290",
-        l: pmd["72x"].l,
-        c: pmd["72x"].c,
+        pmd: "64x+290",
+        l: pmd["64x"].l,
+        c: pmd["64x"].c,
         offset: 290,
         desc: "Constants"
       },
@@ -155,9 +155,9 @@ function getBase16Defs(pmd, computed) {
       },
       {
         id: "base0B",
-        pmd: "72x",
-        l: pmd["72x"].l,
-        c: pmd["72x"].c,
+        pmd: "64x",
+        l: pmd["64x"].l,
+        c: pmd["64x"].c,
         desc: "Strings"
       },
       {
@@ -178,9 +178,9 @@ function getBase16Defs(pmd, computed) {
       },
       {
         id: "base0E",
-        pmd: "72x-30",
-        l: pmd["72x"].l,
-        c: pmd["72x"].c,
+        pmd: "64x-30",
+        l: pmd["64x"].l,
+        c: pmd["64x"].c,
         offset: -30,
         desc: "Keywords"
       },
@@ -198,8 +198,8 @@ function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
   const defs = getBase16Defs(pmd, computed);
   const accentHue = isHueLocked ? lockedHueValue : hue;
   const isLight = pmd["4x"].l > 0.5;
-  const accentL = pmd["72x"].l;
-  const accentC = isLight ? 0.122 : pmd["72x"].c;
+  const accentL = pmd["64x"].l;
+  const accentC = isLight ? 0.122 : pmd["64x"].c;
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {
     const rgb = safeOklchToRgb(def.l, def.c, hue);
@@ -249,7 +249,7 @@ function renderPresets(containerId, isDark, setHueCallback) {
   if (!container)
     return;
   const pmd = isDark ? PMD_DARK : PMD_LIGHT;
-  const theme = pmd["72x"];
+  const theme = pmd["64x"];
   const root = document.documentElement;
   if (!container.dataset.ready) {
     container.innerHTML = presets.map((preset, i) => {
@@ -438,12 +438,12 @@ function renderFoundationGrid(containerId, pmd, hue) {
   const container = document.getElementById(containerId);
   if (!container)
     return;
-  const slotOrder = ["100x", "88x", "80x", "72x", "8x", "4x", "0x"];
+  const slotOrder = ["100x", "88x", "80x", "64x", "8x", "4x", "0x"];
   const roles = {
     "100x": "max contrast",
     "88x": "primary",
     "80x": "secondary",
-    "72x": "accent",
+    "64x": "accent",
     "8x": "base surface",
     "4x": "deep bg",
     "0x": "canvas"
@@ -684,7 +684,7 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
   const _c100 = hex("100x");
   const c88 = hex("88x");
   const c80 = hex("80x");
-  const c72 = hex("72x");
+  const c64 = hex("64x");
   const c8x = hex("8x");
   const c4x = hex("4x");
   const _c0x = hex("0x");
@@ -699,7 +699,7 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
       <div class="ui-pv-row">
         <div class="ui-pv-card" style="background:var(--pv-card)">
           <div class="ui-pv-title ui-pv-mb-xxs" style="color:var(--pv-h)">Header · 88x 600</div>
-          <div class="ui-pv-body ui-pv-mb-xs" style="color:var(--pv-sub)">Subtext · 72x 500</div>
+          <div class="ui-pv-body ui-pv-mb-xs" style="color:var(--pv-sub)">Subtext · 64x 500</div>
           <div class="ui-pv-gap-xs">
             <div class="ui-pv-btn" style="background:var(--pv-active);color:var(--pv-on-active);font-weight:500">88x active</div>
             <div class="ui-pv-btn" style="background:var(--pv-surf);color:var(--pv-inactive);font-weight:500">88×24%</div>
@@ -742,7 +742,7 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
   pv.style.setProperty("--pv-bg", c4x);
   pv.style.setProperty("--pv-card", c8x);
   pv.style.setProperty("--pv-h", c88);
-  pv.style.setProperty("--pv-sub", c72);
+  pv.style.setProperty("--pv-sub", c64);
   pv.style.setProperty("--pv-body", c80);
   pv.style.setProperty("--pv-muted", surfMuted);
   pv.style.setProperty("--pv-surf", surfWidget);

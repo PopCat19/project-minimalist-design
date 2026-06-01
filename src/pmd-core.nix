@@ -26,9 +26,9 @@ let
       l = 0.80;
       c = 0.100;
     };
-    "72x" = {
-      l = 0.72;
-      c = 0.122;
+    "64x" = {
+      l = 0.64;
+      c = 0.111;
     };
     "8x" = {
       l = 0.20;
@@ -57,9 +57,9 @@ let
       l = 0.20;
       c = 0.032;
     };
-    "72x" = {
-      l = 0.32;
-      c = 0.052;
+    "64x" = {
+      l = 0.36;
+      c = 0.058;
     };
     "8x" = {
       l = 0.88;
@@ -98,8 +98,8 @@ let
     let
       rot = base: deg: lib.mod (base + deg + 360) 360;
       isLight = pmd."4x".l > 0.5;
-      accentL = pmd."72x".l;
-      accentC = if isLight then 0.122 else pmd."72x".c;
+      accentL = pmd."64x".l;
+      accentC = if isLight then 0.122 else pmd."64x".c;
     in
     {
       base00 = {
@@ -120,7 +120,7 @@ let
       };
 
       base04 = {
-        inherit (pmd."72x") l c;
+        inherit (pmd."64x") l c;
         h = root;
       };
       base05 = {
