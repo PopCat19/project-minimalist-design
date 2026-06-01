@@ -29,11 +29,12 @@
     outline-offset: -2px;
   }
 
-  /* Interactive feedback stays at 120ms */
+  /* Interactive feedback: 150ms linear */
   .preset:hover, .scheme-btn:hover, .lock-btn:hover, .export-btn:hover,
   .doc-nav-btn:hover, .menu-btn:hover, .color-card:hover::after,
   .hue-input:hover, .hue-input:focus, :focus-visible {
-    transition-duration: 120ms, 120ms, 120ms, 120ms, 120ms, 120ms, 80ms, 120ms;
+    transition-duration: 150ms, 150ms, 150ms, 150ms, 150ms, 150ms, 100ms, 150ms;
+    transition-timing-function: linear, linear, linear, linear, linear, linear, linear, linear;
   }
 
   /* ── Semantic layer variables ── */
