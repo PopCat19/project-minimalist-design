@@ -20,20 +20,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
 <style>
   *, *::before, *::after {
-    transition: background 1000ms var(--ease), background-image 1000ms var(--ease),
-                color 1000ms var(--ease),
-                border-color 1000ms var(--ease), outline-color 1000ms var(--ease),
-                outline 1000ms var(--ease), transform 500ms var(--ease),
-                opacity 1000ms var(--ease);
+    transition: background 150ms var(--ease), background-image 150ms var(--ease),
+                color 150ms var(--ease),
+                border-color 150ms var(--ease), outline-color 150ms var(--ease),
+                outline 150ms var(--ease), transform 100ms var(--ease),
+                opacity 150ms var(--ease);
     outline: 2px solid transparent;
     outline-offset: -2px;
   }
 
-  /* Interactive outline: 150ms ease-in-out, both directions */
-  .preset, .scheme-btn, .lock-btn, .export-btn, .doc-nav-btn, .menu-btn,
-  .color-card::after, .hue-input, :focus-visible {
-    transition-duration: 1000ms, 1000ms, 1000ms, 150ms, 150ms, 150ms, 500ms, 1000ms;
-    transition-timing-function: var(--ease), var(--ease), var(--ease), ease-in-out, ease-in-out, ease-in-out, var(--ease), var(--ease);
+  /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
+  body, .sidebar, .main, .color-card, .color-swatch, .stack-swatch::before,
+  .ui-pv, .ui-pv *, .preview-content, .color-info, .color-name, .color-desc,
+  .swatch-hex, .swatch-oklch, .scheme-btn, .lock-btn, .preset {
+    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
   }
 
   /* ── Semantic layer variables ── */
