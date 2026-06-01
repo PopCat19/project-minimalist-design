@@ -31,7 +31,7 @@
 
   /* Hue-rotated surfaces: 1000ms for smooth palette shifts */
   body, .sidebar, .main, .color-card, .color-swatch, .stack-swatch,
-  .stack-swatch::before,
+  .stack-swatch::before, .stack-swatch::after,
   .ui-pv, .ui-pv *, .preview-content, .color-info, .color-name, .color-desc,
   .swatch-hex, .swatch-oklch, .scheme-btn, .lock-btn, .preset {
     transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
@@ -331,13 +331,19 @@
   .stack-swatch {
     position: relative;
     z-index: 0;
+  }
+  .stack-swatch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background-color: var(--base02);
     mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
     mask-size: 0.5rem 0.5rem;
     -webkit-mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
     -webkit-mask-size: 0.5rem 0.5rem;
+    z-index: -2;
   }
-  .stack-swatch::before {
+  .stack-swatch::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -348,7 +354,7 @@
     position: relative;
     z-index: 1;
   }
-  .stack-swatch.blur::before {
+  .stack-swatch.blur::after {
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
   }
