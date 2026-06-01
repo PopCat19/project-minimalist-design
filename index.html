@@ -504,6 +504,7 @@
     background: var(--base02); border: none; border-radius: 1.0rem;
     color: var(--base05); cursor: pointer;
   }
+  .export-sheet-close:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
 
   .export-sheet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
   .export-sheet-btn {
@@ -647,7 +648,7 @@
     </div>
   </div>
   <button type="button" class="menu-btn" id="menuBtn" aria-label="Menu">
-    <span class="material-symbols-rounded" style="font-size:20px">menu</span>
+    <span class="material-symbols-rounded" style="font-size:1.25rem">menu</span>
   </button>
 </header>
 
@@ -667,7 +668,7 @@
 
     <div class="control-group">
       <div class="keybind-hint">
-        <span class="material-symbols-rounded" style="font-size:12px">info</span>
+        <span class="material-symbols-rounded" style="font-size:0.75rem">info</span>
         <span><kbd>Shift</kbd>+click cards to copy OKLCH</span>
       </div>
       <label class="control-label">Primary Hue</label>
@@ -710,19 +711,19 @@
       <label class="control-label">Export</label>
       <div class="export-sidebar">
         <button type="button" class="export-btn" onclick="exportYAML()">
-          <span class="material-symbols-rounded" style="font-size:20px">description</span> YAML
+          <span class="material-symbols-rounded" style="font-size:1.25rem">description</span> YAML
         </button>
         <button type="button" class="export-btn" onclick="exportJSON()">
-          <span class="material-symbols-rounded" style="font-size:20px">data_object</span> JSON
+          <span class="material-symbols-rounded" style="font-size:1.25rem">data_object</span> JSON
         </button>
         <button type="button" class="export-btn" onclick="copyCSS()">
-          <span class="material-symbols-rounded" style="font-size:20px">css</span> CSS Variables
+          <span class="material-symbols-rounded" style="font-size:1.25rem">css</span> CSS Variables
         </button>
         <button type="button" class="export-btn" onclick="copyNixConfig()">
-          <span class="material-symbols-rounded" style="font-size:20px">terminal</span> Nix Config
+          <span class="material-symbols-rounded" style="font-size:1.25rem">terminal</span> Nix Config
         </button>
         <button type="button" class="export-btn" onclick="toggleDocs()">
-          <span class="material-symbols-rounded" style="font-size:20px">menu_book</span> Documentation
+          <span class="material-symbols-rounded" style="font-size:1.25rem">menu_book</span> Documentation
         </button>
       </div>
     </div>
@@ -767,7 +768,7 @@
 </div>
 
 <button type="button" class="fab" id="fabBtn" aria-label="Export">
-  <span class="material-symbols-rounded" style="font-size:24px">ios_share</span>
+  <span class="material-symbols-rounded" style="font-size:1.5rem">ios_share</span>
 </button>
 
 <div class="export-sheet" id="exportSheet">
@@ -775,7 +776,7 @@
   <div class="export-sheet-header">
     <span class="export-sheet-title">Export Theme</span>
     <button type="button" class="export-sheet-close" id="exportSheetClose" aria-label="Close">
-      <span class="material-symbols-rounded" style="font-size:20px">close</span>
+      <span class="material-symbols-rounded" style="font-size:1.25rem">close</span>
     </button>
   </div>
   <div class="export-sheet-grid">
@@ -803,12 +804,12 @@
   <header class="doc-topbar">
     <div style="display:flex;align-items:center;gap:12px">
       <button type="button" id="docMobileToggle" onclick="toggleDocMenu()" aria-label="Doc menu">
-        <span class="material-symbols-rounded" style="font-size:20px">menu</span>
+        <span class="material-symbols-rounded" style="font-size:1.25rem">menu</span>
       </button>
-      <span style="font-size:14px;font-weight:600;color:var(--base06)">PMD Docs</span>
+      <span style="font-size:0.875rem;font-weight:600;color:var(--base06)">PMD Docs</span>
     </div>
-    <button type="button" class="export-btn" onclick="toggleDocs()" style="width:auto;padding:6px 12px">
-      <span class="material-symbols-rounded" style="font-size:20px">close</span> Close
+    <button type="button" class="export-btn" onclick="toggleDocs()">
+      <span class="material-symbols-rounded" style="font-size:1.25rem">close</span> Close
     </button>
   </header>
   <div class="doc-body">
