@@ -436,6 +436,7 @@
     color: var(--base05); cursor: pointer;
   }
   .menu-btn:active { transform: scale(0.94); }
+  .menu-btn:hover { outline: 2px solid var(--base07); outline-offset: -2px; }
 
   /* ── Sidebar overlay (mobile) ── */
   .sb-overlay {
@@ -544,15 +545,14 @@
   .doc-nav-btn {
     padding: 0.5rem 0.75rem;
     border: none; border-radius: 1.0rem;
-    background: transparent;
+    background: var(--base02);
     color: var(--base05);
     font-size: 0.75rem; font-weight: 500;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
-    transition: background 0.12s;
   }
-  .doc-nav-btn:hover  { background: var(--base02); }
+  .doc-nav-btn:hover  { outline: 2px solid var(--base07); outline-offset: -2px; }
   .doc-nav-btn.active { background: var(--base02); color: var(--base07); }
 
   #docViewer {

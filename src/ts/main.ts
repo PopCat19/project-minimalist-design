@@ -39,7 +39,6 @@ declare global {
 		toggleDocMenu: () => void;
 		toggleExportSheet: () => void;
 		toggleSidebar: () => void;
-		togglePreviewBtn: (el: HTMLElement) => void;
 		exportYAML: () => void;
 		exportJSON: () => void;
 		copyCSS: () => void;
@@ -238,23 +237,6 @@ function init(): void {
 	window.toggleDocMenu = toggleDocMenu;
 	window.toggleSidebar = toggleSidebar;
 	window.toggleExportSheet = toggleExportSheet;
-	window.togglePreviewBtn = (el: HTMLElement) => {
-		const on = el.dataset.on === "1";
-		if (on) {
-			el.style.background = el.dataset.offBg || "";
-			el.style.color = el.dataset.offColor || "";
-			el.textContent = el.dataset.offLabel || "";
-			el.dataset.on = "0";
-		} else {
-			el.dataset.offBg = el.style.background;
-			el.dataset.offColor = el.style.color;
-			el.dataset.offLabel = el.textContent || "";
-			el.style.background = el.dataset.activeBg || "";
-			el.style.color = el.dataset.activeColor || "";
-			el.textContent = el.dataset.activeLabel || "active";
-			el.dataset.on = "1";
-		}
-	};
 	window.exportYAML = () => exportYAML(getColors(), currentHue, currentScheme);
 	window.exportJSON = () => exportJSON(getColors(), currentHue, currentScheme);
 	window.copyCSS = () => copyCSS(getColors());
