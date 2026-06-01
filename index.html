@@ -20,17 +20,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
 <style>
   *, *::before, *::after {
-    transition: background 200ms var(--ease), color 200ms var(--ease),
-                border-color 200ms var(--ease), outline-color 200ms var(--ease),
-                outline 200ms var(--ease), transform 200ms var(--ease),
-                opacity 200ms var(--ease);
+    transition: background 1000ms var(--ease), color 1000ms var(--ease),
+                border-color 1000ms var(--ease), outline-color 1000ms var(--ease),
+                outline 1000ms var(--ease), transform 500ms var(--ease),
+                opacity 1000ms var(--ease);
   }
 
-  /* Hue-rotated surfaces get slower 1s fade */
-  body, .sidebar, .main, .color-card, .color-swatch, .stack-swatch::before,
-  .ui-pv, .ui-pv *, .preview-content, .scheme-btn, .lock-btn, .preset,
-  .color-info, .color-name, .color-desc, .swatch-hex, .swatch-oklch {
-    transition-duration: 1000ms, 1000ms, 1000ms, 1000ms, 1000ms, 500ms, 1000ms;
+  /* Interactive feedback stays at 200ms */
+  .preset:hover, .scheme-btn:hover, .lock-btn:hover, .export-btn:hover,
+  .doc-nav-btn:hover, .menu-btn:hover, .color-card:hover::after,
+  .hue-input:hover, .hue-input:focus, :focus-visible {
+    transition-duration: 200ms, 200ms, 200ms, 200ms, 200ms, 100ms, 200ms;
   }
 
   /* ── Semantic layer variables ── */
