@@ -30,6 +30,12 @@ Sizes:
    8px — Unit affixes, annotation symbols. Always paired
          with weight 700 at 80×48%.
 
+All sizes listed at base 16px root font. In CSS,
+implement with rem units (12px = 0.75rem, 16px = 1rem).
+Scale root font-size at viewport breakpoints:
+  Default (< 1200px): 16px  — PMD canonical
+  Desktop  (≥ 1200px): 20px  — 1.25× for FHD readability
+
 Line Height:
   1.125 on 16px song titles (centered text).
   1.25  on all other sizes.

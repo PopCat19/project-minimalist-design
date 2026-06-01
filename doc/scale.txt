@@ -1,6 +1,11 @@
 ===== SCALE SYSTEM =====
 
-All measurements use pixel values (base-16: 16px = 1rem in CSS output).
+All measurements use pixel values at base 16px root font.
+In CSS, implement with rem units (12px = 0.75rem, 16px = 1rem)
+and scale root font-size for viewport size.
+
+  Default (< 1200px): font-size: 16px
+  Desktop  (≥ 1200px): font-size: 20px  (1.25× for FHD)
 
 Borders:
   2px — Standard. Priority alerts, control clusters.
