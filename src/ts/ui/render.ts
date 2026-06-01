@@ -322,10 +322,11 @@ export function renderUIPreview(
     <div class="ui-pv ui-pv-panel" style="background:${c4x}">
       <div class="ui-pv-row">
         <div class="ui-pv-card" style="background:${c8x}">
-          <div class="ui-pv-head ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
+          <div class="ui-pv-title ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
           <div class="ui-pv-body ui-pv-mb-xs" style="color:${c72}">Subtext · 72x 500</div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
+            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">88x active</div>
             <div class="ui-pv-btn" style="background:${surfWidget};color:${txtInactive};font-weight:500">88×24%</div>
             <div class="ui-pv-btn" style="background:${surfWidget};color:${c80};font-weight:500">80×8%</div>
           </div>
@@ -344,8 +345,10 @@ export function renderUIPreview(
             </div>
           </div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
-            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500">80×8% def</div>
+            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">88x active</div>
+            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">80×8% def</div>
           </div>
         </div>
       </div>

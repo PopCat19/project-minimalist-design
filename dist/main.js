@@ -606,10 +606,11 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
     <div class="ui-pv ui-pv-panel" style="background:${c4x}">
       <div class="ui-pv-row">
         <div class="ui-pv-card" style="background:${c8x}">
-          <div class="ui-pv-head ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
+          <div class="ui-pv-title ui-pv-mb-xxs" style="color:${c88}">Header · 88x 600</div>
           <div class="ui-pv-body ui-pv-mb-xs" style="color:${c72}">Subtext · 72x 500</div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
+            <div class="ui-pv-btn" style="background:${c88};color:${txtOn(c88)};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">88x active</div>
             <div class="ui-pv-btn" style="background:${surfWidget};color:${txtInactive};font-weight:500">88×24%</div>
             <div class="ui-pv-btn" style="background:${surfWidget};color:${c80};font-weight:500">80×8%</div>
           </div>
@@ -628,8 +629,10 @@ function renderUIPreview(containerId, _colors, pmd, hue) {
             </div>
           </div>
           <div class="ui-pv-gap-xs">
-            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:500">88x active</div>
-            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500">80×8% def</div>
+            <div class="ui-pv-btn" style="flex:1;background:${c88};color:${txtOn(c88)};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">88x active</div>
+            <div class="ui-pv-btn" style="flex:1;background:${surfWidget};color:${c80};font-weight:500;cursor:pointer"
+              onclick="togglePreviewBtn(this)" data-active-bg="${c88}" data-active-color="${txtOn(c88)}" data-active-label="active">80×8% def</div>
           </div>
         </div>
       </div>
@@ -846,6 +849,23 @@ function init() {
   window.toggleDocMenu = toggleDocMenu;
   window.toggleSidebar = toggleSidebar;
   window.toggleExportSheet = toggleExportSheet;
+  window.togglePreviewBtn = (el) => {
+    const on = el.dataset.on === "1";
+    if (on) {
+      el.style.background = el.dataset.offBg || "";
+      el.style.color = el.dataset.offColor || "";
+      el.textContent = el.dataset.offLabel || "";
+      el.dataset.on = "0";
+    } else {
+      el.dataset.offBg = el.style.background;
+      el.dataset.offColor = el.style.color;
+      el.dataset.offLabel = el.textContent || "";
+      el.style.background = el.dataset.activeBg || "";
+      el.style.color = el.dataset.activeColor || "";
+      el.textContent = el.dataset.activeLabel || "active";
+      el.dataset.on = "1";
+    }
+  };
   window.exportYAML = () => exportYAML(getColors(), currentHue, currentScheme);
   window.exportJSON = () => exportJSON(getColors(), currentHue, currentScheme);
   window.copyCSS = () => copyCSS(getColors());
