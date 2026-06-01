@@ -10,6 +10,11 @@ and scale root font-size for viewport size.
 Borders:
   2px — Standard. Priority alerts, control clusters.
 
+Outlines (inner, -offset):
+  2px — Hover (100x). Highest priority, always distinguishable.
+  4px — Focus-visible (80×48%). Medium weight for keyboard nav.
+  Inner via outline-offset: -2px / -4px matching the width.
+
 Gaps:
   4px  — Standard gap between sibling elements.
   8px  — Content group separation.

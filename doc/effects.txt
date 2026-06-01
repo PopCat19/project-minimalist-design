@@ -17,13 +17,13 @@ No Shadows, No Gradients:
 Hover and Focus Feedback:
   Hover uses a 100x inner outline (2px, outline-offset: -2px)
   — the highest tier is always distinguishable. Keyboard
-  focus (:focus-visible) uses 80×8% to signal "here" without
-  competing with content; optionally, elements that need
-  constant contrast against a similar-toned background may
-  always show the 80×8% outline as a persistent boundary.
-  Active input fields override to 100x to signal "editing
-  now." Never use scale or translate animations on hover.
-  :active may use scale(0.96) for click confirmation.
+  focus (:focus-visible) uses a 4px 80×48% outline to signal
+  "here" without competing with content; optionally, elements
+  that need constant contrast against a similar-toned
+  background may always show an 80×8% outline as a persistent
+  boundary. Active input fields override to 100x to signal
+  "editing now." Never use scale or translate animations on
+  hover. :active may use scale(0.96) for click confirmation.
 
 Border-Radius — Three Categories:
   16px (1rem) — default. Cards, buttons, standalone elements.
@@ -53,8 +53,9 @@ Filled Track Indicators:
   Gauges and progress bars use a three-layer construction:
     Track:      88×24%, 16px radius (full-width container)
     Fill:       88x solid, 8px radius (inner, clipped)
-    Label:      100x text at weight 600 on the fill
-  Text on a filled track uses the opposite endpoint colour
-  (100x on 88x fill in dark mode) to guarantee contrast
-  without introducing a new tier. Overlay icons on filled
-  surfaces drop one size step (16px → 12px).
+    Label:      Text at weight 500 on the fill
+  Text on a filled track uses the surface-under colour —
+  the surface beneath the track (skip alpha-composited
+  layers) — to guarantee contrast without introducing a
+  new tier. Overlay icons on filled surfaces drop one
+  size step (16px → 12px).

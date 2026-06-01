@@ -16,7 +16,8 @@ No Shadows, No Gradients:
 Hover Feedback:
   Use a 100x inner outline (2px, -2px offset). 100x is the
   highest-priority tier, always distinguishable regardless of
-  background. Never use scale or translate animations.
+  background. Keyboard focus uses 4px 80×48%. Never use
+  scale or translate animations on hover.
 
 Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
