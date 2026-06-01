@@ -19,12 +19,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after {
+    transition: background 120ms var(--ease), color 120ms var(--ease),
+                border-color 120ms var(--ease), outline-color 120ms var(--ease),
+                opacity 120ms var(--ease);
+  }
 
   /* ── Semantic layer variables ── */
   :root {
     --r: 1rem;
     --hout: var(--base05);
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
     --base00: #120c17;
     --base01: #2B2532;
     --base02: #3D3545;
