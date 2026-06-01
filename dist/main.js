@@ -549,17 +549,24 @@ function renderCodePreview(colors, currentHue) {
     return;
   preview.innerHTML = `
         <div class="preview-content" style="background: ${colors.base00.hex}; color: ${colors.base05.hex};">
-            <span style="color: ${colors.base03.hex};">// PMD Base16 — ${currentHue}° ${currentHue > 180 ? "cool" : "warm"} hue</span><br><br>
-            <span style="color: ${colors.base0E.hex};">const</span> <span style="color: ${colors.base0D.hex};">palette</span> = <span style="color: ${colors.base0D.hex};">generatePalette</span>({<br>
-            &nbsp;&nbsp;hue: <span style="color: ${colors.base09.hex};">${currentHue}</span>,<br>
-            &nbsp;&nbsp;scheme: <span style="color: ${colors.base0B.hex};">"${colors.base00.hex === "#120c17" ? "dark" : "light"}"</span>,<br>
-            &nbsp;&nbsp;background: <span style="color: ${colors.base0B.hex};">"${colors.base00.hex}"</span>,<br>
-            &nbsp;&nbsp;surface:&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base01.hex}"</span>,<br>
-            &nbsp;&nbsp;body:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base05.hex}"</span>,<br>
-            &nbsp;&nbsp;accent:&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base0D.hex}"</span>,<br>
-            });<br><br>
-            <span style="color: ${colors.base03.hex};">// Auxiliary: ${(currentHue + 180) % 360}°</span><br>
-            <span style="color: ${colors.base03.hex};">// Surface: 80×8% · Muted: 80×48%</span>
+            <span style="color: ${colors.base03.hex};">// PMD Base16 · ${currentHue}° · ${colors.base00.hex === "#120c17" ? "dark" : "light"}</span><br><br>
+            <span style="color: ${colors.base0E.hex};">use</span> <span style="color: ${colors.base0C.hex};">std::collections</span>::<span style="color: ${colors.base0A.hex};">HashMap</span>;<br><br>
+            <span style="color: ${colors.base03.hex};">/// Palette entry with OKLCH source and baked hex output.</span><br>
+            <span style="color: ${colors.base0E.hex};">pub struct</span> <span style="color: ${colors.base0A.hex};">Palette</span> {<br>
+            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> id: <span style="color: ${colors.base0A.hex};">String</span>,<br>
+            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> hex: <span style="color: ${colors.base0A.hex};">String</span>,<br>
+            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub</span> hue: <span style="color: ${colors.base0A.hex};">u16</span>,<br>
+            }<br><br>
+            <span style="color: ${colors.base0E.hex};">impl</span> <span style="color: ${colors.base0A.hex};">Palette</span> {<br>
+            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">pub fn</span> <span style="color: ${colors.base0D.hex};">generate</span>(hue: <span style="color: ${colors.base0A.hex};">u16</span>) -> <span style="color: ${colors.base0A.hex};">Self</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base09.hex};">shift</span> = (<span style="color: ${colors.base08.hex};">hue</span> + <span style="color: ${colors.base09.hex};">180</span>) % <span style="color: ${colors.base09.hex};">360</span>;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">bg</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.16</span>, <span style="color: ${colors.base09.hex};">0.022</span>, hue);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">fg</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.80</span>, <span style="color: ${colors.base09.hex};">0.100</span>, hue);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">let</span> <span style="color: ${colors.base08.hex};">alert</span> = <span style="color: ${colors.base0D.hex};">oklch</span>(<span style="color: ${colors.base09.hex};">0.88</span>, <span style="color: ${colors.base09.hex};">0.056</span>, hue + <span style="color: ${colors.base09.hex};">12</span>);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base03.hex};">// return baked hex for base16 export</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0A.hex};">Palette</span> { id: <span style="color: ${colors.base0B.hex};">"pmd"</span>.<span style="color: ${colors.base0D.hex};">into</span>(), hex: <span style="color: ${colors.base0B.hex};">"${colors.base0D.hex}"</span>.<span style="color: ${colors.base0D.hex};">into</span>() }<br>
+            &nbsp;&nbsp;}<br>
+            }<br>
         </div>
     `;
 }
