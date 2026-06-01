@@ -988,10 +988,14 @@ function init() {
   window.toggleDocMenu = toggleDocMenu;
   window.toggleSidebar = toggleSidebar;
   window.toggleExportSheet = toggleExportSheet;
-  window.exportYAML = () => exportYAML(getColors(), currentHue, currentScheme);
-  window.exportJSON = () => exportJSON(getColors(), currentHue, currentScheme);
-  window.copyCSS = () => copyCSS(getColors());
-  window.copyNixConfig = () => copyNixConfig(currentHue, currentScheme);
+  const y = exportYAML;
+  const j = exportJSON;
+  const c = copyCSS;
+  const n = copyNixConfig;
+  window.exportYAML = () => y(getColors(), currentHue, currentScheme);
+  window.exportJSON = () => j(getColors(), currentHue, currentScheme);
+  window.copyCSS = () => c(getColors());
+  window.copyNixConfig = () => n(currentHue, currentScheme);
   initEventListeners();
   initSheetGesture();
   setHue(30);
