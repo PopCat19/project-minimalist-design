@@ -113,8 +113,8 @@
 
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
-    outline: 2px solid var(--base02);
-    outline-offset: -2px;
+    outline: 3px solid var(--base03);
+    outline-offset: -3px;
     border-radius: 0.5rem;
   }
   .hue-slider {
@@ -285,6 +285,7 @@
     overflow: hidden;
     cursor: pointer;
     position: relative;
+    z-index: 0;
     transition: transform 0.12s;
   }
   .color-card:hover::after {
