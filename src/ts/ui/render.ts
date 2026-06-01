@@ -245,20 +245,18 @@ export function renderCodePreview(
 	const preview = document.getElementById("codePreview");
 	if (!preview) return;
 	preview.innerHTML = `
-        <div class="preview-header" style="background: ${colors.base01.hex};">
-            <div class="preview-dot" style="background: ${colors.base08.hex};"></div>
-            <div class="preview-dot" style="background: ${colors.base0A.hex};"></div>
-            <div class="preview-dot" style="background: ${colors.base0B.hex};"></div>
-        </div>
         <div class="preview-content" style="background: ${colors.base00.hex}; color: ${colors.base05.hex};">
-            <span style="color: ${colors.base03.hex};">// PMD Base16 Theme Preview</span><br>
-            <span style="color: ${colors.base0E.hex};">function</span> <span style="color: ${colors.base0D.hex};">generatePalette</span>(<span style="color: ${colors.base08.hex};">hue</span>) {<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">const</span> <span style="color: ${colors.base08.hex};">auxHue</span> = (<span style="color: ${colors.base08.hex};">hue</span> + <span style="color: ${colors.base09.hex};">180</span>) % <span style="color: ${colors.base09.hex};">360</span>;<br>
-            &nbsp;&nbsp;<span style="color: ${colors.base0E.hex};">return</span> {<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base08.hex};">primary</span>: <span style="color: ${colors.base0B.hex};">"oklch(0.72 0.122 ${currentHue})"</span>,<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base08.hex};">auxiliary</span>: <span style="color: ${colors.base0B.hex};">\`oklch(0.72 0.122 \${auxHue})\`</span><br>
-            &nbsp;&nbsp;};<br>
-            }
+            <span style="color: ${colors.base03.hex};">// PMD Base16 — ${currentHue}° ${currentHue > 180 ? "cool" : "warm"} hue</span><br><br>
+            <span style="color: ${colors.base0E.hex};">const</span> <span style="color: ${colors.base0D.hex};">palette</span> = <span style="color: ${colors.base0D.hex};">generatePalette</span>({<br>
+            &nbsp;&nbsp;hue: <span style="color: ${colors.base09.hex};">${currentHue}</span>,<br>
+            &nbsp;&nbsp;scheme: <span style="color: ${colors.base0B.hex};">"${colors.base00.hex === "#120c17" ? "dark" : "light"}"</span>,<br>
+            &nbsp;&nbsp;background: <span style="color: ${colors.base0B.hex};">"${colors.base00.hex}"</span>,<br>
+            &nbsp;&nbsp;surface:&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base01.hex}"</span>,<br>
+            &nbsp;&nbsp;body:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base05.hex}"</span>,<br>
+            &nbsp;&nbsp;accent:&nbsp;&nbsp;&nbsp;<span style="color: ${colors.base0B.hex};">"${colors.base0D.hex}"</span>,<br>
+            });<br><br>
+            <span style="color: ${colors.base03.hex};">// Auxiliary: ${(currentHue + 180) % 360}°</span><br>
+            <span style="color: ${colors.base03.hex};">// Surface: 80×8% · Muted: 80×48%</span>
         </div>
     `;
 }
