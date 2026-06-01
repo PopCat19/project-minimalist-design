@@ -24,6 +24,8 @@
                 border-color 1000ms var(--ease), outline-color 1000ms var(--ease),
                 outline 1000ms var(--ease), transform 500ms var(--ease),
                 opacity 1000ms var(--ease);
+    outline: 2px solid transparent;
+    outline-offset: -2px;
   }
 
   /* Interactive feedback stays at 200ms */
@@ -127,8 +129,7 @@
 
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
-    outline: 2px solid var(--base03);
-    outline-offset: -2px;
+    outline-color: var(--base03);
     border-radius: 0.5rem;
   }
   .hue-slider {
@@ -158,8 +159,7 @@
     flex: 1;
     padding: 0.375rem 0.625rem;
     background: transparent;
-    outline: 2px solid var(--base03);
-    outline-offset: -2px;
+    outline-color: var(--base03);
     border: none;
     border-radius: var(--r);
     color: var(--base05);
@@ -201,7 +201,7 @@
     cursor: pointer;
     position: relative;
   }
-  .preset:hover  { outline: 2px solid var(--hout); outline-offset: -2px; z-index: 1; }
+  .preset:hover  { outline-color: var(--hout); z-index: 1; }
   .preset:active { transform: scale(0.94); }
   .preset::after {
     content: attr(data-name);
@@ -243,7 +243,7 @@
     color: var(--base01);
   }
   .scheme-btn:active, .lock-btn:active { transform: scale(0.96); }
-  .scheme-btn:hover, .lock-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .scheme-btn:hover, .lock-btn:hover { outline-color: var(--hout); }
 
   /* ── Export buttons ── */
   .export-sidebar {
@@ -264,7 +264,7 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .export-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .export-btn:hover { outline-color: var(--hout); }
   .export-btn:active { transform: scale(0.97); }
   .export-btn svg { width: 1.25rem; height: 1.25rem; opacity: 0.6; }
 
@@ -439,7 +439,7 @@
     color: var(--base05); cursor: pointer;
   }
   .menu-btn:active { transform: scale(0.94); }
-  .menu-btn:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .menu-btn:hover { outline-color: var(--hout); }
 
   /* ── Sidebar overlay (mobile) ── */
   .sb-overlay {
@@ -498,7 +498,7 @@
     background: var(--base02); border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer;
   }
-  .export-sheet-close:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .export-sheet-close:hover { outline-color: var(--hout); }
 
   .export-sheet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
   .export-sheet-btn {
@@ -553,7 +553,7 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .doc-nav-btn:hover  { outline: 2px solid var(--hout); outline-offset: -2px; }
+  .doc-nav-btn:hover  { outline-color: var(--hout); }
   .doc-nav-btn.active { --hout: var(--base02); background: var(--base06); color: var(--base01); }
 
   #docViewer {
