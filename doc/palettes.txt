@@ -18,7 +18,7 @@ Mapping Table:
   base0A  80x           Warning / classes (root hue)
   base0B  72x           Strings (root hue)
   base0C  80x +140°     Support (hue rotated)
-  base0D  72x +30°      Functions (hue rotated)
+  base0D  80x +30°      Functions (hue rotated)
   base0E  72x -30°      Keywords (hue rotated)
   base0F  80×48%        Deprecated / meta (baked)
 

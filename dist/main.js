@@ -170,9 +170,9 @@ function getBase16Defs(pmd, computed) {
       },
       {
         id: "base0D",
-        pmd: "72x+30",
-        l: pmd["72x"].l,
-        c: pmd["72x"].c,
+        pmd: "80x+30",
+        l: pmd["80x"].l,
+        c: pmd["80x"].c,
         offset: 30,
         desc: "Functions"
       },
@@ -219,7 +219,7 @@ function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
     } else {
       h = accentHue;
     }
-    const useAccent = !(def.id === "base0F" || def.pmd === "88x" || def.pmd === "80x" || def.pmd === "80x+140");
+    const useAccent = !(def.id === "base0F" || def.pmd === "88x" || def.pmd === "80x" || def.pmd === "80x+30" || def.pmd === "80x+140");
     const l = useAccent ? accentL : def.l;
     const c = useAccent ? accentC : def.c;
     const rgb = safeOklchToRgb(l, c, h);

@@ -159,8 +159,7 @@ let
         h = rot root 140;
       };
       base0D = {
-        l = accentL;
-        c = accentC;
+        inherit (pmd."80x") l c;
         h = rot root 30;
       };
       base0E = {
