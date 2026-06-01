@@ -217,16 +217,20 @@ export function renderStackGrid(
 			if (!baseSlot || !tintSlot) return "";
 
 			const effHue = def.offset ? (hue + def.offset) % 360 : hue;
-			const rgb = oklchToRgb(
+			const baked = oklchToRgb(
 				baseSlot.l * (1 - def.opacity) + tintSlot.l * def.opacity,
 				baseSlot.c * (1 - def.opacity) + tintSlot.c * def.opacity,
 				effHue,
 			);
-			const hex = rgbToHex(rgb);
-			const txt = getContrastColor(rgb.r, rgb.g, rgb.b);
+			const hex = rgbToHex(baked);
+			const txt = getContrastColor(baked.r, baked.g, baked.b);
+
+			const tint = oklchToRgb(tintSlot.l, tintSlot.c, effHue);
+			const rgba = `rgba(${tint.r}, ${tint.g}, ${tint.b}, ${def.opacity.toFixed(2)})`;
+
 			return `
         <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'composite(${def.base}, ${def.tint}, ${def.opacity.toFixed(2)})')">
-            <div class="color-swatch stack-swatch" style="--swatch: ${hex}; color: ${txt}">
+            <div class="color-swatch stack-swatch" style="--swatch: ${rgba}; color: ${txt}">
                 <div class="swatch-hex">${hex}</div>
                 <div class="swatch-oklch">${def.label}</div>
             </div>
