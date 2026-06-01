@@ -111,6 +111,10 @@
     color: var(--base06);
   }
 
+  /* ── Hover outline token: 100x default, 4x on CTA fill ── */
+  :root { --hout: var(--base07); }
+  .scheme-btn.active, .lock-btn.active, .doc-nav-btn.active { --hout: var(--base00); }
+
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
     outline: 2px solid var(--base03);
@@ -291,7 +295,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    border: 2px solid var(--base07);
+    border: 2px solid var(--hout);
     border-radius: inherit;
     pointer-events: none;
     z-index: 2;

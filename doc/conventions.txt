@@ -14,10 +14,11 @@ No Shadows, No Gradients:
   Depth is communicated through lightness tier alone.
 
 Hover Feedback:
-  Use a 100x inner outline (2px, -2px offset). 100x is the
-  highest-priority tier, always distinguishable regardless of
-  background. Keyboard focus uses 4px 80×48%. Never use
-  scale or translate animations on hover.
+  Use a `--hout` custom property for hover outlines. Default
+  value is 100x (highest-priority tier). Active/CTA elements
+  (88x fill) override to 4x — the opposite tier always
+  contrasts regardless of scheme. All hover rules reference
+  `var(--hout)`, not per-component hardcodes.
 
 Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
