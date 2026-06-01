@@ -23,8 +23,8 @@
 
   /* ── Semantic layer variables ── */
   :root {
-    --sm:   0;
-    --md: 900;
+    --r: 1rem;
+    --hout: var(--base05);
     --base00: #120c17;
     --base01: #2B2532;
     --base02: #3D3545;
@@ -111,8 +111,6 @@
     color: var(--base06);
   }
 
-  /* ── Hover outline token: 100x default, 4x on CTA fill ── */
-  :root { --hout: var(--base05); }
 
   /* ── Focus + hover: inner outline, 80x8% for non-priority ── */
   :focus-visible {
@@ -123,7 +121,7 @@
   .hue-slider {
     -webkit-appearance: none; appearance: none;
     width: 100%; height: 0.75rem;
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     background: var(--base02);
     cursor: pointer;
     margin: 0.25rem 0;
@@ -133,7 +131,7 @@
     width: 1.5rem; height: 1.5rem;
     background: var(--base00);
     border: 2px solid var(--base07);
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     cursor: pointer;
   }
   .hue-slider::-webkit-slider-thumb:active { cursor: grabbing; }
@@ -150,7 +148,7 @@
     outline: 2px solid var(--base03);
     outline-offset: -2px;
     border: none;
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     color: var(--base05);
     font-size: 0.75rem;
     font-family: Fira Code, monospace;
@@ -168,7 +166,7 @@
   .aux-display {
     padding: 0.5rem 0.75rem;
     background: var(--base02);
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     font-size: 0.625rem;
     color: var(--base05);
   }
@@ -187,7 +185,7 @@
   .preset {
     aspect-ratio: 1;
     border: none;
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     cursor: pointer;
     position: relative;
     transition: transform 0.12s;
@@ -213,7 +211,7 @@
   .scheme-toggle {
     display: flex;
     background: var(--base02);
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     padding: 0.25rem;
     gap: 0.25rem;
   }
@@ -225,7 +223,7 @@
     color: var(--base05);
     font-size: 0.75rem; font-weight: 500;
     cursor: pointer;
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     font-family: inherit;
     transition: background 0.12s, color 0.12s;
   }
@@ -249,7 +247,7 @@
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
     border: none;
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     background: var(--base02);
     color: var(--base05);
     font-size: 0.75rem; font-weight: 500;
@@ -288,7 +286,7 @@
   }
   .color-card {
     background: var(--base01);
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     overflow: hidden;
     cursor: pointer;
     position: relative;
@@ -358,14 +356,14 @@
 
   /* ── UI Preview component classes ── */
   .ui-pv        { font-family: Fredoka, system-ui, sans-serif; }
-  .ui-pv-panel  { border-radius: 1rem; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ui-pv-panel  { border-radius: var(--r); padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .ui-pv-row    { display: flex; gap: 0.5rem; }
-  .ui-pv-card   { flex: 1; border-radius: 1rem; padding: 0.75rem; }
+  .ui-pv-card   { flex: 1; border-radius: var(--r); padding: 0.75rem; }
   .ui-pv-head   { font-weight: 600; font-size: 0.75rem; line-height: 1.25; }
   .ui-pv-title  { font-weight: 600; font-size: 1rem; line-height: 1.125; }
   .ui-pv-body   { font-weight: 500; font-size: 0.75rem; line-height: 1.25; }
   .ui-pv-meta   { font-weight: 500; font-size: 0.625rem; line-height: 1.25; }
-  .ui-pv-btn    { padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.75rem; line-height: 1.25; text-align: center; }
+  .ui-pv-btn    { padding: 0.25rem 0.5rem; border-radius: var(--r); font-size: 0.75rem; line-height: 1.25; text-align: center; }
   .ui-pv-btn-sm { padding: 0.5rem 0.75rem; }
   .ui-pv-gap-xs { display: flex; gap: 0.25rem; }
   .ui-pv-gap-sm { display: flex; align-items: center; gap: 0.375rem; }
@@ -375,16 +373,16 @@
   .ui-pv-mb-xxs { margin-bottom: 0.25rem; }
   .ui-pv-mb-xs  { margin-bottom: 0.625rem; }
   .ui-pv-slider { display: flex; align-items: center; height: 1.5rem; gap: 0.25rem; }
-  .ui-pv-sfill  { width: 3rem; height: 0.75rem; border-radius: 1rem 0.125rem 0.125rem 1rem; flex-shrink: 0; }
-  .ui-pv-sknob  { width: 0.25rem; height: 100%; border-radius: 1rem; flex-shrink: 0; }
-  .ui-pv-strack { flex: 1; height: 0.75rem; border-radius: 0.125rem 1rem 1rem 0.125rem; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.25rem; }
-  .ui-pv-sdot   { width: 0.25rem; height: 0.25rem; border-radius: 1rem; flex-shrink: 0; }
-  .ui-pv-alert  { border-radius: 1rem; padding: 0.5rem 0.75rem; }
+  .ui-pv-sfill  { width: 3rem; height: 0.75rem; border-radius: var(--r) 0.125rem 0.125rem var(--r); flex-shrink: 0; }
+  .ui-pv-sknob  { width: 0.25rem; height: 100%; border-radius: var(--r); flex-shrink: 0; }
+  .ui-pv-strack { flex: 1; height: 0.75rem; border-radius: 0.125rem var(--r) var(--r) 0.125rem; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.25rem; }
+  .ui-pv-sdot   { width: 0.25rem; height: 0.25rem; border-radius: var(--r); flex-shrink: 0; }
+  .ui-pv-alert  { border-radius: var(--r); padding: 0.5rem 0.75rem; }
 
   /* ── UI Preview ── */
   .preview-panel {
     background: var(--base01);
-    border-radius: 1.0rem;
+    border-radius: var(--r);
     overflow: hidden;
   }
   .preview-header {
@@ -439,7 +437,7 @@
     display: flex; align-items: center; justify-content: center;
     width: 2.25rem; height: 2.25rem;
     background: var(--base02);
-    border: none; border-radius: 1.0rem;
+    border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer;
   }
   .menu-btn:active { transform: scale(0.94); }
@@ -501,7 +499,7 @@
   .export-sheet-close {
     width: 1.75rem; height: 1.75rem;
     display: flex; align-items: center; justify-content: center;
-    background: var(--base02); border: none; border-radius: 1.0rem;
+    background: var(--base02); border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer;
   }
   .export-sheet-close:hover { outline: 2px solid var(--hout); outline-offset: -2px; }
@@ -509,7 +507,7 @@
   .export-sheet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
   .export-sheet-btn {
     display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
-    padding: 0.625rem; background: var(--base02); border: none; border-radius: 1.0rem;
+    padding: 0.625rem; background: var(--base02); border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer; font-family: inherit; font-size: 0.75rem;
   }
   .export-sheet-btn:active { transform: scale(0.96); }
@@ -552,7 +550,7 @@
   }
   .doc-nav-btn {
     padding: 0.5rem 0.75rem;
-    border: none; border-radius: 1.0rem;
+    border: none; border-radius: var(--r);
     background: var(--base02);
     color: var(--base05);
     font-size: 0.75rem; font-weight: 500;
@@ -574,7 +572,7 @@
   #docMobileToggle {
     display: none;
     padding: 0.375rem;
-    background: var(--base02); border: none; border-radius: 1.0rem;
+    background: var(--base02); border: none; border-radius: var(--r);
     color: var(--base05); cursor: pointer;
   }
 
