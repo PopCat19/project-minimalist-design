@@ -146,6 +146,7 @@ export function renderStackGrid(
 		tint: string;
 		opacity: number;
 		offset?: number;
+		hasBlur?: boolean;
 		role: string;
 	}
 
@@ -155,28 +156,29 @@ export function renderStackGrid(
 			base: "0x",
 			tint: "8x",
 			opacity: 0.4,
-			role: "flyout container (w/ blur)",
+			hasBlur: true,
+			role: "translucent flyout surface",
 		},
 		{
 			label: "8×80%",
 			base: "0x",
 			tint: "8x",
 			opacity: 0.8,
-			role: "deep surface",
+			role: "art-showing surface",
 		},
 		{
 			label: "80×8%",
 			base: "8x",
 			tint: "80x",
 			opacity: 0.08,
-			role: "interactable hint",
+			role: "interactable surface hint",
 		},
 		{
 			label: "80×48%",
 			base: "8x",
 			tint: "80x",
 			opacity: 0.48,
-			role: "muted / inactive track",
+			role: "muted text / inactive track",
 		},
 		{
 			label: "88×24%",
@@ -186,19 +188,12 @@ export function renderStackGrid(
 			role: "disabled foreground",
 		},
 		{
-			label: "64×80%",
-			base: "8x",
-			tint: "64x",
-			opacity: 0.8,
-			role: "subdued accent",
-		},
-		{
 			label: "88×12",
 			base: "88x",
 			tint: "88x",
 			opacity: 1.0,
 			offset: 12,
-			role: "priority alert (+12°)",
+			role: "priority alert",
 		},
 		{
 			label: "80×8%+12",
@@ -230,7 +225,7 @@ export function renderStackGrid(
 
 			return `
         <div class="color-card" onclick="window.handleColorClick(event, '${hex}', 'composite(${def.base}, ${def.tint}, ${def.opacity.toFixed(2)})')">
-            <div class="color-swatch stack-swatch" style="--swatch: ${rgba}; color: ${txt}">
+            <div class="color-swatch stack-swatch${def.hasBlur ? " blur" : ""}" style="--swatch: ${rgba}; color: ${txt}">
                 <div class="swatch-hex">${hex}</div>
                 <div class="swatch-oklch">${def.label}</div>
             </div>

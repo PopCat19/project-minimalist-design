@@ -314,6 +314,10 @@
     position: relative;
     z-index: 1;
   }
+  .stack-swatch.blur::before {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
 
   .color-info { padding: 0.5rem 0.625rem; }
   .color-name {
