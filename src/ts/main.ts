@@ -23,6 +23,7 @@ import {
 	handleColorClick,
 	renderCodePreview,
 	renderColorGrid,
+	renderComponentReference,
 	renderFoundationGrid,
 	renderPresets,
 	renderStackGrid,
@@ -138,6 +139,7 @@ function renderColors(): void {
 	renderFoundationGrid("foundationGrid", pmdVars, currentHue);
 	renderStackGrid("stackGrid", pmdVars, currentHue);
 	renderUIPreview("uiPreview", colors, pmdVars, currentHue);
+	renderComponentReference(pmdVars, currentHue);
 
 	renderColorGrid("bgColors", base16Defs.bg, colors);
 	renderColorGrid("fgColors", base16Defs.fg, colors);

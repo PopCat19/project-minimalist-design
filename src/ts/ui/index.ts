@@ -13,6 +13,7 @@ export {
 	handleColorClick,
 	renderCodePreview,
 	renderColorGrid,
+	renderComponentReference,
 	renderFoundationGrid,
 	renderStackGrid,
 	renderUIPreview,

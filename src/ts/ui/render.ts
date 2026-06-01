@@ -402,6 +402,166 @@ export function renderCodePreview(
 	if (accentEl) accentEl.textContent = colors.base0D.hex;
 }
 
+export function renderComponentReference(pmd: PMDVariables, hue: number): void {
+	const container = document.getElementById("componentReference");
+	if (!container) return;
+
+	const hex = (key: string, hOff?: number) => {
+		const s = pmd[key];
+		if (!s) return "#000";
+		const rgb = oklchToRgb(s.l, s.c, hOff ? (hue + hOff) % 360 : hue);
+		return rgbToHex(rgb);
+	};
+	const stackHex = (
+		baseKey: string,
+		tintKey: string,
+		alpha: number,
+		hOff?: number,
+	) => {
+		const b = pmd[baseKey];
+		const t = pmd[tintKey];
+		if (!b || !t) return "#000";
+		const rgb = oklchToRgb(
+			b.l * (1 - alpha) + t.l * alpha,
+			b.c * (1 - alpha) + t.c * alpha,
+			hOff ? (hue + hOff) % 360 : hue,
+		);
+		return rgbToHex(rgb);
+	};
+
+	const h80x = hex("80x");
+	const h88x = hex("88x");
+	const h64x = hex("64x");
+	const h8x = hex("8x");
+	const h100x = hex("100x");
+	const h80x48 = stackHex("8x", "80x", 0.48);
+	const h80x8 = stackHex("8x", "80x", 0.08);
+	const h88x24 = stackHex("8x", "88x", 0.24);
+	const hAlertBorder = hex("88x", 12);
+
+	const root = document.documentElement;
+
+	if (!container.dataset.ready) {
+		container.innerHTML = [
+			// Buttons
+			`<div class="cref-group"><h3 class="cref-group-title">Buttons</h3><div class="cref-grid">`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-btn-cta" style="background:var(--cref-cta-bg);color:var(--cref-cta-fg)">CTA</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Surface</span><span class="cref-tok-stack">80×8%</span><span class="cref-tok-var">--base02</span><span class="cref-tok-hex" data-cref="cta-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Text</span><span class="cref-tok-stack">100x</span><span class="cref-tok-var">--base07</span><span class="cref-tok-hex" data-cref="cta-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Weight</span><span class="cref-tok-stack">—</span><span class="cref-tok-var">500</span></div><div class="cref-tok-row"><span class="cref-tok-prop">Radius</span><span class="cref-tok-stack">—</span><span class="cref-tok-var">1rem</span></div></div><div class="cref-label">CTA</div></div>`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-btn-subtle" style="background:var(--cref-subtle-bg);color:var(--cref-subtle-fg)">Subtle</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Surface</span><span class="cref-tok-stack">8x</span><span class="cref-tok-var">--base01</span><span class="cref-tok-hex" data-cref="subtle-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Text</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="subtle-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Weight</span><span class="cref-tok-stack">—</span><span class="cref-tok-var">500</span></div><div class="cref-tok-row"><span class="cref-tok-prop">Radius</span><span class="cref-tok-stack">—</span><span class="cref-tok-var">1rem</span></div></div><div class="cref-label">Subtle</div></div>`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-btn-hair" style="color:var(--cref-hair-fg); outline-color:var(--cref-hair-ol)">Hairline</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Text</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="hair-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Outline</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="hair-ol"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Weight</span><span class="cref-tok-stack">—</span><span class="cref-tok-var">500</span></div></div><div class="cref-label">Hairline</div></div>`,
+			`</div></div>`,
+			// Tabs
+			`<div class="cref-group"><h3 class="cref-group-title">Tabs</h3><div class="cref-grid"><div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-tab"><div class="cref-tab-seg" style="background:var(--cref-tab-sel-bg);color:var(--cref-tab-sel-fg);padding:0.25rem 0.625rem;border-radius:var(--r);font-size:var(--fs);font-weight:600">Music</div><div class="cref-tab-seg" style="padding:0.25rem 0.625rem;font-size:var(--fs);font-weight:500;color:var(--cref-tab-unsel-fg)">Output</div></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Fill</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="tab-sel-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Text on</span><span class="cref-tok-stack">4x</span><span class="cref-tok-var">--base01</span><span class="cref-tok-hex" data-cref="tab-sel-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Muted</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="tab-unsel-fg"></span></div></div><div class="cref-label">Selected · Unselected</div></div></div></div>`,
+			// Togglables
+			`<div class="cref-group"><h3 class="cref-group-title">Togglables</h3><div class="cref-grid">`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.5rem;display:flex"><div class="cref-toggle-box"><div class="cref-chk on" style="background:var(--cref-chk-on-bg);border-color:var(--cref-chk-on-bg)"></div><span style="font-size:0.625rem;color:var(--base05)">On</span></div><div class="cref-toggle-box"><div class="cref-chk" style="border-color:var(--cref-chk-off-bg)"></div><span style="font-size:0.625rem;color:var(--base03)">Off</span></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Fill(on)</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="chk-on-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Border(off)</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="chk-off-bg"></span></div></div><div class="cref-label">Checkbox</div></div>`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.5rem;display:flex"><div class="cref-toggle-box"><div class="cref-switch on" style="background:var(--cref-sw-on-bg)"></div><span style="font-size:0.625rem;color:var(--base05)">On</span></div><div class="cref-toggle-box"><div class="cref-switch" style="background:var(--cref-sw-off-bg)"></div><span style="font-size:0.625rem;color:var(--base03)">Off</span></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Fill(on)</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="sw-on-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Track(off)</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="sw-off-bg"></span></div></div><div class="cref-label">Switch</div></div>`,
+			`</div></div>`,
+			// Pagination
+			`<div class="cref-group"><h3 class="cref-group-title">Pagination</h3><div class="cref-grid"><div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-pagination"><div class="cref-dot active" style="background:var(--cref-dot-active)"></div><div class="cref-dot" style="background:var(--cref-dot-inactive)"></div><div class="cref-dot" style="background:var(--cref-dot-inactive)"></div><div class="cref-dot" style="background:var(--cref-dot-inactive)"></div></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Active</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="dot-active"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Inactive</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="dot-inactive"></span></div></div><div class="cref-label">Page Dots</div></div></div></div>`,
+			// Notifications
+			`<div class="cref-group"><h3 class="cref-group-title">Notifications</h3><div class="cref-grid">`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-notif-pri" style="background:var(--cref-alert-bg);border-color:var(--cref-alert-border);color:var(--cref-alert-fg)">Priority Alert</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Surface</span><span class="cref-tok-stack">80×8%+12</span><span class="cref-tok-var">—</span><span class="cref-tok-hex" data-cref="alert-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Text</span><span class="cref-tok-stack">88×12</span><span class="cref-tok-var">—</span><span class="cref-tok-hex" data-cref="alert-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Border</span><span class="cref-tok-stack">88×12</span><span class="cref-tok-var">—</span><span class="cref-tok-hex" data-cref="alert-border"></span></div></div><div class="cref-label">Priority Alert</div></div>`,
+			`<div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel)"><div class="cref-notif-std" style="background:var(--cref-notif-bg)"><div style="font-weight:600;font-size:0.75rem;color:var(--cref-notif-h);margin-bottom:0.125rem">Title · 88x</div><div style="font-size:0.625rem;color:var(--cref-notif-bd)">Body · 80x</div></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Surface</span><span class="cref-tok-stack">8x</span><span class="cref-tok-var">--base01</span><span class="cref-tok-hex" data-cref="notif-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Title</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="notif-h"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Body</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="notif-bd"></span></div></div><div class="cref-label">Standard</div></div>`,
+			`</div></div>`,
+			// Slider
+			`<div class="cref-group"><h3 class="cref-group-title">Slider</h3><div class="cref-grid"><div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);flex-direction:column;align-items:stretch;gap:0.25rem"><div style="display:flex;justify-content:space-between"><span style="font-size:0.625rem;font-weight:600;color:var(--base06)">40%</span><span style="font-size:0.625rem;font-weight:500;color:var(--base03)">100%</span></div><div class="cref-slider-compact"><div class="cref-sl-fill" style="background:var(--cref-sl-fill)"></div><div class="cref-sl-knob" style="background:var(--cref-sl-fill)"></div><div class="cref-sl-track" style="background:var(--cref-sl-track)"><div style="margin-left:auto;margin-right:0.25rem"><div class="cref-sl-dot" style="background:var(--cref-sl-dot)"></div></div></div></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Fill</span><span class="cref-tok-stack">88x</span><span class="cref-tok-var">--base06</span><span class="cref-tok-hex" data-cref="sl-fill"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Track</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="sl-track"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Stop</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="sl-dot"></span></div></div><div class="cref-label">Compact</div></div></div></div>`,
+			// Workspace Cards
+			`<div class="cref-group"><h3 class="cref-group-title">Workspace Cards</h3><div class="cref-grid"><div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);gap:0.375rem;display:flex"><div class="cref-ws-card" style="background:var(--cref-ws-cur-bg);border:2px solid var(--cref-ws-cur-border);color:var(--cref-ws-cur-fg)">1</div><div class="cref-ws-card" style="background:var(--cref-ws-pres-bg);border:2px solid var(--cref-ws-pres-border);color:var(--cref-ws-pres-fg)">2</div><div class="cref-ws-card" style="background:var(--cref-ws-empty-bg);border:2px solid var(--cref-ws-empty-border);color:var(--cref-ws-empty-fg)">3</div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Current</span><span class="cref-tok-stack">8x·88x</span><span class="cref-tok-hex" data-cref="ws-cur-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Present</span><span class="cref-tok-stack">8x·64x</span><span class="cref-tok-hex" data-cref="ws-pres-bg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Empty</span><span class="cref-tok-stack">8×80%</span><span class="cref-tok-hex" data-cref="ws-empty-bg"></span></div></div><div class="cref-label">Current · Present · Empty</div></div></div></div>`,
+			// Input & Indicator
+			`<div class="cref-group"><h3 class="cref-group-title">Input & Indicator</h3><div class="cref-grid"><div class="cref-card"><div class="cref-preview" style="background:var(--cref-panel);flex-direction:column;gap:0.25rem"><div class="cref-input" style="outline-color:var(--cref-num-ol);color:var(--cref-num-fg)">30°</div><div class="cref-track-fill" style="background:var(--cref-trk-fill)"><span class="cref-track-label" style="color:var(--cref-trk-label)">72%</span></div></div><div class="cref-tokens"><div class="cref-tok-row"><span class="cref-tok-prop">Input OL</span><span class="cref-tok-stack">80×48%</span><span class="cref-tok-var">--base03</span><span class="cref-tok-hex" data-cref="num-ol"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Input FG</span><span class="cref-tok-stack">80x</span><span class="cref-tok-var">--base05</span><span class="cref-tok-hex" data-cref="num-fg"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Track</span><span class="cref-tok-stack">88×24%</span><span class="cref-tok-hex" data-cref="trk-fill"></span></div><div class="cref-tok-row"><span class="cref-tok-prop">Label</span><span class="cref-tok-stack">surface-under</span><span class="cref-tok-hex" data-cref="trk-label"></span></div></div><div class="cref-label">Number Input + Filled Track</div></div></div></div>`,
+		].join("");
+		container.dataset.ready = "1";
+	}
+
+	// Update CSS variables for live theme changes
+	root.style.setProperty("--cref-panel", hex("4x"));
+	root.style.setProperty("--cref-cta-bg", h80x8);
+	root.style.setProperty("--cref-cta-fg", h100x);
+	root.style.setProperty("--cref-subtle-bg", h8x);
+	root.style.setProperty("--cref-subtle-fg", h80x);
+	root.style.setProperty("--cref-hair-fg", h80x);
+	root.style.setProperty("--cref-hair-ol", h80x48);
+	root.style.setProperty("--cref-tab-sel-bg", h88x);
+	root.style.setProperty("--cref-tab-sel-fg", hex("4x"));
+	root.style.setProperty("--cref-tab-unsel-fg", h80x48);
+	root.style.setProperty("--cref-chk-on-bg", h88x);
+	root.style.setProperty("--cref-chk-off-bg", h80x);
+	root.style.setProperty("--cref-sw-on-bg", h88x);
+	root.style.setProperty("--cref-sw-off-bg", h80x48);
+	root.style.setProperty("--cref-dot-active", h88x);
+	root.style.setProperty("--cref-dot-inactive", h80x48);
+	root.style.setProperty("--cref-alert-bg", stackHex("8x", "80x", 0.08, 12));
+	root.style.setProperty("--cref-alert-border", hAlertBorder);
+	root.style.setProperty("--cref-alert-fg", hex("88x", 12));
+	root.style.setProperty("--cref-notif-bg", h8x);
+	root.style.setProperty("--cref-notif-h", h88x);
+	root.style.setProperty("--cref-notif-bd", h80x);
+	root.style.setProperty("--cref-sl-fill", h88x);
+	root.style.setProperty("--cref-sl-track", h80x48);
+	root.style.setProperty("--cref-sl-dot", h80x);
+	root.style.setProperty("--cref-ws-cur-bg", h8x);
+	root.style.setProperty("--cref-ws-cur-border", h88x);
+	root.style.setProperty("--cref-ws-cur-fg", h88x);
+	root.style.setProperty("--cref-ws-pres-bg", h8x);
+	root.style.setProperty("--cref-ws-pres-border", h64x);
+	root.style.setProperty("--cref-ws-pres-fg", h64x);
+	{
+		const ws8x = pmd["8x"];
+		if (!ws8x) return;
+		const rgb = oklchToRgb(ws8x.l, ws8x.c, hue);
+		root.style.setProperty(
+			"--cref-ws-empty-bg",
+			`rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.8)`,
+		);
+	}
+	root.style.setProperty("--cref-ws-empty-border", h88x24);
+	root.style.setProperty("--cref-ws-empty-fg", h88x24);
+	root.style.setProperty("--cref-num-ol", h80x48);
+	root.style.setProperty("--cref-num-fg", h80x);
+	root.style.setProperty("--cref-trk-fill", stackHex("4x", "88x", 0.24));
+	root.style.setProperty("--cref-trk-label", hex("4x"));
+
+	// Update hex token text
+	const hexMap: Record<string, string> = {
+		"cta-bg": h80x8,
+		"cta-fg": h100x,
+		"subtle-bg": h8x,
+		"subtle-fg": h80x,
+		"hair-fg": h80x,
+		"hair-ol": h80x48,
+		"tab-sel-bg": h88x,
+		"tab-sel-fg": hex("4x"),
+		"tab-unsel-fg": h80x48,
+		"chk-on-bg": h88x,
+		"chk-off-bg": h80x,
+		"sw-on-bg": h88x,
+		"sw-off-bg": h80x48,
+		"dot-active": h88x,
+		"dot-inactive": h80x48,
+		"alert-bg": stackHex("8x", "80x", 0.08, 12),
+		"alert-border": hAlertBorder,
+		"alert-fg": hex("88x", 12),
+		"notif-bg": h8x,
+		"notif-h": h88x,
+		"notif-bd": h80x,
+		"sl-fill": h88x,
+		"sl-track": h80x48,
+		"sl-dot": h80x,
+		"ws-cur-bg": h8x,
+		"ws-pres-bg": h8x,
+		"ws-empty-bg": stackHex("8x", "0x", 0.8),
+		"num-ol": h80x48,
+		"num-fg": h80x,
+		"trk-fill": stackHex("4x", "88x", 0.24),
+		"trk-label": hex("4x"),
+	};
+
+	container.querySelectorAll("[data-cref]").forEach((el) => {
+		const key = (el as HTMLElement).dataset.cref;
+		if (key && hexMap[key]) (el as HTMLElement).textContent = hexMap[key];
+	});
+}
+
 export function renderUIPreview(
 	containerId: string,
 	_colors: Base16Palette,
