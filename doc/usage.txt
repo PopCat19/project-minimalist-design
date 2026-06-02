@@ -10,6 +10,8 @@ Core Principles:
 3. Leverage mutable variables for global adjustments
 4. Maintain top-down (Z-layer) and Left-to-Right hierarchy
 5. Verify both light and dark schemes for accessibility
+6. Use base02 (80×8%) as the single canonical surface for all
+   interactive components — never vary it based on parent context
 
 General Implementation:
 - Use the TypeScript PMD library (src/ts/pmd/) for programmatic palette generation

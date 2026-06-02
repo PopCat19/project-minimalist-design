@@ -52,6 +52,11 @@ Surface Layering:
   canonical widget background — the visual equivalent of
   composite(8x, 80x, 0.08).
 
+  base02 (80×8%) is contrast-stable: it reads equally well
+  against a 4x floor (dark) or an 8×40% flyout (translucent).
+  Widgets never change their surface colour to adapt to their
+  parent — the single canonical value works everywhere.
+
   Checkerboard previews for alpha surfaces use a mask-image
   over a background-color so the tile colour can transition
   smoothly during hue rotation.

@@ -41,6 +41,11 @@ Widget Surfaces:
   Every clickable element must have a surface background —
   never transparent on a bare parent.
 
+  base02 (80×8%) provides sufficient contrast against every
+  valid background surface in the system — 4x floor and
+  8×40% flyout alike. Components never vary their surface
+  colour based on what sits beneath them.
+
 Grouped Component Radii:
   Adjacent elements in a group use asymmetric radii to signal
   position without borders or dividers:
