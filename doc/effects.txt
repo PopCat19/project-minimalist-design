@@ -29,7 +29,7 @@ Hover and Focus Feedback:
   without competing with content. Input fields default to
   80×48% (matching the slider inactive track) and override to
   100x on focus to signal "editing now." Optionally, elements
-  that need constant contrast may always show an 80×12% outline
+  that need constant contrast may always show an 80×8% outline
   as a persistent boundary. Never use scale or translate
   animations on hover. :active may use scale(0.96).
 
@@ -42,15 +42,15 @@ Border-Radius — Three Categories:
 Borders — Only Two Cases:
   1. Priority alerts: 2px solid, alert-column 88x at 100%
   2. Control clusters (pagination, source switch, media
-     controls): 2px solid, 80×12%
+     controls): 2px solid, 80×8%
   Standalone interactive elements (reply buttons, copy
   buttons, toggles) never use borders.
 
 Surface Layering:
   Widget surfaces (bars, cards, button containers) are built
-  as 8x at 100% layered with an 80×12% tint. This is the
+  as 8x at 100% layered with an 80×8% tint. This is the
   canonical widget background — the visual equivalent of
-  composite(8x, 80x, 0.12).
+  composite(8x, 80x, 0.08).
 
   Checkerboard previews for alpha surfaces use a mask-image
   over a background-color so the tile colour can transition

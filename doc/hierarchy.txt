@@ -33,7 +33,7 @@ Source name         80x      100%      Small secondary heading
 Timestamp, Meta     80x      48%       Muted — never full opacity
 Subtext, Link       64x      100%      Default
 Unit affix          80x      48%       Annotation symbol, 8px / 700
-Surface hint        80×12%     —         Interactive bg (buttons)
+Surface hint        80×8%     —         Interactive bg (buttons)
 Surface             8x       100%      Solid card / panel bg
 Flyout surface      8×40%     —         Translucent over 0x
 Background          4x       —         Floor, never foreground

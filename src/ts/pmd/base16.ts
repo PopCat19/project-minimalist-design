@@ -54,7 +54,7 @@ export function getBase16Defs(
 		bg: [
 			{ id: "base00", pmd: "4x", desc: "Background", ...pmd["4x"] },
 			{ id: "base01", pmd: "8x", desc: "Base Container", ...pmd["8x"] },
-			{ id: "base02", pmd: "80×12%", desc: "Surface", ...computed.surface },
+			{ id: "base02", pmd: "80×8%", desc: "Surface", ...computed.surface },
 			{
 				id: "base03",
 				pmd: "80×48%",

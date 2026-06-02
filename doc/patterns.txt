@@ -22,7 +22,7 @@ Button Groups (Tabs, Pagination, Media Controls):
     - Middle:  8px 8px 8px 8px
     - Last:    8px 16px 16px 8px
     - Standalone: 16px all corners
-  Borders (2px solid 80×12%) appear only on control clusters —
+  Borders (2px solid 80×8%) appear only on control clusters —
   pagination arrows, source-switch buttons, prev/next controls.
   Standalone buttons never have borders.
 
@@ -36,7 +36,7 @@ Title-Date Rows:
 Icon-Only Action Buttons:
   32×24px, no text label. Icon at 88x 100%. The background
   surface matches the parent card's hue column — green cards
-  use 80×12%, alert cards use the alert column's 80×12 at 8%.
+  use 80×8%, alert cards use the alert column's 80×12 at 8%.
 
 Active vs Inactive Device:
   In device lists, the active item uses the alert hue column

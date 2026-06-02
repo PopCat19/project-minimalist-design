@@ -6,7 +6,7 @@ the TypeScript module `src/ts/pmd/base16.ts` and the Nix module
 
 Slot Construction:
   - base00–base01: Direct foundation slot mapping
-  - base02:        composited surface (80×12%)
+  - base02:        composited surface (80×8%)
   - base03:        baked muted (80×48%)
   - base04–base07: Direct foundation slot mapping
   - base08–base0E: Accent colours with hue rotation

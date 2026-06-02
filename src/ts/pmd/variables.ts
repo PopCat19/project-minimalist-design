@@ -72,7 +72,7 @@ export function getComputed(pmd: PMDVariables): {
 	muted: PMDVariable;
 } {
 	return {
-		surface: composite(pmd["8x"], pmd["80x"], 0.12),
+		surface: composite(pmd["8x"], pmd["80x"], 0.08),
 		muted: composite(pmd["8x"], pmd["80x"], 0.48),
 	};
 }

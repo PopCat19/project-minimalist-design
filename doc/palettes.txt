@@ -7,7 +7,7 @@ Mapping Table:
   ──────  ────────────  ──────────────────────────
   base00  4x            True background (deepest)
   base01  8x            Base container
-  base02  80×12%         Surface (composited)
+  base02  80×8%         Surface (composited)
   base03  80×48%        Muted / comments (baked)
   base04  64x           Subtext / secondary metadata
   base05  80x           Body text (main reading)

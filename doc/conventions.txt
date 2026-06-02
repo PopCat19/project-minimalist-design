@@ -8,7 +8,7 @@ Border-Radius:
 Borders:
   Never used on standalone interactive elements. Only two cases:
     1. Priority alerts: 2px solid, alert-column 88x at 100%
-    2. Control clusters: 2px solid, 80×12%
+    2. Control clusters: 2px solid, 80×8%
 
 No Shadows, No Gradients:
   Depth is communicated through lightness tier alone.
@@ -17,13 +17,13 @@ CSS Tokens:
   `--r`      1rem (16px) standard border-radius.
   `--fs`     0.75rem (12px) body font-size.
   `--hout`   Hover outline colour. Default 80x (base05).
-             CTA active states override to 80×12% (base02).
+             CTA active states override to 80×8% (base02).
   `--ease`   cubic-bezier(0.4, 0, 0.2, 1) global timing.
 
 Hover Feedback:
   Use a `--hout` custom property for hover outlines. Default
   value is 80x (body-text tier). Active/CTA elements (88x
-  fill) override to 80×12% — the opposite tier always contrasts
+  fill) override to 80×8% — the opposite tier always contrasts
   regardless of scheme. All hover rules reference `var(--hout)`,
   not per-component hardcodes.
 
@@ -31,13 +31,13 @@ Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
   uses the colour of the surface beneath the fill — not a
   computed contrast colour, not a fixed tier. If the surface
-  immediately beneath is alpha-composited (80×12%, 80×48%),
+  immediately beneath is alpha-composited (80×8%, 80×48%),
   skip it and use the next opaque surface below. This keeps
   the text anchored to context rather than floating free.
 
 Widget Surfaces:
-  Built as 8x at 100% layered with 80×12% tint. This is the
-  canonical widget background: composite(8x, 80x, 0.12).
+  Built as 8x at 100% layered with 80×8% tint. This is the
+  canonical widget background: composite(8x, 80x, 0.08).
   Every clickable element must have a surface background —
   never transparent on a bare parent.
 
