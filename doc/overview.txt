@@ -27,7 +27,7 @@ levels. Each has a hand-picked canonical value at the reference hue:
   0x      canvas extreme        0.00 / 0.000    1.00 / 0.000
 
 Derived Stack Expressions:
-  80×8%  = composite(8x, 80x, 0.08)  interactable surface hint
+  80×12%  = composite(8x, 80x, 0.12)  interactable surface hint
   80×48% = composite(8x, 80x, 0.48)  muted text / inactive track
   88×24% = composite(8x, 88x, 0.24)  disabled foreground
   8×40%  = composite(0x, 8x, 0.40)   flyout / semi-base

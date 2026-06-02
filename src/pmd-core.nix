@@ -89,7 +89,7 @@ let
     composite pmd."0x" fg alpha;
 
   computeDerived = pmd: {
-    surface = composite pmd."8x" pmd."80x" 0.08;
+    surface = composite pmd."8x" pmd."80x" 0.12;
     muted = composite pmd."8x" pmd."80x" 0.48;
   };
 

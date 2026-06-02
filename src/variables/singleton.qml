@@ -31,7 +31,7 @@ QtObject {
     readonly property real borderDefault: 0.125 * rem
     readonly property real borderThick: 0.25 * rem
 
-    readonly property real opacity8: 0.08
+    readonly property real opacity12: 0.12
     readonly property real opacity24: 0.24
     readonly property real opacity40: 0.40
     readonly property real opacity48: 0.48

@@ -14,7 +14,7 @@ Foundation Slots (hand-picked OKLCH {l, c} per variant):
 
 Naming Convention:
   -x × opacity%  [+hueColumn]
-  Example: 80×8% = 80x tint at 8% over 8x base
+  Example: 80×12% = 80x tint at 8% over 8x base
            88×12  = 88x tint at 100% from hue column 12 (alert)
 
 Compositing:
