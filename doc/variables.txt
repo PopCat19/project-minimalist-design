@@ -7,7 +7,7 @@ Foundation Slots (hand-picked OKLCH {l, c} per variant):
   100x   1.00 / 0.000      0.00 / 0.000      Absolute endpoints
   88x    0.88 / 0.056      0.28 / 0.032      Primary / headings
   80x    0.80 / 0.100      0.20 / 0.032      Secondary / body
-  64x    0.64 / 0.111      0.36 / 0.058      Accent / subtext
+  64x    0.64 / 0.111      0.40 / 0.058      Accent / subtext
   8x     0.20 / 0.032      0.88 / 0.056      Base surface
   4x     0.16 / 0.022      0.92 / 0.044      Deep background
   0x     0.00 / 0.000      1.00 / 0.000      Canvas extreme
@@ -33,3 +33,20 @@ Accent Hue Offsets (for Base16 mapping):
   base0D: +30°  (Functions)
   base0E: -30°  (Keywords)
   Rotation: rot(base, deg) = (base + deg + 360) mod 360
+
+Light Accent L-Floor (architectural rule):
+  The 64x slot in the light scheme has a hard floor of l >= 0.32, enforced
+  in the generator (see getAccentL in src/ts/pmd/variables.ts and the
+  accentL binding in src/pmd-core.nix mkBase16Slots). The canonical default
+  sits at 0.40 — comfortably above the floor — so the floor is a backstop,
+  not the normal case.
+
+  Rationale: on a near-white background (light 8x = 0.88, 4x = 0.92),
+  accents below l ≈ 0.32 lose legible contrast and shift toward washed-out
+  pastels. The dark scheme is unaffected: 64x.l = 0.64 sits well above
+  the dark background (4x = 0.16) at any hue, so a floor would be
+  meaningless and would falsely imply a universal constraint.
+
+  This rule applies to every Base16 slot that reads 64x.l (subtext base04,
+  accent base09 / base0B / base0E) — keeping the floor in one place rather
+  than scattered across the mapping table.

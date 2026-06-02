@@ -58,7 +58,7 @@ let
       c = 0.032;
     };
     "64x" = {
-      l = 0.36;
+      l = 0.40;
       c = 0.058;
     };
     "8x" = {
@@ -98,7 +98,12 @@ let
     let
       rot = base: deg: lib.mod (base + deg + 360) 360;
       isLight = pmd."4x".l > 0.5;
-      accentL = pmd."64x".l;
+      # Light-scheme accent l-floor: prevents muddy/washed-out accents on
+      # near-white surfaces. Dark scheme is unaffected because accents sit
+      # well above the dark background even at low l.
+      lightAccentLMin = 0.32;
+      rawAccentL = pmd."64x".l;
+      accentL = if isLight then lib.max lightAccentLMin rawAccentL else rawAccentL;
       accentC = if isLight then 0.122 else pmd."64x".c;
     in
     {
@@ -120,7 +125,8 @@ let
       };
 
       base04 = {
-        inherit (pmd."64x") l c;
+        l = accentL;
+        c = pmd."64x".c;
         h = root;
       };
       base05 = {

@@ -29,7 +29,7 @@ export const PMD_LIGHT: PMDVariables = {
 	"100x": { l: 0.0, c: 0.0 },
 	"88x": { l: 0.28, c: 0.032 },
 	"80x": { l: 0.2, c: 0.032 },
-	"64x": { l: 0.36, c: 0.058 },
+	"64x": { l: 0.4, c: 0.058 },
 	"8x": { l: 0.88, c: 0.056 },
 	"4x": { l: 0.92, c: 0.044 },
 	"0x": { l: 1.0, c: 0.0 },
@@ -78,6 +78,18 @@ export function getComputed(pmd: PMDVariables): {
 }
 
 export const HUE_MAX = 360;
+
+// Light-scheme accent l-floor: prevents muddy/washed-out accents on near-white
+// surfaces. Applies only to the 64x slot (subtext + accent family) in light mode;
+// dark scheme is unaffected because accents sit well above the dark background
+// even at low l. The canonical default (0.40) sits comfortably above this
+// floor; the floor itself is a backstop, not the normal case.
+export const LIGHT_ACCENT_L_MIN = 0.32;
+
+export function getAccentL(pmd: PMDVariables, isLight: boolean): number {
+	if (!isLight) return pmd["64x"].l;
+	return Math.max(LIGHT_ACCENT_L_MIN, pmd["64x"].l);
+}
 export const AUX_HUE_OFFSET = 180;
 
 export function getAuxHue(hue: number): number {

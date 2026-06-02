@@ -75,7 +75,7 @@ var PMD_LIGHT = {
   "100x": { l: 0, c: 0 },
   "88x": { l: 0.28, c: 0.032 },
   "80x": { l: 0.2, c: 0.032 },
-  "64x": { l: 0.36, c: 0.058 },
+  "64x": { l: 0.4, c: 0.058 },
   "8x": { l: 0.88, c: 0.056 },
   "4x": { l: 0.92, c: 0.044 },
   "0x": { l: 1, c: 0 }
@@ -93,6 +93,12 @@ function getComputed(pmd) {
   };
 }
 var HUE_MAX = 360;
+var LIGHT_ACCENT_L_MIN = 0.32;
+function getAccentL(pmd, isLight) {
+  if (!isLight)
+    return pmd["64x"].l;
+  return Math.max(LIGHT_ACCENT_L_MIN, pmd["64x"].l);
+}
 var AUX_HUE_OFFSET = 180;
 function getAuxHue(hue) {
   return (hue + AUX_HUE_OFFSET) % HUE_MAX;
@@ -111,6 +117,9 @@ function formatOklch(l, c, h) {
   return `oklch(${l.toFixed(OKLCH_PRECISION)} ${c.toFixed(OKLCH_PRECISION)} ${Math.round(h)})`;
 }
 function getBase16Defs(pmd, computed) {
+  const isLight = pmd["4x"].l > 0.5;
+  const accentL = getAccentL(pmd, isLight);
+  const accentC = pmd["64x"].c;
   return {
     bg: [
       { id: "base00", pmd: "4x", desc: "Background", ...pmd["4x"] },
@@ -125,7 +134,13 @@ function getBase16Defs(pmd, computed) {
       }
     ],
     fg: [
-      { id: "base04", pmd: "64x", desc: "Subtext", ...pmd["64x"] },
+      {
+        id: "base04",
+        pmd: "64x",
+        desc: "Subtext",
+        l: accentL,
+        c: pmd["64x"].c
+      },
       { id: "base05", pmd: "80x", desc: "Body Text", ...pmd["80x"] },
       { id: "base06", pmd: "88x", desc: "Headers", ...pmd["88x"] },
       { id: "base07", pmd: "100x", desc: "Max Contrast", ...pmd["100x"] }
@@ -141,8 +156,8 @@ function getBase16Defs(pmd, computed) {
       {
         id: "base09",
         pmd: "64x+290",
-        l: pmd["64x"].l,
-        c: pmd["64x"].c,
+        l: accentL,
+        c: accentC,
         offset: 290,
         desc: "Constants"
       },
@@ -156,8 +171,8 @@ function getBase16Defs(pmd, computed) {
       {
         id: "base0B",
         pmd: "64x",
-        l: pmd["64x"].l,
-        c: pmd["64x"].c,
+        l: accentL,
+        c: accentC,
         desc: "Strings"
       },
       {
@@ -179,8 +194,8 @@ function getBase16Defs(pmd, computed) {
       {
         id: "base0E",
         pmd: "64x-30",
-        l: pmd["64x"].l,
-        c: pmd["64x"].c,
+        l: accentL,
+        c: accentC,
         offset: -30,
         desc: "Keywords"
       },
@@ -198,7 +213,7 @@ function generatePalette(hue, pmd, computed, isHueLocked, lockedHueValue) {
   const defs = getBase16Defs(pmd, computed);
   const accentHue = isHueLocked ? lockedHueValue : hue;
   const isLight = pmd["4x"].l > 0.5;
-  const accentL = pmd["64x"].l;
+  const accentL = getAccentL(pmd, isLight);
   const accentC = isLight ? 0.122 : pmd["64x"].c;
   const colors = {};
   [...defs.bg, ...defs.fg].forEach((def) => {

@@ -9,7 +9,7 @@
 import type { RGB } from "../color";
 import { rgbToHex, safeOklchToRgb } from "../color";
 import type { PMDVariables } from "./variables";
-import { type getComputed, HUE_MAX } from "./variables";
+import { getAccentL, type getComputed, HUE_MAX } from "./variables";
 
 const OKLCH_PRECISION = 3;
 
@@ -50,6 +50,9 @@ export function getBase16Defs(
 	fg: Base16Def[];
 	accent: Base16Def[];
 } {
+	const isLight = pmd["4x"].l > 0.5;
+	const accentL = getAccentL(pmd, isLight);
+	const accentC = pmd["64x"].c;
 	return {
 		bg: [
 			{ id: "base00", pmd: "4x", desc: "Background", ...pmd["4x"] },
@@ -64,7 +67,13 @@ export function getBase16Defs(
 			},
 		],
 		fg: [
-			{ id: "base04", pmd: "64x", desc: "Subtext", ...pmd["64x"] },
+			{
+				id: "base04",
+				pmd: "64x",
+				desc: "Subtext",
+				l: accentL,
+				c: pmd["64x"].c,
+			},
 			{ id: "base05", pmd: "80x", desc: "Body Text", ...pmd["80x"] },
 			{ id: "base06", pmd: "88x", desc: "Headers", ...pmd["88x"] },
 			{ id: "base07", pmd: "100x", desc: "Max Contrast", ...pmd["100x"] },
@@ -80,8 +89,8 @@ export function getBase16Defs(
 			{
 				id: "base09",
 				pmd: "64x+290",
-				l: pmd["64x"].l,
-				c: pmd["64x"].c,
+				l: accentL,
+				c: accentC,
 				offset: 290,
 				desc: "Constants",
 			},
@@ -95,8 +104,8 @@ export function getBase16Defs(
 			{
 				id: "base0B",
 				pmd: "64x",
-				l: pmd["64x"].l,
-				c: pmd["64x"].c,
+				l: accentL,
+				c: accentC,
 				desc: "Strings",
 			},
 			{
@@ -118,8 +127,8 @@ export function getBase16Defs(
 			{
 				id: "base0E",
 				pmd: "64x-30",
-				l: pmd["64x"].l,
-				c: pmd["64x"].c,
+				l: accentL,
+				c: accentC,
 				offset: -30,
 				desc: "Keywords",
 			},
@@ -144,7 +153,7 @@ export function generatePalette(
 	const defs = getBase16Defs(pmd, computed);
 	const accentHue = isHueLocked ? lockedHueValue : hue;
 	const isLight = pmd["4x"].l > 0.5;
-	const accentL = pmd["64x"].l;
+	const accentL = getAccentL(pmd, isLight);
 	const accentC = isLight ? 0.122 : pmd["64x"].c;
 	const colors: Base16Palette = {};
 
