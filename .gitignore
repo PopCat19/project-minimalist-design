@@ -22,3 +22,7 @@ result-*
 
 # Convention sync cache
 .dev-conventions-sync-cache/
+
+# Command Code agent local data (taste, session logs)
+.commandcode/
+/pi-session-*.html
