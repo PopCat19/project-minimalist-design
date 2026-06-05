@@ -8,7 +8,7 @@
 // - Rebuilds TypeScript on source changes
 // - Pushes live-reload to connected browsers via SSE
 
-import { watch } from "node:fs";
+import { readdirSync, statSync } from "node:fs";
 
 function tryPort(start: number, maxTries = 20): number {
 	for (let p = start; p < start + maxTries; p++) {
@@ -121,22 +121,85 @@ const server = Bun.serve({
 
 console.log(`http://localhost:${server.port}`);
 
-if (typeof watch === "function") {
-	watch("src/ts/", { recursive: true }, async (_event, filename) => {
-		console.log(`Changed: ${filename}`);
-		const ok = await rebuild();
-		if (ok) notifyReload();
-	});
+// ── Polling-based file watcher (fs.watch broken on Bun/Linux) ──
+const WATCH_PATHS = ["src/ts/", "index.html"];
+const POLL_MS = 500;
 
-	watch("index.html", (_event, _filename) => {
-		console.log("Changed: index.html");
-		notifyReload();
-	});
-} else {
-	console.warn("fs.watch unavailable — auto-rebuild disabled");
+function collectFiles(root: string, files: string[] = []): string[] {
+	try {
+		for (const entry of readdirSync(root, { withFileTypes: true })) {
+			const full = `${root}${entry.name}`;
+			if (entry.isDirectory()) {
+				collectFiles(`${full}/`, files);
+			} else if (entry.isFile()) {
+				files.push(full);
+			}
+		}
+	} catch {}
+	return files;
 }
 
+const mtimes = new Map<string, number>();
+for (const p of WATCH_PATHS) {
+	if (p.endsWith("/")) {
+		for (const f of collectFiles(p)) {
+			try { mtimes.set(f, statSync(f).mtimeMs); } catch {}
+		}
+	} else {
+		try { mtimes.set(p, statSync(p).mtimeMs); } catch {}
+	}
+}
+
+const pollTimer = setInterval(async () => {
+	let changed = false;
+	let rebuildNeeded = false;
+
+	for (const p of WATCH_PATHS) {
+		if (p.endsWith("/")) {
+			const files = collectFiles(p);
+			// Check new/deleted files too
+			const current = new Set(files);
+			for (const old of mtimes.keys()) {
+				if (old.startsWith(p) && !current.has(old)) {
+					mtimes.delete(old);
+					changed = true;
+					rebuildNeeded = true;
+				}
+			}
+			for (const f of files) {
+				try {
+					const mtime = statSync(f).mtimeMs;
+					if (mtimes.get(f) !== mtime) {
+						mtimes.set(f, mtime);
+						changed = true;
+						rebuildNeeded = true;
+						console.log(`Changed: ${f}`);
+					}
+				} catch {}
+			}
+		} else {
+			try {
+				const mtime = statSync(p).mtimeMs;
+				if (mtimes.get(p) !== mtime) {
+					mtimes.set(p, mtime);
+					changed = true;
+					console.log(`Changed: ${p}`);
+				}
+			} catch {}
+		}
+	}
+
+	if (rebuildNeeded) {
+		const ok = await rebuild();
+		if (ok) notifyReload();
+	} else if (changed) {
+		notifyReload();
+	}
+}, POLL_MS);
+
 process.on("SIGINT", () => {
+	clearInterval(pollTimer);
 	server.stop();
 	process.exit(0);
 });
+
