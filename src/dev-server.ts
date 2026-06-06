@@ -43,7 +43,8 @@ const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="
 
 function injectDevTags(html: string): string {
 	const livereload = `<script>(()=>{var e=new EventSource("${SSE_PATH}");e.onmessage=()=>location.reload();window.addEventListener("beforeunload",()=>{e.close()})})()</script>`;
-	const faviconLink = '<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+	const faviconLink =
+		'<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
 	let out = html;
 	if (out.includes("</head>")) {
 		out = out.replace("</head>", `${faviconLink}\n</head>`);
@@ -122,7 +123,10 @@ const server = Bun.serve({
 
 		if (path === "/favicon.ico" || path === "/favicon.svg") {
 			return new Response(FAVICON_SVG, {
-				headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" },
+				headers: {
+					"Content-Type": "image/svg+xml",
+					"Cache-Control": "public, max-age=86400",
+				},
 			});
 		}
 
@@ -159,10 +163,14 @@ const mtimes = new Map<string, number>();
 for (const p of WATCH_PATHS) {
 	if (p.endsWith("/")) {
 		for (const f of collectFiles(p)) {
-			try { mtimes.set(f, statSync(f).mtimeMs); } catch {}
+			try {
+				mtimes.set(f, statSync(f).mtimeMs);
+			} catch {}
 		}
 	} else {
-		try { mtimes.set(p, statSync(p).mtimeMs); } catch {}
+		try {
+			mtimes.set(p, statSync(p).mtimeMs);
+		} catch {}
 	}
 }
 
@@ -218,4 +226,3 @@ process.on("SIGINT", () => {
 	server.stop();
 	process.exit(0);
 });
-

@@ -106,8 +106,12 @@ export function renderColorGrid(
 		container.querySelectorAll(".color-card").forEach((card) => {
 			card.addEventListener("click", (e) => {
 				const id = (card as HTMLElement).dataset.b16 || "";
-				const oklchEl = card.querySelector(`[data-b16oklch="${id}"]`) as HTMLElement;
-				const hexEl = card.querySelector(`[data-b16hex="${id}"]`) as HTMLElement;
+				const oklchEl = card.querySelector(
+					`[data-b16oklch="${id}"]`,
+				) as HTMLElement;
+				const hexEl = card.querySelector(
+					`[data-b16hex="${id}"]`,
+				) as HTMLElement;
 				const hex = hexEl?.textContent || "";
 				const oklch = oklchEl?.textContent || "";
 				window.handleColorClick(e as MouseEvent, hex, oklch);
@@ -206,9 +210,7 @@ export function renderFoundationGrid(
 		const card = container.querySelector(`[data-slot="${key}"]`);
 		if (card) {
 			const hexEl = card.querySelector(`[data-hex="${key}"]`) as HTMLElement;
-			const oklchEl = card.querySelector(
-				`[data-okey="${key}"]`,
-			) as HTMLElement;
+			const oklchEl = card.querySelector(`[data-okey="${key}"]`) as HTMLElement;
 			if (hexEl) hexEl.textContent = hex;
 			if (oklchEl) {
 				oklchEl.textContent = `oklch(${slot.l.toFixed(3)} ${slot.c.toFixed(3)} ${hue})`;
