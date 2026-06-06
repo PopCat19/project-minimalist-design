@@ -39,9 +39,10 @@ function notifyReload() {
 }
 
 const SSE_PATH = "/__pmd_reload";
+const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="1" y="3" width="18" height="12" rx="4" fill="#9B7EB5" opacity="0.5"/><rect x="7" y="8" width="18" height="12" rx="4" fill="#DBBFEC" opacity="0.7"/><rect x="13" y="13" width="18" height="12" rx="4" fill="#FFFFFF"/></svg>`;
 
 function injectLivereload(html: string): string {
-	const script = `<script>(()=>{const e=new EventSource("${SSE_PATH}");e.onmessage=()=>location.reload()})()</script>`;
+	const script = `<script>(()=>{const e=new EventSource("${SSE_PATH}");e.onmessage=()=>location.reload();e.onerror=()=>{setTimeout(()=>{try{e.close()}catch{}},500)}})()</script>`;
 	if (html.includes("</body>")) {
 		return html.replace("</body>", `${script}\n</body>`);
 	}
@@ -107,6 +108,12 @@ const server = Bun.serve({
 		if (path === "/dist/main.js") {
 			return new Response(Bun.file("dist/main.js"), {
 				headers: { "Content-Type": "application/javascript" },
+			});
+		}
+
+		if (path === "/favicon.ico" || path === "/favicon.svg") {
+			return new Response(FAVICON_SVG, {
+				headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" },
 			});
 		}
 

@@ -92,11 +92,12 @@ export function renderColorGrid(
         <div class="color-card" data-b16="${def.id}">
             <div class="color-swatch" style="background: var(--b16-${def.id}); color: var(--b16c-${def.id})">
                 <div class="swatch-hex" data-b16hex="${def.id}"></div>
-                <div class="swatch-oklch">${def.pmd}</div>
+                <div class="swatch-oklch" data-b16oklch="${def.id}"></div>
             </div>
             <div class="color-info">
                 <div class="color-name">${def.id}</div>
                 <div class="color-desc">${def.desc}</div>
+                <div class="color-hex">${def.pmd}</div>
             </div>
         </div>`,
 			)
@@ -105,8 +106,11 @@ export function renderColorGrid(
 		container.querySelectorAll(".color-card").forEach((card) => {
 			card.addEventListener("click", (e) => {
 				const id = (card as HTMLElement).dataset.b16 || "";
-				const c = colors[id];
-				if (c) window.handleColorClick(e as MouseEvent, c.hex, c.oklch);
+				const oklchEl = card.querySelector(`[data-b16oklch="${id}"]`) as HTMLElement;
+				const hexEl = card.querySelector(`[data-b16hex="${id}"]`) as HTMLElement;
+				const hex = hexEl?.textContent || "";
+				const oklch = oklchEl?.textContent || "";
+				window.handleColorClick(e as MouseEvent, hex, oklch);
 			});
 		});
 
@@ -128,6 +132,10 @@ export function renderColorGrid(
 				`[data-b16hex="${def.id}"]`,
 			) as HTMLElement;
 			if (hexEl) hexEl.textContent = color.hex;
+			const oklchEl = card.querySelector(
+				`[data-b16oklch="${def.id}"]`,
+			) as HTMLElement;
+			if (oklchEl) oklchEl.textContent = color.oklch;
 		}
 	});
 }
@@ -162,7 +170,7 @@ export function renderFoundationGrid(
         <div class="color-card" data-slot="${key}">
             <div class="color-swatch" style="background: var(--fs-${key}); color: var(--fsc-${key})">
                 <div class="swatch-hex" data-hex="${key}"></div>
-                <div class="swatch-oklch" data-oklch="${key}"></div>
+                <div class="swatch-oklch" data-okey="${key}"></div>
             </div>
             <div class="color-info">
                 <div class="color-name">${key}</div>
@@ -199,7 +207,7 @@ export function renderFoundationGrid(
 		if (card) {
 			const hexEl = card.querySelector(`[data-hex="${key}"]`) as HTMLElement;
 			const oklchEl = card.querySelector(
-				`[data-oklch="${key}"]`,
+				`[data-okey="${key}"]`,
 			) as HTMLElement;
 			if (hexEl) hexEl.textContent = hex;
 			if (oklchEl) {
