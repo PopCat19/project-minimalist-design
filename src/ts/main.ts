@@ -46,6 +46,14 @@ declare global {
 	}
 }
 
+function updateFavicon(colors: Base16Palette): void {
+	const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="1" y="3" width="18" height="12" rx="4" fill="${colors.base04.hex}" opacity="0.5"/><rect x="7" y="8" width="18" height="12" rx="4" fill="${colors.base06.hex}" opacity="0.7"/><rect x="13" y="13" width="18" height="12" rx="4" fill="${colors.base07.hex}"/></svg>`;
+	const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+	if (link) {
+		link.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+	}
+}
+
 let currentHue = 0;
 let currentScheme: "dark" | "light" = "dark";
 let isHueLocked = false;
@@ -146,6 +154,8 @@ function renderColors(): void {
 	renderColorGrid("accentColors", base16Defs.accent, colors);
 
 	renderCodePreview(colors, currentHue);
+
+	updateFavicon(colors);
 
 	const auxHueValue = document.getElementById("auxHueValue");
 	if (auxHueValue) {
