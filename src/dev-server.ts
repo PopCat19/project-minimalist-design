@@ -41,12 +41,21 @@ function notifyReload() {
 const SSE_PATH = "/__pmd_reload";
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="1" y="3" width="18" height="12" rx="4" fill="#9B7EB5" opacity="0.5"/><rect x="7" y="8" width="18" height="12" rx="4" fill="#DBBFEC" opacity="0.7"/><rect x="13" y="13" width="18" height="12" rx="4" fill="#FFFFFF"/></svg>`;
 
-function injectLivereload(html: string): string {
-	const script = `<script>(()=>{var e=new EventSource("${SSE_PATH}");e.onmessage=()=>location.reload();window.addEventListener("beforeunload",()=>{e.close()})})()</script>`;
-	if (html.includes("</body>")) {
-		return html.replace("</body>", `${script}\n</body>`);
+function injectDevTags(html: string): string {
+	const livereload = `<script>(()=>{var e=new EventSource("${SSE_PATH}");e.onmessage=()=>location.reload();window.addEventListener("beforeunload",()=>{e.close()})})()</script>`;
+	const faviconLink = '<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+	let out = html;
+	if (out.includes("</head>")) {
+		out = out.replace("</head>", `${faviconLink}\n</head>`);
+	} else {
+		out = faviconLink + out;
 	}
-	return html + script;
+	if (out.includes("</body>")) {
+		out = out.replace("</body>", `${livereload}\n</body>`);
+	} else {
+		out = out + livereload;
+	}
+	return out;
 }
 
 async function rebuild(): Promise<boolean> {
@@ -99,7 +108,7 @@ const server = Bun.serve({
 		if (path === "/") {
 			const file = Bun.file("index.html");
 			let html = await file.text();
-			html = injectLivereload(html);
+			html = injectDevTags(html);
 			return new Response(html, {
 				headers: { "Content-Type": "text/html" },
 			});
