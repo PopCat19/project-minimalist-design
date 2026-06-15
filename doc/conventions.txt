@@ -1,9 +1,9 @@
 ===== FRAME CONVENTIONS =====
 
 Border-Radius:
-  16px (1rem) — Standard. Cards, standalone buttons, panels.
-  8px        — Compact. Small cards, middle items in a group.
-  40px       — Pill. Consolidated summary items.
+  16px (1rem), Standard. Cards, standalone buttons, panels.
+  8px       , Compact. Small cards, middle items in a group.
+  40px      , Pill. Consolidated summary items.
 
 Borders:
   Never used on standalone interactive elements. Only two cases:
@@ -23,13 +23,13 @@ CSS Tokens:
 Hover Feedback:
   Use a `--hout` custom property for hover outlines. Default
   value is 80x (body-text tier). Active/CTA elements (88x
-  fill) override to 80×8% — the opposite tier always contrasts
+  fill) override to 80×8%, the opposite tier always contrasts
   regardless of scheme. All hover rules reference `var(--hout)`,
   not per-component hardcodes.
 
 Active Fill Text:
   Text on a filled active surface (88x toggle, filled track)
-  uses the colour of the surface beneath the fill — not a
+  uses the colour of the surface beneath the fill, not a
   computed contrast colour, not a fixed tier. If the surface
   immediately beneath is alpha-composited (80×8%, 80×48%),
   skip it and use the next opaque surface below. This keeps
@@ -38,11 +38,11 @@ Active Fill Text:
 Widget Surfaces:
   Built as 8x at 100% layered with 80×8% tint. This is the
   canonical widget background: composite(8x, 80x, 0.08).
-  Every clickable element must have a surface background —
+  Every clickable element must have a surface background,
   never transparent on a bare parent.
 
   base02 (80×8%) provides sufficient contrast against every
-  valid background surface in the system — 4x floor and
+  valid background surface in the system, 4x floor and
   8×40% flyout alike. Components never vary their surface
   colour based on what sits beneath them.
 

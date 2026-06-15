@@ -6,49 +6,49 @@ Font Family:
   lacks glyph coverage. Never mix families within the same
   component context.
 
-Weights — Three Only:
-  600 (SemiBold) — "Read this first": headings, active tabs,
+Weights, Three Only:
+  600 (SemiBold), "Read this first": headings, active tabs,
                    active toggle labels, source identifiers,
                    structural separators between tiers.
-  500 (Medium)   — "Read this second": body text, button
+  500 (Medium)  , "Read this second": body text, button
                    labels, timestamps, metadata, CTAs.
-  700 (Bold)     — Tiny non-interactive text only. Unit
+  700 (Bold)    , Tiny non-interactive text only. Unit
                    affixes (% symbol) at 8px and 80×48%.
                    Never used for interactive labels.
   Bold weight 700 also supports 40px (2.5rem) and 48px (3.0rem)
   display sizes for non-UI contexts (wallpapers, splash screens).
 
   The 600/500 distinction is semantic, not decorative. CTA
-  buttons use 500, not 600 — only true headings get 600.
+  buttons use 500, not 600, only true headings get 600.
   Labels on active toggles and tabs use 600 as well.
   Weight 700 is reserved for 8px text exclusively.
 
 Sizes:
-  48px — Bold display headings (Fredoka 700).
-  40px — Large headings (Fredoka 700).
-  20px — Medium display text (Fredoka 500), mono code
+  48px, Bold display headings (Fredoka 700).
+  40px, Large headings (Fredoka 700).
+  20px, Medium display text (Fredoka 500), mono code
          (FiraCode 400). For non-UI contexts.
-  16px — Song titles (1.125 line-height), group totals,
+  16px, Song titles (1.125 line-height), group totals,
          page indicators, gauge labels.
-  12px — Body text, labels, headings, slider values,
+  12px, Body text, labels, headings, slider values,
          artist names. The primary workhorse size.
-  10px — Timestamps, dates, source names, metadata.
-   8px — Unit affixes, annotation symbols. Always paired
+  10px, Timestamps, dates, source names, metadata.
+   8px, Unit affixes, annotation symbols. Always paired
          with weight 700 at 80×48%.
 
 All sizes listed at base 16px root font. In CSS,
 implement with rem units (12px = 0.75rem, 16px = 1rem).
 Scale root font-size at viewport breakpoints:
-  Default (< 1200px): 16px  — PMD canonical
-  Desktop  (≥ 1200px): 20px  — 1.25× for FHD readability
+  Default (< 1200px): 16px , PMD canonical
+  Desktop  (≥ 1200px): 20px , 1.25× for FHD readability
 
 Line Height:
   1.125 on 16px song titles (centered text).
   1.25  on all other sizes.
 
 Icon Sizes:
-  24px — Tab bar icons, media playback controls.
-  20px — Dropdown chevrons, playlist controls.
-  16px — Notification buttons, widget icons, action buttons.
-  12px — Overlay icons on filled surfaces.
+  24px, Tab bar icons, media playback controls.
+  20px, Dropdown chevrons, playlist controls.
+  16px, Notification buttons, widget icons, action buttons.
+  12px, Overlay icons on filled surfaces.
          Drop one step from the element's normal icon size.

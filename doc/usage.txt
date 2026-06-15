@@ -11,7 +11,7 @@ Core Principles:
 4. Maintain top-down (Z-layer) and Left-to-Right hierarchy
 5. Verify both light and dark schemes for accessibility
 6. Use base02 (80×8%) as the single canonical surface for all
-   interactive components — never vary it based on parent context
+   interactive components, never vary it based on parent context
 
 General Implementation:
 - Use the TypeScript PMD library (src/ts/pmd/) for programmatic palette generation
@@ -21,7 +21,7 @@ General Implementation:
 
 Nix Integration:
 
-PMD provides comprehensive Nix integration:
+PMD provides full Nix integration:
 
 1. Flake-based configuration (`pmd.lib.mkScheme`):
    - Generates OKLCH color schemes for any hue

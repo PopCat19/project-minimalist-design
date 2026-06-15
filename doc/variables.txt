@@ -38,7 +38,7 @@ Light Accent L-Floor (architectural rule):
   The 64x slot in the light scheme has a hard floor of l >= 0.32, enforced
   in the generator (see getAccentL in src/ts/pmd/variables.ts and the
   accentL binding in src/pmd-core.nix mkBase16Slots). The canonical default
-  sits at 0.40 — comfortably above the floor — so the floor is a backstop,
+  sits at 0.40, comfortably above the floor, so the floor is a backstop,
   not the normal case.
 
   Rationale: on a near-white background (light 8x = 0.88, 4x = 0.92),
@@ -48,5 +48,5 @@ Light Accent L-Floor (architectural rule):
   meaningless and would falsely imply a universal constraint.
 
   This rule applies to every Base16 slot that reads 64x.l (subtext base04,
-  accent base09 / base0B / base0E) — keeping the floor in one place rather
+  accent base09 / base0B / base0E), keeping the floor in one place rather
   than scattered across the mapping table.

@@ -24,7 +24,7 @@ Transition Timing:
 
 Hover and Focus Feedback:
   Hover uses an 80x inner outline (2px, outline-offset: -2px)
-  — the highest tier is always distinguishable. Keyboard
+ , the highest tier is always distinguishable. Keyboard
   focus (:focus-visible) uses 2px 80×48% to signal "here"
   without competing with content. Input fields default to
   80×48% (matching the slider inactive track) and override to
@@ -33,13 +33,13 @@ Hover and Focus Feedback:
   as a persistent boundary. Never use scale or translate
   animations on hover. :active may use scale(0.96).
 
-Border-Radius — Three Categories:
-  16px (1rem) — default. Cards, buttons, standalone elements.
-  8px        — compact. Small cards, middle items in a group.
-  40px       — pill. Consolidated summary items.
+Border-Radius, Three Categories:
+  16px (1rem), default. Cards, buttons, standalone elements.
+  8px       , compact. Small cards, middle items in a group.
+  40px      , pill. Consolidated summary items.
   Never mix radius values on the same element.
 
-Borders — Only Two Cases:
+Borders, Only Two Cases:
   1. Priority alerts: 2px solid, alert-column 88x at 100%
   2. Control clusters (pagination, source switch, media
      controls): 2px solid, 80×8%
@@ -49,13 +49,13 @@ Borders — Only Two Cases:
 Surface Layering:
   Widget surfaces (bars, cards, button containers) are built
   as 8x at 100% layered with an 80×8% tint. This is the
-  canonical widget background — the visual equivalent of
+  canonical widget background, the visual equivalent of
   composite(8x, 80x, 0.08).
 
   base02 (80×8%) is contrast-stable: it reads equally well
   against a 4x floor (dark) or an 8×40% flyout (translucent).
   Widgets never change their surface colour to adapt to their
-  parent — the single canonical value works everywhere.
+  parent, the single canonical value works everywhere.
 
   Checkerboard previews for alpha surfaces use a mask-image
   over a background-color so the tile colour can transition
@@ -71,8 +71,8 @@ Filled Track Indicators:
     Track:      88×24%, 16px radius (full-width container)
     Fill:       88x solid, 8px radius (inner, clipped)
     Label:      Text at weight 500 on the fill
-  Text on a filled track uses the surface-under colour —
+  Text on a filled track uses the surface-under colour,
   the surface beneath the track (skip alpha-composited
-  layers) — to guarantee contrast without introducing a
+  layers), to guarantee contrast without introducing a
   new tier. Overlay icons on filled surfaces drop one
   size step (16px → 12px).

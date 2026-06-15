@@ -13,5 +13,5 @@ Build: nix build generates dark and light themes as base16
   YAML files and PNG wallpapers in share/pmd-base16/.
 
 The Nix implementation mirrors the TypeScript code in
-  src/ts/pmd/ — both use identical foundation slot values
+  src/ts/pmd/, both use identical foundation slot values
   and compositing logic.

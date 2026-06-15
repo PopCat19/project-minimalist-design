@@ -1,7 +1,7 @@
 ===== HIERARCHY THROUGH VISIBILITY =====
 
 PMD establishes visual hierarchy through lightness alone. No
-shadows, gradients, or decorative elements — every surface
+shadows, gradients, or decorative elements, every surface
 communicates its importance via its tier.
 
 Each element class owns one lightness tier. The tier name
@@ -13,7 +13,7 @@ Reading Priority (highest → lowest):
   88x → 80x → 64x → 8x → 4x
 
 Tier names are stable across dark and light variants. The
-variable system remaps L values per variant — 88x is brightest
+variable system remaps L values per variant, 88x is brightest
 in dark mode, darkest in light mode. Priority is invariant;
 absolute L value is not.
 
@@ -30,15 +30,15 @@ Active fill         88x      100%      Selected toggle / tab
                                         intermediate layers.
 Body text           80x      100%      Default labels, body
 Source name         80x      100%      Small secondary heading
-Timestamp, Meta     80x      48%       Muted — never full opacity
+Timestamp, Meta     80x      48%       Muted, never full opacity
 Subtext, Link       64x      100%      Default
 Unit affix          80x      48%       Annotation symbol, 8px / 700
-Surface hint        80×8%     —         Interactive bg (buttons)
+Surface hint        80×8%    ,         Interactive bg (buttons)
                                         Contrast-stable across
                                         4x and 8×40% parents.
 Surface             8x       100%      Solid card / panel bg
-Flyout surface      8×40%     —         Translucent over 0x
-Background          4x       —         Floor, never foreground
+Flyout surface      8×40%    ,         Translucent over 0x
+Background          4x      ,         Floor, never foreground
 
 ## Alert Column (Hue-Shifted Palette)
 
@@ -55,7 +55,7 @@ the hierarchy across hue boundaries:
   80×12 48%   80x 48%     80x 48%     Timestamp
   80×12 8%    80x 8%      80x 8%      Button bg
 
-  The alert column signals "needs attention" — notification
+  The alert column signals "needs attention", notification
   counts and workspace-active indicators share this hue.
   It is the only mechanism for attention signalling; size
   and weight changes are never used for this purpose.

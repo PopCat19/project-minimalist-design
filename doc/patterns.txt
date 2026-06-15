@@ -10,7 +10,7 @@ Apply them wherever the same structural need arises.
 Connected Panels (Welded Groups):
   When sibling panels form a logical unit, connect them with
   asymmetric border-radii and a 4px vertical gap. No borders
-  or dividers — the radius shape alone signals grouping:
+  or dividers, the radius shape alone signals grouping:
     - First panel:  16px 16px 8px 8px  (top rounded)
     - Middle panel: 8px 8px 8px 8px    (all flat)
     - Last panel:   8px 8px 16px 16px  (bottom rounded)
@@ -22,7 +22,7 @@ Button Groups (Tabs, Pagination, Media Controls):
     - Middle:  8px 8px 8px 8px
     - Last:    8px 16px 16px 8px
     - Standalone: 16px all corners
-  Borders (2px solid 80×8%) appear only on control clusters —
+  Borders (2px solid 80×8%) appear only on control clusters,
   pagination arrows, source-switch buttons, prev/next controls.
   Standalone buttons never have borders.
 
@@ -35,13 +35,13 @@ Title-Date Rows:
 
 Icon-Only Action Buttons:
   32×24px, no text label. Icon at 88x 100%. The background
-  surface matches the parent card's hue column — green cards
+  surface matches the parent card's hue column, green cards
   use 80×8%, alert cards use the alert column's 80×12 at 8%.
 
 Active vs Inactive Device:
   In device lists, the active item uses the alert hue column
   for its controls. Inactive items use the base column. The
-  hue shift signals selection — no border or opacity change
+  hue shift signals selection, no border or opacity change
   needed.
 
 Workspace Cards (Grid of States):
@@ -56,7 +56,7 @@ Workspace Cards (Grid of States):
 Media Control Groups:
   Play/pause/skip grouped with the button-group radius rules.
   The active center button (pause) gets 88x fill with 0x icon
-  and standalone 8px radius — it sits between the bordered
+  and standalone 8px radius, it sits between the bordered
   side buttons as the focal point. 24px icons throughout.
 
 Bar Widget Groups (Horizontal):
@@ -74,7 +74,7 @@ Bar Widget Groups (Horizontal):
 Notification Count Badge:
   The unread count (e.g., "6") uses the alert hue column
   (88×12) at weight 500. This aligns with the workspace
-  active indicator — both signal "needs attention" via hue
+  active indicator, both signal "needs attention" via hue
   shift rather than opacity or size changes.
 
 Time and Date Format:
@@ -92,5 +92,5 @@ Time and Date Format:
 Percent Sign (Unit Affix):
   When labelling a numeric value (e.g. volume "80%", battery
   level), the unit symbol uses 80×48% at weight 700 and 8px
-  size — deliberately tiny, bold, and muted to distinguish
+  size, deliberately tiny, bold, and muted to distinguish
   it from the value it annotates.

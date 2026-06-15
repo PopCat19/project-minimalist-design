@@ -71,5 +71,5 @@ export function updateSliderGradient(
 	_sliderId: string,
 	_isDark: boolean,
 ): void {
-	// Slider uses PMD tokens (--base03 track, --base06 thumb) — no gradient
+	// Slider uses PMD tokens (--base03 track, --base06 thumb) , no gradient
 }

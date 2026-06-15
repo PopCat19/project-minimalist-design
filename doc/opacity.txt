@@ -10,7 +10,7 @@ Standard Stack Expressions:
   8×40%  = composite(0x, 8x, 0.40)   flyout / translucent surface
 
   The 88×12 notation means 88x tint at reference hue column 12
-  (alert column) — a hue shift, not an opacity change.
+  (alert column), a hue shift, not an opacity change.
 
 Baked Values (flat/pre-multiplied):
   80×48% (baked) = composite(8x, 80x, 0.48) over 0x at full opacity.

@@ -1,10 +1,10 @@
 # Context
 
-- `CHANGELOG-407aea2.md` — Changelog for the dev → main merge at commit 407aea2
-- `_config.yml` — Jekyll configuration for GitHub Pages, excludes conventions from processing
-- `flake.nix` — Defines the Nix flake outputs for PMD design system
-- `index.html` — PMD palette generator and design system inspector
-- `README.md` — Project overview and quick start guide for PMD design system
+- `CHANGELOG-407aea2.md`, Changelog for the dev → main merge at commit 407aea2
+- `_config.yml`, Jekyll configuration for GitHub Pages, excludes conventions from processing
+- `flake.nix`, Defines the Nix flake outputs for PMD design system
+- `index.html`, PMD palette generator and design system inspector
+- `README.md`, Project overview and quick start guide for PMD design system
 
 ## Vocabulary
 
