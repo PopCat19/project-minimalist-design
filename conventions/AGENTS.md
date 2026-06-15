@@ -18,7 +18,7 @@ Opinionated agent development rules and conventions. Covers:
 - Principles (KISS, DRY, SoC, SRP, CoC, maintainable over clever)
 - Vocabulary (DDD + Figma bridge, repo-agnostic definitions)
 
-**Reading guide:** Comprehensive document (1.5~3k lines). Use the table of contents to navigate to relevant sections.
+**Reading guide:** Full document (~1.5-3k lines). Use the table of contents to navigate to relevant sections.
 
 ### SKILL.md
 
@@ -48,7 +48,9 @@ Concrete examples demonstrating conventions from DEVELOPMENT.md. Includes:
 
 ### context.md
 
-Each directory with 5+ non-obvious files has a `context.md` listing every file with a one-line purpose. These derive from file header `Purpose:` lines and must stay in sync.
+Each directory with 5+ non-obvious files has a `context.md` listing every file with a one-line purpose.
+
+Entries derive from file header `Purpose:` lines and must stay in sync.
 
 **Reading guide:** Check `context.md` to understand a directory's contents without opening each file.
 
@@ -56,7 +58,9 @@ Each directory with 5+ non-obvious files has a `context.md` listing every file w
 
 ### dev-conventions.sh
 
-Unified CLI for all convention tooling. Entry point for changelog, sync, and lint commands.
+Unified CLI for all convention tooling.
+
+Entry point for changelog, sync, and lint commands.
 
 **Usage:**
 ```bash
@@ -81,41 +85,22 @@ Shell script linting and formatting (shfmt, shellcheck). Called via `dev-convent
 
 ### src/check-context.sh
 
-Verifies `context.md` files match actual directory contents. Detects structural and content drift.
+Verifies `context.md` files match actual directory contents.
 
-## Project-Specific Documentation
-
-The `doc/` directory contains all PMD design system documentation.
-Start with `doc/context.md` for a file-by-file index, then read
-specific files as needed.
-
-**Key entry points:**
-- `doc/overview.txt` — Design philosophy, foundation slots, stack expressions
-- `doc/variables.txt` — Foundation slot definitions (dark/light), naming conventions
-- `doc/hierarchy.txt` — Visual hierarchy rules, ownership table, alert column
-- `doc/palettes.txt` — Base16 YAML mapping table
-- `doc/effects.txt` — Borders, radius, hover/focus, backdrop blur
-- `doc/patterns.txt` — Reusable structural patterns (welded panels, button groups, etc.)
-- `doc/typography.txt` — Fredoka font, weights (600/500/700), sizes (48/40/20/16/12/10/8px)
-- `doc/spacing.txt` — Gaps, padding, border-radius conventions
-- `doc/usage.txt` — Implementation guidelines and Nix integration
-
-**When working on the codebase, read the relevant doc files first.**
-The design system rules in `doc/` are the source of truth for how
-PMD colors, spacing, typography, and patterns should behave.
-
-**Repo vocabulary mapping** lives in the root `context.md`, not in
-convention files. It maps DDD terms (Aggregate Root, Bounded Context,
-etc.) to this repo's actual file structure.
+Detects structural and content drift.
 
 ## Important Notice
 
 **Do not revise these files unless explicitly requested by the user:**
 
-- `DEVELOPMENT.md` — Established conventions for this project
-- `DEV-EXAMPLES.md` — Reference examples tied to DEVELOPMENT.md rules
-- `SKILL.md` — Condensed conventions derived from DEVELOPMENT.md
-- `src/changelog.sh` — Workflow script following project conventions
-- `src/sync.sh` — Workflow script following project conventions
+- `DEVELOPMENT.md`, Established conventions for this project
+- `DEV-EXAMPLES.md`, Reference examples tied to DEVELOPMENT.md rules
+- `SKILL.md`, Condensed conventions derived from DEVELOPMENT.md
+- `src/changelog.sh`, Workflow script following project conventions
+- `src/sync.sh`, Workflow script following project conventions
+
+**Repo-specific vocabulary mapping lives in the root `context.md`, not in
+convention files. Do not add project paths to DEVELOPMENT.md or
+SKILL.md.**
 
 These files represent intentional design decisions. Modifications should only occur when the user explicitly states a need for changes.
